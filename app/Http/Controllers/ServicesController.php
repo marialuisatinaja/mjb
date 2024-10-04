@@ -49,6 +49,8 @@ class ServicesController extends Controller
          $services->title = $request->input('title');
          $services->type = $request->input('type');
          $services->amount = $request->input('amount');
+         $services->hours = $request->input('hours');
+         $services->minutes = $request->input('minutes');
          $services->description = $request->input('description');
          $services->upload = $imagePath; // Save the image path to the database
          $services->save();
@@ -67,10 +69,10 @@ class ServicesController extends Controller
 
     public function update(UpdateServices $request, $id)
     {
-        $service = Services::findOrFail($id);
+        $services = Services::findOrFail($id);
 
         // Handle image upload
-        $imagePath = $service->upload; // Keep the existing image path
+        $imagePath = $services->upload; // Keep the existing image path
 
         if ($request->hasFile('upload')) {
             $image = $request->file('upload');
@@ -97,12 +99,14 @@ class ServicesController extends Controller
         }
 
         // Update the course record
-        $service->title = $request->input('title');
-        $service->type = $request->input('type');
-        $service->amount = $request->input('amount');
-        $service->description = $request->input('description');
-        $service->upload = $imagePath; // Save the image path to the database
-        $service->save();
+        $services->title = $request->input('title');
+        $services->type = $request->input('type');
+        $services->amount = $request->input('amount');
+        $services->hours = $request->input('hours');
+        $services->minutes = $request->input('minutes');
+        $services->description = $request->input('description');
+        $services->upload = $imagePath; // Save the image path to the database
+        $services->save();
 
         return response()->json([
             'message' => 'Service updated successfully.',

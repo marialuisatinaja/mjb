@@ -14,6 +14,8 @@ class Services extends Model
         'title',
         'type',
         'amount',
+        'hours',
+        'minutes',
         'description',
         'upload',
     ];

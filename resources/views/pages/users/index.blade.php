@@ -28,16 +28,50 @@
                         <table class="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700 data-table">
                             <thead class="bg-slate-200 dark:bg-slate-700">
                                 <tr>
-                                    <th scope="col" class="table-th">Id</th>
-                                    <th scope="col" class="table-th">Title</th>
+                                    <th scope="col" class="table-th">#</th>
+                                    <th scope="col" class="table-th">Name</th>
+                                    <th scope="col" class="table-th">Phone</th>
+                                    <th scope="col" class="table-th">Email</th>
                                     <th scope="col" class="table-th">Type</th>
-                                    <th scope="col" class="table-th">Ammount</th>
-                                    <th scope="col" class="table-th">Description</th>
                                     <th scope="col" class="table-th">Action</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
-                   
+                                @foreach($users as $user)
+                                <tr>
+                                    <td class="table-td">{{ $loop->iteration }}</td>
+
+                                    <td class="table-td">
+                                        <span class="flex">
+                                            <span class="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none">
+                                       
+                                                @if($user->image)
+                                                <img src="{{ asset($user->image) }}" alt="{{ $user->first_name }}" class="img-radius wid-40 align-top m-r-15">
+                                                @else
+                                                <img src="{{ asset('admin/assets/images/all-img/customer_1.png') }}" alt="50" class="object-cover w-full h-full rounded-full">
+                                                @endif
+
+                                            </span>
+                                            <span class="text-sm text-slate-600 dark:text-slate-300 capitalize pt-2">{{ ucwords($user->first_name.' '.$user->middle_name.' '.$user->last_name) }}</span>
+                                        </span>
+                                    </td>
+
+                                    <td class="table-td">{{$user->phone }}</td>
+                                    <td class="table-td">{{$user->email }}</td>
+                                    <td class="table-td">{{$user->user_type }}</td>
+                                    <td class="table-td">
+                                        <div class="flex space-x-3 rtl:space-x-reverse">
+                                        <a href="{{ route('user.edit', ['id' => $user->id]) }}" class="action-btn">
+                                            <iconify-icon icon="heroicons:pencil-square"></iconify-icon>
+                                        </a>
+
+                                            <button class="action-btn" type="button" onclick="delete_user({{ $user->id }})">
+                                                <iconify-icon icon="heroicons:trash"></iconify-icon>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -50,7 +84,7 @@
 </div>
 
 <script>
-    function delete_service(id)
+    function delete_user(id)
     {
         Swal.fire({
                 title: 'Are you sure?',
@@ -65,7 +99,7 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         type: "POST",
-                        url: '{{ route("service.delete") }}', // Adjust the route
+                        url: '{{ route("user.delete") }}', // Adjust the route
                         headers: {
                             'X-CSRF-TOKEN': csrfToken // Ensure 'csrfToken' is defined and valid
                         },
@@ -100,5 +134,7 @@
                 }
             });
     }
+
+
 </script>
 </x-app-layout>

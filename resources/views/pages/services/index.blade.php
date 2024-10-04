@@ -19,7 +19,8 @@
                     </span>
                 </a>
             </div>
-
+            <div id="error-messages"></div>
+            <div id="success-message" style="display: none"></div>
             <div class="overflow-x-auto -mx-6 dashcode-data-table">
                 <span class="col-span-8 hidden"></span>
                 <span class="col-span-4 hidden"></span>

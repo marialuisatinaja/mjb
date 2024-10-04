@@ -25,6 +25,8 @@ class CreateServices extends FormRequest
             'title' => 'required|string|max:255',
             'type' => 'required|string|max:255',
             'amount' => 'required|string|max:255',
+            'hours' => 'required|string|max:255',
+            'minutes' => 'required|string|max:255',
             'description' => ['sometimes', 'nullable', 'string'],
             'upload' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
