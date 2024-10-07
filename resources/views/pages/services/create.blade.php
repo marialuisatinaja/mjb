@@ -23,7 +23,7 @@
                 </header>
 
                   <div class="input-area p-2"> 
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-7">
                         <div class="input-area p-2">
                             <label  class="form-label">Services</label>
                             <input  name="title" type="text" class="form-control" placeholder="Enter Services">
@@ -39,7 +39,7 @@
           
 
                   <div class="input-area p-2"> 
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-7">
                         
                         <div class="input-area p-2">
                         <label  class="form-label">Duration</label>
@@ -56,15 +56,24 @@
                     </div>
                   </div>
           
-                  <div class="input-area p-2"> 
-                      <label  class="form-label">Image</label>
-                      <input  name="upload" type="file" class="form-control" placeholder="Enter type of services">
-                  </div>
 
                   <div class="input-area p-2"> 
-                      <label class="form-label">Description</label>
-                      <textarea name="description" rows="5" class="form-control" placeholder="Your Message"></textarea>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-7">
+                        
+                        <div class="input-area p-2"> 
+                            <label class="form-label">Description</label>
+                            <textarea name="description" rows="5" class="form-control" placeholder="Your Message"></textarea>
+                        </div>
+
+                        <div class="input-area p-2"> 
+                            <label  class="form-label">Image</label>
+                            <input  name="upload" type="file" class="form-control" placeholder="Enter type of services">
+                        </div>
+
+                    </div>
                   </div>
+
+
 
                   <button class="btn flex justify-center btn-dark float-right">Submit</button>
               </div>
@@ -84,7 +93,7 @@ $(document).on('submit', '#services', function(event) { // Replace '#yourFormId'
 
     Swal.fire({
         title: 'Are you sure?',
-        text: "Do you want to save this course?",
+        text: "Do you want to save this services?",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -118,7 +127,7 @@ $(document).on('submit', '#services', function(event) { // Replace '#yourFormId'
                 error: function(error) {
                     Swal.fire(
                         'Error!',
-                        'An error occurred while saving the course.',
+                        'An error occurred while saving the services.',
                         'error'
                     );
                     console.error(error);

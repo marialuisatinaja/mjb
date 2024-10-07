@@ -34,6 +34,7 @@
                                     <th scope="col" class="table-th">Type</th>
                                     <th scope="col" class="table-th">Ammount</th>
                                     <th scope="col" class="table-th">Description</th>
+                                    <th scope="col" class="table-th">Duration</th>
                                     <th scope="col" class="table-th">Action</th>
                                 </tr>
                             </thead>
@@ -58,7 +59,8 @@
 
                                     <td class="table-td">{{ $service->type }}</td>
                                     <td class="table-td">{{ $service->amount }}</td>
-                                    <td class="table-td">{{ $service->description }}</td>
+                                    <td class="table-td text-wrap" style="width: 35%;">{{ $service->description }}</td>
+                                    <td class="table-td">{{ $service->hours }}:{{ $service->minutes }}</td>
                                     <td class="table-td">
                                         <div class="flex space-x-3 rtl:space-x-reverse">
                                         <a href="{{ route('service.edit', ['id' => $service->id]) }}" class="action-btn">

@@ -7,10 +7,12 @@ use App\Http\Controllers\SalesController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\UserController;
 use App\Models\Services;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    $therapist = User::where('user_type','Therapist')->get();
+    return view('welcome',compact('therapist'));
 });
 
 Route::get('/dashboard', function () {
@@ -47,6 +49,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit/{id}', [PackageController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [PackageController::class, 'update'])->name('update');
         Route::post('/delete', [PackageController::class, 'destroy'])->name('delete');
+        Route::post('/data', [PackageController::class, 'data'])->name('data');
+        Route::post('/delServe', [PackageController::class, 'delServe'])->name('delServe');
     });
 
     Route::name('sale.')->prefix('/sale')->group(function () {

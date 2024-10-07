@@ -12,7 +12,7 @@
             <!-- Add Button -->
             <div class="mb-4 flex items-center justify-between">
                 <h4 class="card-title">Packages</h4>
-                <a href="" class="btn inline-flex justify-center btn-dark dark:bg-slate-800">
+                <a href="{{ route('package.create') }}" class="btn inline-flex justify-center btn-dark dark:bg-slate-800">
                     <span class="flex items-center">
                         <iconify-icon class="text-xl ltr:mr-2 rtl:ml-2" icon="ph:plus-bold"></iconify-icon>
                         <span>Add Package</span>
@@ -29,15 +29,45 @@
                             <thead class="bg-slate-200 dark:bg-slate-700">
                                 <tr>
                                     <th scope="col" class="table-th">Id</th>
-                                    <th scope="col" class="table-th">Title</th>
-                                    <th scope="col" class="table-th">Type</th>
+                                    <th scope="col" class="table-th"> Name</th>
                                     <th scope="col" class="table-th">Ammount</th>
                                     <th scope="col" class="table-th">Description</th>
                                     <th scope="col" class="table-th">Action</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
-                   
+                            @foreach($packages as $package)
+                            <tr>
+                                <td class="table-td">{{ $loop->iteration }}</td>
+                                <td class="table-td">
+                                    <span class="flex">
+                                        <span class="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none">
+                                    
+                                            @if($package->upload)
+                                            <img src="{{ asset($package->upload) }}" alt="{{ $package->title }}" class="img-radius wid-40 align-top m-r-15">
+                                            @else
+                                            <img src="{{ asset('admin/assets/images/all-img/customer_1.png') }}" alt="50" class="object-cover w-full h-full rounded-full">
+                                            @endif
+
+                                        </span>
+                                        <span class="text-sm text-slate-600 dark:text-slate-300 capitalize pt-2">{{ $package->name }}</span>
+                                    </span>
+                                </td>
+                                <td class="table-td">{{ $package->amount }}</td>
+                                <td class="table-td text-wrap" style="width: 35%;">{{ $package->description }}</td>
+                                <td class="table-td">
+                                    <div class="flex space-x-3 rtl:space-x-reverse">
+                                    <a href="{{ route('package.edit', ['id' => $package->id]) }}" class="action-btn">
+                                        <iconify-icon icon="heroicons:pencil-square"></iconify-icon>
+                                    </a>
+
+                                        <button class="action-btn" type="button" onclick="delete_service({{ $package->id }})">
+                                            <iconify-icon icon="heroicons:trash"></iconify-icon>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -65,7 +95,7 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         type: "POST",
-                        url: '{{ route("service.delete") }}', // Adjust the route
+                        url: '{{ route("package.delete") }}', // Adjust the route
                         headers: {
                             'X-CSRF-TOKEN': csrfToken // Ensure 'csrfToken' is defined and valid
                         },

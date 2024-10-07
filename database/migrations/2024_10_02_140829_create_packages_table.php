@@ -12,8 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('packages', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id(); // Primary key
+            $table->string('name'); // Package name
+            $table->decimal('amount', 8, 2); // Package amount
+            $table->text('description'); // Package name
+            $table->string('upload')->nullable(); // Package image (optional)
+            $table->timestamps(); // Timestamps for created_at and updated_at
         });
     }
 

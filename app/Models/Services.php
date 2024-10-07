@@ -20,4 +20,9 @@ class Services extends Model
         'upload',
     ];
 
+    public function packages()
+{
+    return $this->belongsToMany(Package::class, 'package_services');
+}
+
 }

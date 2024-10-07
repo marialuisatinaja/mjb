@@ -7,5 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Package extends Model
 {
-    use HasFactory;
+    protected $fillable = ['name', 'amount', 'upload','description'];
+
+    // Define the many-to-many relationship with services
+    public function services()
+    {
+        return $this->belongsToMany(Services::class, 'package_services');
+    }
+    
+    
 }
+

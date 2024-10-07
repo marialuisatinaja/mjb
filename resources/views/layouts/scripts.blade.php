@@ -1,11 +1,11 @@
-<script src="../assets/js/vendor.min.js"></script>
 
 <!-- knob plugin -->
-<script src="../assets/libs/jquery-knob/jquery.knob.min.js"></script>
-<script src="{{ asset('admin/assets/js/sweetalert2.js') }}"></script>
+<script src="{{ asset('asset1/js/vendor.min.js') }}"></script>
 <script src="{{ asset('admin/assets/js/jquery-3.6.0.min.js') }}"></script>
-  <script src="{{ asset('admin/assets/js/rt-plugins.js') }}"></script> 
- <script src="{{ asset('admin/assets/js/app.js') }}"></script>
+<script src="{{ asset('admin/assets/js/sweetalert2.js') }}"></script>
+<script src="{{ asset('admin/assets/js/rt-plugins.js') }}"></script> 
+<script src="{{ asset('admin/assets/js/app.js') }}"></script>
+<script src="{{ asset('asset1/libs/jquery-knob/jquery.knob.min.js') }}"></script>
 
 <script>
     const csrfToken = $('meta[name="csrf-token"]').attr('content');
