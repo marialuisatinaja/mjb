@@ -39,6 +39,38 @@
 
 <body class="index-page">
 
+<style>
+  .pricing-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.pricing-item {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between; /* Align items within the container */
+}
+
+.btn-wrap {
+    margin-top: auto; /* Push the button to the bottom */
+}
+
+.pricing-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Change number based on layout */
+    gap: 20px; /* Adjust as needed */
+}
+
+.pricing-item {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensures each item stretches to full height */
+    width: 300px;
+    justify-content: space-between; /* Aligns items within the container */
+}
+
+</style>
   <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
@@ -351,25 +383,32 @@
       <div class="container">
 
         <div class="row gy-3">
+        <div class="row">
 
+        <div class="row pricing-container">
+            @foreach($packages as $row)
+            <div class="col-xl-3 col-lg-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="pricing-item">
+                    <span class="advanced">Special Offers</span>
+                    <h3>{{ $row->name }}</h3>
+                    <h4><sup>₱</sup>{{ $row->amount }}<span> / pesos</span></h4>
+                    <ul>
+                        @foreach($svs as $val)
+                          @if($row->id == $val->package_id)
+                            <li>{{ $val->services->title }}</li>
+                          @endif
+                        @endforeach
+           
 
-          <div class="col-xl-3 col-lg-6" data-aos="fade-up" data-aos-delay="400">
-            <div class="pricing-item">
-              <span class="advanced">Advanced</span>
-              <h3>Ultimate</h3>
-              <h4><sup>₱</sup>49<span> / month</span></h4>
-              <ul>
-                <li>Aida dere</li>
-                <li>Nec feugiat nisl</li>
-                <li>Nulla at volutpat dola</li>
-                <li>Pharetra massa</li>
-                <li>Massa ultricies mi</li>
-              </ul>
-              <div class="btn-wrap">
-                <a href="#" class="btn-buy">Buy Now</a>
-              </div>
-            </div>
-          </div><!-- End Pricing Item -->
+                    </ul>
+                    <div class="btn-wrap">
+                        <a href="#" class="btn-buy">Reserve Now</a>
+                    </div>
+                </div>
+            </div><!-- End Pricing Item -->
+            @endforeach
+        </div>
+
 
 
 
@@ -394,9 +433,16 @@
           @foreach($therapist as $row)
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
             <div class="team-member">
+
               <div class="member-img">
+                @if($row->image)
+                <img src="{{ asset($row->image) }}" alt="{{ $row->first_name }}" class="img-fluid">
+                @else
                 <img src="assets/img/team/team-1.jpg" class="img-fluid" alt="">
+                @endif
+    
               </div>
+
               <div class="member-info">
                 <h4>{{ ucwords($row->first_name.' '.$row->middle_name.' '.$row->last_name) }}</h4>
                 <span>{{ $row->user_type}}</span>

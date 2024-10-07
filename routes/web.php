@@ -6,13 +6,17 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\UserController;
+use App\Models\Package;
+use App\Models\PackageServices;
 use App\Models\Services;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $therapist = User::where('user_type','Therapist')->get();
-    return view('welcome',compact('therapist'));
+    $packages = Package::all();
+    $svs = PackageServices::with('services')->get();
+    return view('welcome',compact('therapist','packages','svs'));
 });
 
 Route::get('/dashboard', function () {

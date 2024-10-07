@@ -94,8 +94,8 @@ class PackageController extends Controller
 
     public function edit($id)
     {
-        $packages = Package::findOrFail($id);
         $services = Services::all();
+        $packages = Package::findOrFail($id);
         $svs = PackageServices::with('services')->where('package_id',$id)->get();
         return view('pages.packages.edit',compact('packages','services','svs'));
     }
