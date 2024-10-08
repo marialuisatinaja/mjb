@@ -10,6 +10,31 @@ use Illuminate\Http\Request;
 
 class ServicesController extends Controller
 {
+    public function reservation(Request $request)
+    {
+        $request->validate([
+            'type' => 'required|string|max:10',
+            'first_name' => 'required|string|max:50',
+            'middle_name' => 'nullable|string|max:50', // Middle name can be optional
+            'last_name' => 'required|string|max:50',
+            'email' => 'required|email|max:255', // Validate email format
+            'phone' => 'required|string|regex:/^0\d{11}$/', // Validate phone format (starts with 0 and followed by 11 digits)
+        ]);
+
+        
+        if($request->input('text') == 'self'){
+
+        }else{
+
+        }
+    }
+
+    public function reserved($id)
+    {
+        $services = Services::where('id',$id)->get();
+        return view('pages.reserved.index',compact('services','id'));
+    }
+
     public function index()
     {
         $services = Services::all();
