@@ -16,12 +16,18 @@ Route::get('/', function () {
     $therapist = User::where('user_type','Therapist')->get();
     $packages = Package::all();
     $svs = PackageServices::with('services')->get();
-    return view('welcome',compact('therapist','packages','svs'));
+    $services = Services::all();
+    return view('welcome',compact('therapist','packages','svs','services'));
 });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::name('service.')->prefix('/service')->group(function () {
+    Route::get('/reserved/{id}', [ServicesController::class, 'reserved'])->name('reserved');
+    Route::post('reservation', [ServicesController::class, 'reservation'])->name('reservation');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
