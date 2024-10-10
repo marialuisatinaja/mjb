@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->string('service_id')->nullable()->default(null);
+            $table->integer('service_id')->nullable()->default(null);
             $table->string('service_type')->nullable()->default(null);
             $table->string('first_name')->nullable()->default(null);
             $table->string('middle_name')->nullable()->default(null);
@@ -23,10 +23,12 @@ return new class extends Migration
             $table->string('phone')->nullable()->default(null);
             $table->string('type')->nullable()->default(null);
             $table->string('preffered')->nullable()->default(null);
-            $table->string('total_person')->nullable()->default(null);
-            $table->string('boy_therapist')->nullable()->default(null);
-            $table->string('girl_therapist')->nullable()->default(null);
+            $table->integer('total_person')->nullable()->default(null);
+            $table->integer('boy_therapist')->nullable()->default(null);
+            $table->integer('girl_therapist')->nullable()->default(null);
+            $table->string('date')->nullable()->default(null);
             $table->string('message')->nullable()->default(null);
+            $table->string('status')->nullable()->default(null);
             $table->timestamps();
         });
     }

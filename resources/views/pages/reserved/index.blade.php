@@ -61,7 +61,8 @@
       </nav>
     </div>
   </header>
-
+  <div id="error-messages"></div>
+  <div id="success-message" style="display: none"></div>
   <main class="main">
     <section id="hero" class="hero section dark-background" style="background-image: url({{ asset('assets/img/bg1.jpg') }}); background-size: cover; background-repeat: no-repeat;"><br><br>
       <div id="hero-carousel" class="container carousel carousel-fade" data-bs-ride="carousel" style="height: 650px;">
@@ -74,7 +75,7 @@
               @if($service->upload)
                 <center><img src="{{ asset($service->upload) }}" alt="{{ $service->title }}" class="img-fluid" style="height:300px;width:300px;"></center>
               @else
-                <img src="assets/img/masonry-portfolio/masonry-portfolio-2.jpg" class="img-fluid" alt="">
+                <center><img src="http://mjb.test/assets/img/masonry-portfolio/masonry-portfolio-2.jpg" class="img-fluid" alt="" style="height:300px;width:300px;"></center>
               @endif
 
               <center><br>
@@ -86,8 +87,8 @@
             @endforeach
           </div>
 
-          <div class="reserved" style="flex: 1; background-color:white;padding:0px;margin:0px;">
-            <section id="contact" class="contact section">
+          <div class="reserved mb-5" style="flex: 1; background-color:white;padding:0px;margin:0px;">
+            <section id="contact" class="contact section" >
             <center><h3>Reservation Details</h3></center><br>
               <div class="container" data-aos="fade" data-aos-delay="100">
                 <div class="row gy-4">
@@ -103,7 +104,7 @@
                         </div>
 
                         <div class="col-md-4">
-                          <input type="email" class="form-control" name="middle_name" placeholder="Your Middle Name" required="">
+                          <input type="text" class="form-control" name="middle_name" placeholder="Your Middle Name">
                         </div>
 
                         <div class="col-md-4">
@@ -126,20 +127,7 @@
                         <div class="col-md-4 pb-3">
                         <input type="text" id="phone" class="form-control" name="phone" placeholder="09512348350" required maxlength="12">
                         </div>
-                        <!-- 
-                        <div class="col-md-12 pb-2">
-                          <div class="col-md-4">
-                            <select name="gender" class="form-control" required>
-                              <option value="" disabled selected>Select Type</option>
-                              <option value="self">Self</option>
-                              <option value="group">Group</option>
-                            </select>
-                          </div>
-                          <div class="col-md-4">
-                          </div>
-                          <div class="col-md-4">
-                          </div>
-                        </div> -->
+
 
 
                         <div id="self" class="container pb-3">
@@ -153,7 +141,7 @@
                                 </div>
 
                                 <div id="therapist-select" class="col-md-4">
-                                    <select name="therapist_gender" class="form-control" required>
+                                    <select name="therapist_gender" class="form-control">
                                         <option value="" disabled selected>Preffered Therapist</option>
                                         <option value="girl">Girl</option>
                                         <option value="boy">Boy</option>
@@ -183,6 +171,10 @@
                         </div>
 
                         <div class="col-md-12">
+                        <input type="date" name="date" class="form-control" placeholder="Your Date" required min="{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}">
+                        </div>
+
+                        <div class="col-md-12">
                           <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
                         </div>
 
@@ -191,7 +183,7 @@
                           <div class="error-message"></div>
                           <div class="sent-message">Your message has been sent. Thank you!</div>
 
-                          <button type="submit">Send Message</button>
+                          <button type="submit">Reserved</button>
                         </div>
                       </div>
                     </form>
@@ -202,12 +194,17 @@
           </div>
    
         </div>
-      </div>       <br><br>   <br><br>
+      </div>   
+
+      <div style="margin-top: 5%;">
+     
+      </div>
+
     </section><!-- /Hero Section -->
-    
+  
   </main>
 
-  <footer id="footer" class="footer dark-background">
+  <footer id="footer" class="footer dark-background pt-5">
     <div class="container">
       <h3 class="sitename">MJB</h3>
       <div class="social-links d-flex justify-content-center">
@@ -233,6 +230,7 @@
   <div id="preloader"></div>
 
   <!-- Vendor JS Files -->
+  <script src="{{ asset('admin/assets/js/jquery-3.6.0.min.js') }}"></script>
   <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
   <script src="{{ asset('assets/vendor/aos/aos.js') }}"></script>
@@ -324,70 +322,67 @@ document.addEventListener('DOMContentLoaded', function() {
   function toggleGroupFields() {
       const selectType = document.querySelector('select[name="type"]');
       const groupFields = document.getElementById('group');
-      
+      const therapist_select = document.getElementById('therapist-select');
       // Show or hide the group fields based on the selected value
       if (selectType.value === 'group') {
           groupFields.style.display = 'block'; // Show group fields
+          therapist_select.style.display = 'none'; // Hide group fields
       } else {
           groupFields.style.display = 'none'; // Hide group fields
+          therapist_select.style.display = 'block'; // Hide group fields
       }
   }
 
   document.addEventListener('DOMContentLoaded', function() {
-  const userForm = document.getElementById('user'); // Replace with your actual form ID
+          const userForm = document.getElementById('user'); // Replace with your actual form ID
 
-  userForm.addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent the default form submission
+          userForm.addEventListener('submit', function(event) {
+              event.preventDefault(); // Prevent the default form submission
 
-    Swal.fire({
-      title: 'Are you sure?',
-      text: "Do you want to save this user?",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, save it!',
-      cancelButtonText: 'No, cancel!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const formData = new FormData(this);
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        fetch('{{ route("service.reservation") }}', { // Adjust the route
-          method: 'POST',
-          body: formData,
-          headers: {
-            'X-CSRF-TOKEN': csrfToken
-          }
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json(); // Parse the JSON response
-        })
-        .then(response => {
-          Swal.fire(
-            'Submitted!',
-            'Your form has been submitted.',
-            'success'
-          ).then(() => {
-            // Handle the redirection here
-            // window.location.href = response.redirectUrl; // Make sure your backend sends this URL
+              Swal.fire({
+                  title: 'Are you sure?',
+                  text: "Do you want to save this user?",
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes, save it!',
+                  cancelButtonText: 'No, cancel!'
+              }).then((result) => {
+                  if (result.isConfirmed) {
+                      const formData = new FormData(this);
+                      const csrfToken = $('meta[name="csrf-token"]').attr('content');
+                      $.ajax({
+                          url: '{{ route("service.reservation") }}', // Adjust the route
+                          method: 'POST',
+                          data: formData,
+                          contentType: false,
+                          processData: false,
+                          headers: {
+                              'X-CSRF-TOKEN': csrfToken
+                          },
+                          success: function(response) {
+                              Swal.fire(
+                                  'Submitted!',
+                                  'Your form has been submitted.',
+                                  'success'
+                              ).then(() => {
+                                  window.location.href = response.redirectUrl; // Make sure your backend sends this URL
+                              });
+                          },
+                          error: function(error) {
+                              Swal.fire(
+                                  'Error!',
+                                  'An error occurred while saving the services.',
+                                  'error'
+                              );
+                              console.error(error);
+                          }
+                      });
+                  }
+              });
           });
-        })
-        .catch(error => {
-          Swal.fire(
-            'Error!',
-            'An error occurred while saving the user.',
-            'error'
-          );
-          console.error(error);
-        });
-      }
-    });
-  });
-});
-
+      });
 
 </script>
 

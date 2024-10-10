@@ -252,16 +252,14 @@ $(document).on('submit', '#services', function(event) { // Replace '#yourFormId'
     document.getElementById('serviceIdsInput').value = serviceIds.join(',');
 }
 
-    function deleteRow(rowId, serviceId) {
-        // Find the row by its ID and remove it
-        const row = document.getElementById(rowId);
-        row.remove();
+    function deleteRow(row, serviceId) {
+    // Directly remove the row passed to the function
+    row.remove();
 
-        // Remove the service ID from the array
-        serviceIds = serviceIds.filter(id => id != serviceId);
+    // Remove the service ID from the array
+    serviceIds = serviceIds.filter(id => id != serviceId);
 
-        // Update the hidden input value with the updated array of service IDs
-        document.getElementById('serviceIdsInput').value = serviceIds.join(',');
-    }
-
+    // Update the hidden input value with the updated array of service IDs
+    document.getElementById('serviceIdsInput').value = serviceIds.join(',');
+}
 </script>
