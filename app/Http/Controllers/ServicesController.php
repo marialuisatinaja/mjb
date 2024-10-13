@@ -12,6 +12,13 @@ use Illuminate\Http\Request;
 class ServicesController extends Controller
 {
  
+    public function service(Request $request)
+    {
+        $id = $request->input('id');
+        $services = Services::findOrFail($id);
+        return view('pages.reserved.service',compact('services','id'));
+    }
+
     public function reserved($id)
     {
         $services = Services::where('id',$id)->get();
@@ -142,31 +149,10 @@ class ServicesController extends Controller
             'phone' => ['required', 'string'],
         ]);
     
-        // Check if reservation is for 'self'
-        if ($request->input('type') == 'self') {
+        if ($request->input('service_type') == 'package') {
             $reservation = new Reservation();
             $reservation->service_id = $request->input('service_id');
-            $reservation->service_type = 'services';
-            $reservation->first_name = $request->input('first_name');
-            $reservation->middle_name = $request->input('middle_name');
-            $reservation->last_name = $request->input('last_name');
-            $reservation->gender = $request->input('gender');
-            $reservation->email = $request->input('email');
-            $reservation->phone = $request->input('phone');
-            $reservation->type = $request->input('type');
-            $reservation->preffered = $request->input('therapist_gender');
-            $reservation->boy_therapist = $request->input('therapist_gender') == 'girl' ? 0 : 1;
-            $reservation->girl_therapist = $request->input('therapist_gender') == 'girl' ? 1 : 0;
-            $reservation->total_person = 1;
-            $reservation->message = $request->input('message');
-            $reservation->date = $request->input('date');
-            $reservation->time = $request->input('time');
-            $reservation->status = 'Pending';
-            $reservation->save();
-        } else {
-            $reservation = new Reservation();
-            $reservation->service_id = $request->input('service_id');
-            $reservation->service_type = 'services';
+            $reservation->service_type = 'package';
             $reservation->first_name = $request->input('first_name');
             $reservation->middle_name = $request->input('middle_name');
             $reservation->last_name = $request->input('last_name');
@@ -183,9 +169,58 @@ class ServicesController extends Controller
             $reservation->time = $request->input('time');
             $reservation->status = 'Pending';
             $reservation->save();
+        }else{
+            // Check if reservation is for 'self'
+            if ($request->input('type') == 'self') {
+                $reservation = new Reservation();
+                $reservation->service_id = $request->input('service_id');
+                $reservation->service_type = 'services';
+                $reservation->first_name = $request->input('first_name');
+                $reservation->middle_name = $request->input('middle_name');
+                $reservation->last_name = $request->input('last_name');
+                $reservation->gender = $request->input('gender');
+                $reservation->email = $request->input('email');
+                $reservation->phone = $request->input('phone');
+                $reservation->type = $request->input('type');
+                $reservation->preffered = $request->input('therapist_gender');
+                $reservation->boy_therapist = $request->input('therapist_gender') == 'girl' ? 0 : 1;
+                $reservation->girl_therapist = $request->input('therapist_gender') == 'girl' ? 1 : 0;
+                $reservation->total_person = 1;
+                $reservation->message = $request->input('message');
+                $reservation->date = $request->input('date');
+                $reservation->time = $request->input('time');
+                $reservation->status = 'Pending';
+                $reservation->save();
+            } else {
+                $reservation = new Reservation();
+                $reservation->service_id = $request->input('service_id');
+                $reservation->service_type = 'services';
+                $reservation->first_name = $request->input('first_name');
+                $reservation->middle_name = $request->input('middle_name');
+                $reservation->last_name = $request->input('last_name');
+                $reservation->gender = $request->input('gender');
+                $reservation->email = $request->input('email');
+                $reservation->phone = $request->input('phone');
+                $reservation->type = $request->input('type');
+                $reservation->preffered = $request->input('therapist_gender');
+                $reservation->boy_therapist = $request->input('boy_therapist');
+                $reservation->girl_therapist = $request->input('girl_therapist');
+                $reservation->total_person = $request->input('total_person');
+                $reservation->message = $request->input('message');
+                $reservation->date = $request->input('date');
+                $reservation->time = $request->input('time');
+                $reservation->status = 'Pending';
+                $reservation->save();
+            }
         }
-    
-        return back()->with('success', 'Details successfully reserved');
+        
+        
+        return back()->with([
+            'success' => 'Details successfully reserved',
+            'redirectUrl' => url()->previous()  // This gets the previous URL
+        ]);
+        
+
     }
     
 

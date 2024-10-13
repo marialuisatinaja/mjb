@@ -12,12 +12,6 @@
             <!-- Add Button -->
             <div class="mb-4 flex items-center justify-between">
                 <h4 class="card-title">Sales</h4>
-                <a href="" class="btn inline-flex justify-center btn-dark dark:bg-slate-800">
-                    <span class="flex items-center">
-                        <iconify-icon class="text-xl ltr:mr-2 rtl:ml-2" icon="ph:plus-bold"></iconify-icon>
-                        <span>Add sale</span>
-                    </span>
-                </a>
             </div>
 
             <div class="overflow-x-auto -mx-6 dashcode-data-table">
@@ -28,16 +22,78 @@
                         <table class="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700 data-table">
                             <thead class="bg-slate-200 dark:bg-slate-700">
                                 <tr>
-                                    <th scope="col" class="table-th">Id</th>
-                                    <th scope="col" class="table-th">Title</th>
-                                    <th scope="col" class="table-th">Type</th>
-                                    <th scope="col" class="table-th">Ammount</th>
-                                    <th scope="col" class="table-th">Description</th>
-                                    <th scope="col" class="table-th">Action</th>
+                                <th scope="col" class="table-th"  style="width:15%;">Customer Name</th>
+                                    <th scope="col" class="table-th"  style="width:12%;">Email</th>
+                                    <th scope="col" class="table-th"  style="width:10%;">Type</th>
+                                    <th scope="col" class="table-th"  style="width:15%;">Service Name</th>
+                                    <th scope="col" class="table-th"  style="width:10%;">Date</th>
+                                    <th scope="col" class="table-th"  style="width:10%;">Time</th>
+                                    <th scope="col" class="table-th"  style="width:8%;">Payment</th>
+                                    <th scope="col" class="table-th"  style="width:10%;">Status</th>
+                                    <th scope="col" class="table-th"  style="width:10%;">Action</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
-               
+                                @foreach($reservations as $row)
+                                <tr>
+                                    <td class="table-td">{{ ucwords($row->first_name.' '.$row->middle_name.' '.$row->last_name) }} <br> {{ $row->phone}} </td>
+                                    <td class="table-td" style="text-transform: lowercase;">{{ $row->email }}</td>
+                                    <td>{{ $row->service_type }}</td>
+                                    <td class="table-td">
+                                        <span class="flex">
+                                            <span class="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none">
+                                       
+                                                @if(@$row->services->upload)
+                                                <img src="{{ asset($row->services->upload) }}" alt="{{ $row->services->title }}" class="img-radius wid-40 align-top m-r-15">
+                                                @else
+                                                <img src="{{ asset('admin/assets/images/all-img/customer_1.png') }}" alt="50" class="object-cover w-full h-full rounded-full">
+                                                @endif
+
+                                            </span>
+                                            <span class="text-sm text-slate-600 dark:text-slate-300 capitalize pt-2">{{ @$row->services->title }}</span>
+                                        </span>
+                                    </td>
+                                    
+                                    <td  class="table-td">{{ date('F j, Y', strtotime($row->date)) }}</td>
+                                    <td class="table-td">{{ \Carbon\Carbon::parse($row->time)->format('g:i A') }}</td>
+                                    <td  class="table-td">
+                                        <div class=" text-danger-500">
+                                        ₱ {{ number_format((@$row->services->amount * $row->total_person), 2, '.', ',') }}
+                                        </div>
+                                    </td>
+                                    <td  class="table-td">
+                                    @if($row->status == 'Pending')
+                                        <div class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 text-warning-500 bg-warning-500">
+                                            Pending
+                                        </div>
+                                    @elseif($row->status == 'Paid')
+                                    <div class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 text-success-500
+                                                    bg-success-500">
+                                        paid
+                                      </div>
+                                      @elseif($row->status == 'Resched')
+                                    <div class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 text-warning-500
+                                                    bg-warning-500">
+                                        Resched
+                                      </div>
+                                      
+                                    @else
+                                    <div class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 text-danger-500
+                                                    bg-danger-500">
+                                        cancled
+                                      </div>
+                                    @endif
+
+                                    </td>
+                                    <td class="table-td">
+                                        <div class="flex space-x-3 rtl:space-x-reverse">
+                                            <button class="action-btn" type="button" onclick="resched_action({{ $row->id }} , 'Paid')" title="Pay">
+                                                <iconify-icon icon="heroicons:printer"></iconify-icon>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

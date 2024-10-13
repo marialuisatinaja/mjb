@@ -10,8 +10,7 @@ class ReservationController extends Controller
 {
     public function index()
     {
-        $reservations  = Reservation::with('services')->get();
-
+        $reservations  = Reservation::with('services')->where('status','Pending')->get();
         return view('pages.reservations.index',compact('reservations'));
     } 
 

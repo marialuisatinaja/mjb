@@ -93,7 +93,7 @@
 
 
                                                     <div class="input-area p-2"> 
-                                                        <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-3">
+                                                        <div class="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-5 gap-3">
                                                             
                                                             <div class="input-area p-2">
                                                                     <label  class="form-label">Package Name</label>
@@ -103,6 +103,11 @@
                                                             <div class="input-area p-2">
                                                                 <label  class="form-label">Ammount</label>
                                                                 <input name="amount"  value="{{ $packages->amount }}" type="number" class="form-control"  placeholder="Enter Ammount">
+                                                            </div>
+
+                                                            <div class="input-area p-2">
+                                                                <label  class="form-label">Hours</label>
+                                                                <input name="hours" value="{{ $packages->hours }}" type="number" class="form-control"  placeholder="Enter Hours">
                                                             </div>
 
                                                             <div class="input-area p-2"> 

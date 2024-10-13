@@ -22,25 +22,23 @@
                         <table class="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700 data-table">
                             <thead class="bg-slate-200 dark:bg-slate-700">
                                 <tr>
-                                    <th scope="col" class="table-th">Id</th>
-                                    <th scope="col" class="table-th">Name</th>
-                                    <th scope="col" class="table-th">Services</th>
-                                    <!-- <th scope="col" class="table-th">Services Type</th>
-                                    <th scope="col" class="table-th">Services Amount</th>
-                                    <th scope="col" class="table-th">Reserved Type</th> -->
-                                    <!-- <th scope="col" class="table-th text-center">No. of Person</th> -->
-                                    <th scope="col" class="table-th">Date</th>
-                                    <th scope="col" class="table-th">Time</th>
-                                    <th scope="col" class="table-th">Payment</th>
-                                    <th scope="col" class="table-th">Status</th>
-                                    <th scope="col" class="table-th">Action</th>
+                                    <th scope="col" class="table-th"  style="width:15%;">Customer Name</th>
+                                    <th scope="col" class="table-th"  style="width:12%;">Email</th>
+                                    <th scope="col" class="table-th"  style="width:10%;">Type</th>
+                                    <th scope="col" class="table-th"  style="width:15%;">Service Name</th>
+                                    <th scope="col" class="table-th"  style="width:10%;">Date</th>
+                                    <th scope="col" class="table-th"  style="width:10%;">Time</th>
+                                    <th scope="col" class="table-th"  style="width:8%;">Payment</th>
+                                    <th scope="col" class="table-th"  style="width:10%;">Status</th>
+                                    <th scope="col" class="table-th"  style="width:10%;">Action</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
-                            @foreach($reservations as $row)
+                                @foreach($reservations as $row)
                                 <tr>
-                                    <td class="table-td">{{ $loop->iteration }}</td>
-                                    <td class="table-td">{{ ucwords($row->first_name.' '.$row->middle_name.' '.$row->last_name) }}</td>
+                                    <td class="table-td">{{ ucwords($row->first_name.' '.$row->middle_name.' '.$row->last_name) }} <br> {{ $row->phone}} </td>
+                                    <td class="table-td" style="text-transform: lowercase;">{{ $row->email }}</td>
+                                    <td>{{ $row->service_type }}</td>
                                     <td class="table-td">
                                         <span class="flex">
                                             <span class="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none">
@@ -138,7 +136,7 @@
                 <!-- Modal body -->
             
                 <div class="p-6 body-details">
-              
+                        
                 </div>
           
                 <!-- Modal footer -->

@@ -32,7 +32,9 @@
                                     <th scope="col" class="table-th">Name</th>
                                     <th scope="col" class="table-th">Phone</th>
                                     <th scope="col" class="table-th">Email</th>
+                                    <th scope="col" class="table-th">Gender</th>
                                     <th scope="col" class="table-th">Type</th>
+                                    <th scope="col" class="table-th">Status</th>
                                     <th scope="col" class="table-th">Action</th>
                                 </tr>
                             </thead>
@@ -58,7 +60,9 @@
 
                                     <td class="table-td">{{$user->phone }}</td>
                                     <td class="table-td">{{$user->email }}</td>
+                                    <td class="table-td">{{$user->gender }}</td>
                                     <td class="table-td">{{$user->user_type }}</td>
+                                    <td class="table-td">{{$user->status }}</td>
                                     <td class="table-td">
                                         <div class="flex space-x-3 rtl:space-x-reverse">
                                         <a href="{{ route('user.edit', ['id' => $user->id]) }}" class="action-btn">

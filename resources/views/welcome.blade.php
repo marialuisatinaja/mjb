@@ -7,7 +7,7 @@
   <title>MDB - MASAGE DE BOHOL </title>
   <meta name="description" content="">
   <meta name="keywords" content="">
-
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -27,7 +27,7 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
-
+  <link rel="stylesheet" href="{{ asset('admin/assets/css/sweetalert2.css') }}"></link>
 
 </head>
 
@@ -182,7 +182,7 @@
                 <h4>{{ $service->title }}  ( ₱{{  $service->amount }} )</h4>
                 <p>{{ $service->description }}</p>
                 <a href="{{ asset($service->upload) }}" title="{{ $service->title }} ( ₱{{  $service->amount }} )" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="{{ route('service.reserved', ['id' => $service->id]) }}" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                <a href="javascript:(0);" onclick="get_details1({{ $service->id }})" title="reserved" class="details-link"><i class="bi bi-book"></i></a>
               </div>
             </div><!-- End Portfolio Item -->
             @endforeach
@@ -209,37 +209,31 @@
       <div class="container">
 
         <div class="row gy-3">
-        <div class="row">
+          <div class="row">
+            <div class="row pricing-container">
+                @foreach($packages as $row)
+                <div class="col-xl-3 col-lg-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="pricing-item">
+                        <span class="advanced">{{ $row->persons }} person</span>
+                        <h3>{{ $row->name }}</h3>
+                        <h4><sup>₱</sup>{{ $row->amount }}<span> / pesos</span></h4>
+                        <ul>
+                            @foreach($svs as $val)
+                              @if($row->id == $val->package_id)
+                                <li>{{ $val->services->title }}</li>
+                              @endif
+                            @endforeach
+              
 
-        <div class="row pricing-container">
-            @foreach($packages as $row)
-            <div class="col-xl-3 col-lg-6" data-aos="fade-up" data-aos-delay="400">
-                <div class="pricing-item">
-                    <span class="advanced">{{ $row->persons }} person</span>
-                    <h3>{{ $row->name }}</h3>
-                    <h4><sup>₱</sup>{{ $row->amount }}<span> / pesos</span></h4>
-                    <ul>
-                        @foreach($svs as $val)
-                          @if($row->id == $val->package_id)
-                            <li>{{ $val->services->title }}</li>
-                          @endif
-                        @endforeach
-           
-
-                    </ul>
-                    <div class="btn-wrap">
-                        <a href="javascript:(0);" onclick="get_details({{ $row->id }})" class="btn-buy">Reserve Now</a>
+                        </ul>
+                        <div class="btn-wrap">
+                            <a href="javascript:(0);" onclick="get_details({{ $row->id }})" class="btn-buy">Reserve Now</a>
+                        </div>
                     </div>
-                </div>
-            </div><!-- End Pricing Item -->
-            @endforeach
-        </div>
-
-
-
-
-        </div>
-
+                </div><!-- End Pricing Item -->
+                @endforeach
+            </div>
+          </div>
       </div>
 
     </section><!-- /Pricing Section -->
@@ -292,15 +286,10 @@
                 <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <!-- Modal Body Content -->
-                <p>This is a simple modal example using Bootstrap.</p>
-                <p>You can add any content here, including forms, images, or additional text.</p>
+            <div class="modal-body body-details">
+
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+    
         </div>
     </div>
 </div>
@@ -341,15 +330,54 @@
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="{{ asset('admin/assets/js/jquery-3.6.0.min.js') }}"></script>
+  <script src="{{ asset('admin/assets/js/sweetalert2.js') }}"></script>
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
-
-
   <script>
+        const csrfToken = $('meta[name="csrf-token"]').attr('content');
+  </script>
+  <script>
+
+    
     function get_details(id)
     {
+
       $('#large_modal').modal('show');
+      $.ajax({
+            type: "POST",
+            url: '{{ route("service.package") }}', // Adjust the route
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            },
+            data: {
+                id: id, // Your data
+            },
+            success: function(data) {
+                $(".body-details").show().html(data);
+            }
+        });
     }
+
+
+       function get_details1(id)
+      {
+
+        $('#large_modal').modal('show');
+        $.ajax({
+              type: "POST",
+              url: '{{ route("service.service") }}', // Adjust the route
+              headers: {
+                  'X-CSRF-TOKEN': csrfToken
+              },
+              data: {
+                  id: id, // Your data
+              },
+              success: function(data) {
+                  $(".body-details").show().html(data);
+              }
+          });
+      }
+
   </script>
 </body>
 

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->decimal('amount', 8, 2); // Package amount
             $table->text('description')->nullable(); 
             $table->string('upload')->nullable(); // Package image (optional)
+            $table->string('hours')->nullable(); // Package image (optional)
             $table->integer('persons'); // Package name
             $table->timestamps(); // Timestamps for created_at and updated_at
         });

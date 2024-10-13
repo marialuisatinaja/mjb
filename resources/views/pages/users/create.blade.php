@@ -57,7 +57,6 @@
                               <label for="select" class="form-label">User Type</label>
                               <select id="select" class="form-control"  name="user_type">
                                 <option value="Therapist" class="dark:bg-slate-700">Therapist</option>
-                                <option value="Supervisor" class="dark:bg-slate-700">Supervisor</option>
                                 <option value="Receptionist" class="dark:bg-slate-700">Receptionist</option>
                                 <option value="Admin" class="dark:bg-slate-700">Admin</option>
                               </select>

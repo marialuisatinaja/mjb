@@ -13,36 +13,71 @@
 @method('PUT')
 @csrf <!-- Add CSRF token field -->
 
-  <div class="grid xl:grid-cols-1" style="padding:3%">
+
+<div class="grid xl:grid-cols-1" style="padding:0%">
       <div class="card">
           <div class="card-body flex flex-col p-6">
               <div class="card-text h-full">
 
+              
+              <header class="flex mb-5 items-center border-b border-slate-100 dark:border-slate-700 pb-5 -mx-6 px-6">
+                    <div class="flex-1">
+                        <div class="card-title text-slate-900 dark:text-white">Services Information</div>
+                    </div>
+                </header>
+
                   <div class="input-area p-2"> 
-                      <label  class="form-label">Services</label>
-                      <input  name="title" type="text" class="form-control" value="{{ $services->title }}" placeholder="Enter Services">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-7">
+                        <div class="input-area p-2">
+                            <label  class="form-label">Services</label>
+                            <input  name="title" type="text" value="{{ $services->title }}" class="form-control" placeholder="Enter Services">
+                        </div> 
+                        <div class="input-area p-2"> 
+                            <label  class="form-label">Type</label>
+                            <input  name="type" type="text" value="{{ $services->type }}" class="form-control" placeholder="Enter type of services">
+                        </div>
+                    </div>
+                    
                   </div>
 
-                  <div class="input-area p-2"> 
-                      <label  class="form-label">Type</label>
-                      <input  name="type" type="text" class="form-control" value="{{ $services->type }}" placeholder="Enter type of services">
-                  </div>
+          
 
                   <div class="input-area p-2"> 
-                      <label  class="form-label">Prince</label>
-                      <input  name="amount" type="number" class="form-control" value="{{ $services->amount }}" placeholder="Enter the  price for this services">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-7">
+                        
+                        <div class="input-area p-2">
+                        <label  class="form-label">Duration</label>
+                            <div class="grid grid-cols-2 gap-4">
+                                <input name="hours" type="number" class="form-control" value="{{ $services->hours }}" placeholder="Enter Hour(s) ">
+                                <input name="minutes" type="number" class="form-control"  value="{{ $services->minutes }}" placeholder="Enter Minute(s) ">
+                            </div>
+                        </div>
 
+                        <div class="input-area p-2"> 
+                            <label  class="form-label">Prince</label>
+                            <input  name="amount" value="{{ $services->amount }}"  type="number" class="form-control" placeholder="Enter the  price for this services">
+                        </div>
+                    </div>
                   </div>
           
-                  <div class="input-area p-2"> 
-                      <label  class="form-label">Image</label>
-                      <input  name="upload" type="file" class="form-control" value="{{ $services->upload }}"  placeholder="Enter type of services">
-                  </div>
 
                   <div class="input-area p-2"> 
-                      <label class="form-label">Description</label>
-                      <textarea name="description" rows="5" class="form-control" placeholder="Your Message">{{ $services->description }}</textarea>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-7">
+                        
+                        <div class="input-area p-2"> 
+                            <label class="form-label">Description</label>
+                            <textarea name="description" rows="5" class="form-control" placeholder="Your Message">{{ $services->description }}</textarea>
+                        </div>
+
+                        <div class="input-area p-2"> 
+                            <label  class="form-label">Image</label>
+                            <input  name="upload" type="file" class="form-control" placeholder="Enter type of services">
+                        </div>
+
+                    </div>
                   </div>
+
+
 
                   <button class="btn flex justify-center btn-dark float-right">Submit</button>
               </div>

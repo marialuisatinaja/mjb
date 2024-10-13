@@ -28,7 +28,11 @@ Route::get('/dashboard', function () {
 Route::name('service.')->prefix('/service')->group(function () {
     Route::get('/reserved/{id}', [ServicesController::class, 'reserved'])->name('reserved');
     Route::post('reservation', [ServicesController::class, 'reservation'])->name('reservation');
+    Route::post('service', [ServicesController::class, 'service'])->name('service');
+    Route::post('package', [PackageController::class, 'package'])->name('package');
 });
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -63,6 +67,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/delete', [PackageController::class, 'destroy'])->name('delete');
         Route::post('/data', [PackageController::class, 'data'])->name('data');
         Route::post('/delServe', [PackageController::class, 'delServe'])->name('delServe');
+        Route::post('details', [PackageController::class, 'details'])->name('details');
     });
 
     Route::name('point.')->prefix('/point')->group(function () {

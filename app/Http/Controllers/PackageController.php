@@ -10,6 +10,14 @@ use Illuminate\Http\Request;
 
 class PackageController extends Controller
 {
+    public function package(Request $request)
+    {
+        $id = $request->input('id');
+        $packages = Package::findOrFail($id);
+        $svs = PackageServices::with('services')->where('package_id',$packages->id)->get();
+        return view('pages.reservations.package',compact('packages','svs'));
+    }
+
     public function index()
     {
         $packages = Package::all();
@@ -34,6 +42,7 @@ class PackageController extends Controller
             'name' => 'required|string|max:255',
             'amount' => 'required|numeric',
             'persons' => 'required|numeric',
+            'hours' => 'required|numeric',
             'upload' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
             'description' => 'nullable|string|max:255',
             'service_ids' => 'required|array', 
@@ -59,6 +68,7 @@ class PackageController extends Controller
         $package = Package::create([
             'name' => $validatedData['name'],
             'amount' => $validatedData['amount'],
+            'hours' => $validatedData['hours'] ?? null, // Include upload if it exists
             'upload' => $validatedData['upload'] ?? null, // Include upload if it exists
             'description' => $validatedData['description'] ?? null, // Include upload if it exists
             'persons' => $validatedData['persons'],
@@ -84,6 +94,7 @@ class PackageController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'amount' => 'required|numeric',
+            'hours' => 'required|numeric',
             'persons' => 'required|numeric',
             'upload' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
             'description' => 'nullable|string|max:255',

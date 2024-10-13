@@ -60,9 +60,11 @@
                 <!-- profile info-500 -->
     </div>
 
+    @if($status != 'Paid')
+
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-1">
 
-    <input type="hidden" name="status"  value="{{ $status }}">
+         <input type="hidden" name="status"  value="{{ $status }}">
         <div class="input-area p-2">
             <label  class="form-label">First Name</label>
             <input  name="first_name" type="text" value="{{ $reservation->first_name }}" class="form-control" placeholder="Enter First Name" disabled>
@@ -99,6 +101,7 @@
             <input type="text" id="phone" value="{{ $reservation->phone }}" class="form-control" name="phone" placeholder="09512348350" required maxlength="12" disabled>
         </div>
 
+        @if($status == 'Resched')
         <div class="input-area p-2"> 
             <label  class="form-label">Date</label>
             <input type="date" name="date" value="{{ $reservation->date }}"  class="form-control" placeholder="Your Date" required min="{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}">
@@ -108,26 +111,135 @@
         <label  class="form-label">Select a time:</label>
             <input type="time" id="time" name="time" value="{{ $reservation->time }}" class="form-control" min="09:00" max="18:00" required>
         </div>
+        @else
+        <div class="input-area p-2"> 
+            <label  class="form-label">Date</label>
+            <input type="date" name="date" value="{{ $reservation->date }}"  class="form-control" placeholder="Your Date" required min="{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}" readonly>
+        </div>
 
+        <div class="input-area p-2"> 
+        <label  class="form-label">Select a time:</label>
+            <input type="time" id="time" name="time" value="{{ $reservation->time }}" class="form-control" min="09:00" max="18:00" required readonly>
+        </div>
+        @endif
     </div>
+    @else
+
+    <div class="container mx-auto mt-2">
+    <div class="bg-white shadow-md rounded-lg p-2">
+        <div id="form-wizard">
+            <div class="step" id="step-1">
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-1">
+                <input type="hidden" name="status"  value="{{ $status }}">
+                <div class="input-area p-2">
+                <label  class="form-label">First Name</label>
+                <input  name="first_name" type="text" value="{{ $reservation->first_name }}" class="form-control" placeholder="Enter First Name" disabled>
+                </div> 
+
+                <div class="input-area p-2"> 
+                <label  class="form-label">Middle Name</label>
+                <input  name="middle_name" type="text" value="{{ $reservation->middle_name }}" class="form-control" placeholder="Enter Middle Name" disabled>
+                </div>
+
+                <div class="input-area p-2"> 
+                <label  class="form-label">Last Name</label>
+                <input  name="type" type="text" value="{{ $reservation->last_name }}" class="form-control" placeholder="Enter Last Name" disabled>
+                </div>
+
+
+                <div class="input-area p-2">
+                <label  class="form-label">Gender</label>
+                <select name="gender" class="form-control" disabled>
+                    <option value="" disabled selected>Select Gender</option>
+                    <option value="male" class="dark:bg-slate-700"  {{ $reservation->gender == 'male' ? 'selected' : '' }}>Male</option>
+                    <option value="female" class="dark:bg-slate-700"  {{ $reservation->gender == 'female' ? 'selected' : '' }}>Female</option>
+                </select>
+
+                </div> 
+
+                <div class="input-area p-2"> 
+                <label  class="form-label">Email</label>
+                <input  name="email"  value="{{ $reservation->email }}" type="email" class="form-control" placeholder="Enter your Email" disabled>
+                </div>
+
+                <div class="input-area p-2"> 
+                <label  class="form-label">Phone</label>
+                <input type="text" id="phone" value="{{ $reservation->phone }}" class="form-control" name="phone" placeholder="09512348350" required maxlength="12" disabled>
+                </div>
+
+                @if($status == 'Resched')
+                <div class="input-area p-2"> 
+                <label  class="form-label">Date</label>
+                <input type="date" name="date" value="{{ $reservation->date }}"  class="form-control" placeholder="Your Date" required min="{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}">
+                </div>
+
+                <div class="input-area p-2"> 
+                <label  class="form-label">Select a time:</label>
+                <input type="time" id="time" name="time" value="{{ $reservation->time }}" class="form-control" min="09:00" max="18:00" required>
+                </div>
+                @else
+                <div class="input-area p-2"> 
+                <label  class="form-label">Date</label>
+                <input type="date" name="date" value="{{ $reservation->date }}"  class="form-control" placeholder="Your Date" required min="{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}" readonly>
+                </div>
+
+                <div class="input-area p-2"> 
+                <label  class="form-label">Select a time:</label>
+                <input type="time" id="time" name="time" value="{{ $reservation->time }}" class="form-control" min="09:00" max="18:00" required readonly>
+                </div>
+                @endif
+                </div>
+                <div class="flex justify-between p-2">
+                    <button type="button" class="btn inline-flex justify-center text-white bg-blue-500 hover:bg-blue-600" id="next-1" style="float: right;">
+                        Served
+                    </button>
+                </div>
+            </div>
+
+            <div class="step hidden" id="step-2">
+                <h3 class="text-lg font-semibold mb-4">Step 2: Review Information</h3>
+                <p class="mb-4">Please review your information before submitting.</p>
+                <div class="mb-4">
+                    <h4 class="font-medium">Your Details:</h4>
+                    <p id="review-name"></p>
+                    <p id="review-email"></p>
+                    <p id="review-address"></p>
+                    <p id="review-city"></p>
+                </div>
+                <div class="flex justify-between">
+                    <button type="button" class="bg-gray-300 text-gray-700 p-2 rounded" id="prev-2">Previous</button>
+                    <button type="button" class="btn inline-flex justify-center text-white bg-blue-500 hover:bg-blue-600" id="submit" style="float: right;">
+                            Next
+                        </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    @endif
 </div>
 <br>
 
 @if($status == 'Resched')
     <div class="flex items-center justify-end p-6 space-x-2 border-t border-slate-200 rounded-b dark:border-slate-600">
-        <button data-bs-dismiss="modal" class="btn inline-flex justify-center text-white bg-green-500 hover:bg-green-600">
+        <button  class="btn inline-flex justify-center text-white bg-green-500 hover:bg-green-600">
             Resched
         </button>
     </div>
 @elseif($status == 'Paid')
-    <div class="flex items-center justify-end p-6 space-x-2 border-t border-slate-200 rounded-b dark:border-slate-600">
-        <button data-bs-dismiss="modal" class="btn inline-flex justify-center text-white bg-blue-500 hover:bg-blue-600">
+    <!-- <div class="flex items-center justify-end p-6 space-x-2 border-t border-slate-200 rounded-b dark:border-slate-600">
+    <button type="button" class="bg-gray-300 text-gray-700 p-2 rounded" id="prev-2">Previous</button>
+        <button   id="next-1" class="btn inline-flex justify-center text-white bg-blue-500 hover:bg-blue-600">
             Pay
         </button>
-    </div>
+
+    </div> -->
 @else
     <div class="flex items-center justify-end p-6 space-x-2 border-t border-slate-200 rounded-b dark:border-slate-600">
-        <button data-bs-dismiss="modal" class="btn inline-flex justify-center text-white bg-red-500 hover:bg-red-600">
+        <button  class="btn inline-flex justify-center text-white bg-red-500 hover:bg-red-600">
             Cancel
         </button>
     </div>
@@ -185,6 +297,40 @@
             });
         }
     });
+
+    
 });
+
+
+const steps = document.querySelectorAll('.step');
+let currentStep = 0;
+
+document.getElementById('next-1').onclick = function() {
+
+
+    steps[currentStep].classList.add('hidden');
+    currentStep++;
+    steps[currentStep].classList.remove('hidden');
+};
+
+document.getElementById('prev-2').onclick = function() {
+    steps[currentStep].classList.add('hidden');
+    currentStep--;
+    steps[currentStep].classList.remove('hidden');
+};
+
+document.getElementById('submit').onclick = function() {
+    // Gather data for submission
+    const formData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        address: document.getElementById('address').value,
+        city: document.getElementById('city').value,
+    };
+
+    // Display a success message
+    alert('Form submitted successfully!');
+};
+
 </script>
 
