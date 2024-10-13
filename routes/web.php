@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\PontSalesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\SalesController;
@@ -48,8 +49,9 @@ Route::middleware('auth')->group(function () {
         Route::get('create', [ReservationController::class, 'create'])->name('create');
         Route::post('store', [ReservationController::class, 'store'])->name('store');
         Route::get('/edit/{id}', [ReservationController::class, 'edit'])->name('edit');
-        Route::put('/update/{id}', [ReservationController::class, 'update'])->name('update');
         Route::post('/delete', [ReservationController::class, 'destroy'])->name('delete');
+        Route::put('/update_details/{id}', [ReservationController::class, 'updateDetails'])->name('update_details');
+        Route::post('/details', [ReservationController::class, 'details'])->name('details');
     });
 
     Route::name('package.')->prefix('/package')->group(function () {
@@ -61,6 +63,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/delete', [PackageController::class, 'destroy'])->name('delete');
         Route::post('/data', [PackageController::class, 'data'])->name('data');
         Route::post('/delServe', [PackageController::class, 'delServe'])->name('delServe');
+    });
+
+    Route::name('point.')->prefix('/point')->group(function () {
+        Route::get('/', [PontSalesController::class, 'index'])->name('index');
     });
 
     Route::name('sale.')->prefix('/sale')->group(function () {

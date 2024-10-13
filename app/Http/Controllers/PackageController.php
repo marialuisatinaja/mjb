@@ -33,6 +33,7 @@ class PackageController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'amount' => 'required|numeric',
+            'persons' => 'required|numeric',
             'upload' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
             'description' => 'nullable|string|max:255',
             'service_ids' => 'required|array', 
@@ -60,6 +61,7 @@ class PackageController extends Controller
             'amount' => $validatedData['amount'],
             'upload' => $validatedData['upload'] ?? null, // Include upload if it exists
             'description' => $validatedData['description'] ?? null, // Include upload if it exists
+            'persons' => $validatedData['persons'],
         ]);
 
         foreach($serviceIdsArray as $row)
@@ -82,6 +84,7 @@ class PackageController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'amount' => 'required|numeric',
+            'persons' => 'required|numeric',
             'upload' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
             'description' => 'nullable|string|max:255',
         ]);
@@ -89,7 +92,10 @@ class PackageController extends Controller
         $package = Package::findOrFail($id);
         $package->update($validatedData);
 
-        return back()->with('success', 'Package successfully updated');
+        return response()->json([
+            'message' => 'package updated successfully.',
+            'redirectUrl' => route('package.index') // URL to redirect to after deletion
+        ]);
     }
 
     public function edit($id)

@@ -41,6 +41,15 @@
           </li>
 
           <li>
+              <a href="{{ route('point.index') }}" class="navItem {{ request()->routeIs('point.index') ? 'active' : '' }}">
+                  <span class="flex items-center">
+                  <iconify-icon class=" nav-icon" icon="heroicons-outline:collection"></iconify-icon>
+                      <span>POS</span>
+                  </span>
+              </a>
+          </li>
+
+          <li>
               <a href="{{ route('service.index') }}" class="navItem {{ request()->routeIs('service.index') ? 'active' : '' }}">
                   <span class="flex items-center">
                       <iconify-icon class="nav-icon" icon="heroicons-outline:view-grid-add"></iconify-icon>

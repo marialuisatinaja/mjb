@@ -24,6 +24,8 @@ class Reservation extends Model
         'total_person',
         'boy_therapist',
         'girl_therapist',
+        'date',
+        'time',
         'message',
         'status',
     ];

@@ -89,14 +89,21 @@
                                                 <div class="card-text h-full">
 
                                                     <div class="input-area p-2"> 
-                                                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-7">
+                                                        <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-3">
                                                             
                                                             <div class="input-area p-2">
-                                                            <label  class="form-label">Package Name</label>
-                                                                <div class="grid grid-cols-2 gap-4">
+                                                                    <label  class="form-label">Package Name</label>
                                                                     <input name="name" type="text" class="form-control" placeholder="Enter Package Name">
-                                                                    <input name="amount" type="number" class="form-control"  placeholder="Enter Ammount">
-                                                                </div>
+                                                            </div>
+
+                                                            <div class="input-area p-2">
+                                                                <label  class="form-label">Ammount</label>
+                                                                <input name="amount" type="number" class="form-control"  placeholder="Enter Ammount">
+                                                            </div>
+
+                                                            <div class="input-area p-2"> 
+                                                                <label  class="form-label">Total Persons</label>
+                                                                <input  name="persons" type="number" class="form-control" placeholder="Total Persons">
                                                             </div>
 
                                                             <div class="input-area p-2"> 
@@ -105,6 +112,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                     <div class="input-area p-2"> 
                                                         <label class="form-label">Description</label>
                                                         <textarea name="description" rows="3" class="form-control" placeholder="Your Message"></textarea>

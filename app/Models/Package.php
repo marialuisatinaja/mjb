@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Package extends Model
 {
-    protected $fillable = ['name', 'amount', 'upload','description'];
+    protected $fillable = ['name', 'amount', 'upload','description','persons'];
 
     // Define the many-to-many relationship with services
     public function services()

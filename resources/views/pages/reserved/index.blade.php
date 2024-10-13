@@ -170,9 +170,18 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12">
+                        <div class="col-md-6">
+                        <label for="time">Select a date</label>
                         <input type="date" name="date" class="form-control" placeholder="Your Date" required min="{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}">
                         </div>
+
+                        <div class="col-md-6">
+                        <label for="time">Select a time (between 09:00 and 18:00):</label>
+                        <input type="time" id="time" name="time" class="form-control" min="09:00" max="18:00" required>
+                        </div>
+
+
+
 
                         <div class="col-md-12">
                           <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
@@ -335,54 +344,53 @@ document.addEventListener('DOMContentLoaded', function() {
 
   document.addEventListener('DOMContentLoaded', function() {
           const userForm = document.getElementById('user'); // Replace with your actual form ID
+      userForm.addEventListener('submit', function(event) {
+          event.preventDefault(); // Prevent the default form submission
 
-          userForm.addEventListener('submit', function(event) {
-              event.preventDefault(); // Prevent the default form submission
-
-              Swal.fire({
-                  title: 'Are you sure?',
-                  text: "Do you want to save this user?",
-                  icon: 'warning',
-                  showCancelButton: true,
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  confirmButtonText: 'Yes, save it!',
-                  cancelButtonText: 'No, cancel!'
-              }).then((result) => {
-                  if (result.isConfirmed) {
-                      const formData = new FormData(this);
-                      const csrfToken = $('meta[name="csrf-token"]').attr('content');
-                      $.ajax({
-                          url: '{{ route("service.reservation") }}', // Adjust the route
-                          method: 'POST',
-                          data: formData,
-                          contentType: false,
-                          processData: false,
-                          headers: {
-                              'X-CSRF-TOKEN': csrfToken
-                          },
-                          success: function(response) {
-                              Swal.fire(
-                                  'Submitted!',
-                                  'Your form has been submitted.',
-                                  'success'
-                              ).then(() => {
-                                  window.location.href = response.redirectUrl; // Make sure your backend sends this URL
-                              });
-                          },
-                          error: function(error) {
-                              Swal.fire(
-                                  'Error!',
-                                  'An error occurred while saving the services.',
-                                  'error'
-                              );
-                              console.error(error);
-                          }
-                      });
-                  }
-              });
+          Swal.fire({
+              title: 'Are you sure?',
+              text: "Do you want to save this user?",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, save it!',
+              cancelButtonText: 'No, cancel!'
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  const formData = new FormData(this);
+                  const csrfToken = $('meta[name="csrf-token"]').attr('content');
+                  $.ajax({
+                      url: '{{ route("service.reservation") }}', // Adjust the route
+                      method: 'POST',
+                      data: formData,
+                      contentType: false,
+                      processData: false,
+                      headers: {
+                          'X-CSRF-TOKEN': csrfToken
+                      },
+                      success: function(response) {
+                          Swal.fire(
+                              'Submitted!',
+                              'Your form has been submitted.',
+                              'success'
+                          ).then(() => {
+                              window.location.href = response.redirectUrl; // Make sure your backend sends this URL
+                          });
+                      },
+                      error: function(error) {
+                          Swal.fire(
+                              'Error!',
+                              'An error occurred while saving the services.',
+                              'error'
+                          );
+                          console.error(error);
+                      }
+                  });
+              }
           });
       });
+  });
 
 </script>
 

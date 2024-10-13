@@ -80,8 +80,6 @@
           <li><a href="#services">Services</a></li>
           <li><a href="#portfolio">Packages</a></li>
           <li><a href="#team">Therapist</a></li>
-          <li><a href="#recent-posts">Blog</a></li>
-          <li><a href="#contact">Contact</a></li>
           <li><a href="{{ route('login') }}">Login</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -217,7 +215,7 @@
             @foreach($packages as $row)
             <div class="col-xl-3 col-lg-6" data-aos="fade-up" data-aos-delay="400">
                 <div class="pricing-item">
-                    <span class="advanced">Special Offers</span>
+                    <span class="advanced">{{ $row->persons }} person</span>
                     <h3>{{ $row->name }}</h3>
                     <h4><sup>₱</sup>{{ $row->amount }}<span> / pesos</span></h4>
                     <ul>
@@ -230,7 +228,7 @@
 
                     </ul>
                     <div class="btn-wrap">
-                        <a href="#" class="btn-buy">Reserve Now</a>
+                        <a href="javascript:(0);" onclick="get_details({{ $row->id }})" class="btn-buy">Reserve Now</a>
                     </div>
                 </div>
             </div><!-- End Pricing Item -->
@@ -285,6 +283,27 @@
 
     </section><!-- /Team Section -->
 
+
+
+<div class="modal fade" id="large_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Modal Body Content -->
+                <p>This is a simple modal example using Bootstrap.</p>
+                <p>You can add any content here, including forms, images, or additional text.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
   </main>
 
   <footer id="footer" class="footer dark-background">
@@ -321,10 +340,17 @@
   <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-
+  <script src="{{ asset('admin/assets/js/jquery-3.6.0.min.js') }}"></script>
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
 
+
+  <script>
+    function get_details(id)
+    {
+      $('#large_modal').modal('show');
+    }
+  </script>
 </body>
 
 </html>

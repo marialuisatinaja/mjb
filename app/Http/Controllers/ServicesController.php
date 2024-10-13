@@ -159,6 +159,8 @@ class ServicesController extends Controller
             $reservation->girl_therapist = $request->input('therapist_gender') == 'girl' ? 1 : 0;
             $reservation->total_person = 1;
             $reservation->message = $request->input('message');
+            $reservation->date = $request->input('date');
+            $reservation->time = $request->input('time');
             $reservation->status = 'Pending';
             $reservation->save();
         } else {
@@ -177,6 +179,8 @@ class ServicesController extends Controller
             $reservation->girl_therapist = $request->input('girl_therapist');
             $reservation->total_person = $request->input('total_person');
             $reservation->message = $request->input('message');
+            $reservation->date = $request->input('date');
+            $reservation->time = $request->input('time');
             $reservation->status = 'Pending';
             $reservation->save();
         }
