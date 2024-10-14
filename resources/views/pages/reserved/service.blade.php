@@ -18,7 +18,7 @@
                     @endif
                     <center><br>
                         <div class="portfolio-info">
-                        <h4>{{ $services->title }} ( ₱{{  $services->amount }} )</h4>
+                        <h4>{{ $services->title }} <br> ( ₱{{  $services->amount }} )</h4>
                         <p>{{ $services->description }}</p>
                         </div>
                     </center>
@@ -136,7 +136,7 @@
 
 
                         <div class="col-md-12">
-                          <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
+                          <textarea class="form-control" name="message" rows="6" placeholder="Message" ></textarea>
                         </div>
 
                         <div class="col-md-12 text-center">
@@ -157,86 +157,6 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const phoneInput = document.getElementById('phone');
-  const phonePattern = /^0\d{11}$/; // Matches a string that starts with '0' and followed by 11 digits (total 12 digits)
-
-  // Input event listener for real-time validation
-  phoneInput.addEventListener('input', function() {
-    // Remove non-numeric characters
-    this.value = this.value.replace(/[^\d]/g, '');
-    
-    // Check if the current value matches the phone number format
-    const value = phoneInput.value;
-    if (phonePattern.test(value)) {
-      phoneInput.classList.add('valid');
-      phoneInput.classList.remove('invalid');
-    } else {
-      phoneInput.classList.add('invalid');
-      phoneInput.classList.remove('valid');
-    }
-  });
-
-  const totalPersonInput = document.querySelector('input[name="total_person"]');
-  const boyTherapistInput = document.querySelector('input[name="boy_therapist"]');
-  const girlTherapistInput = document.querySelector('input[name="girl_therapist"]');
-
-  // Update boy and girl therapists based on total persons
-  totalPersonInput.addEventListener('input', function() {
-    const total = parseInt(this.value) || 0; // Get the total person input
-    // Calculate the values for boy and girl therapists
-    const boys = Math.floor(total / 2); // Half for boys
-    const girls = Math.ceil(total / 2);  // Half for girls (rounded up)
-
-    // Set the values in the inputs
-    boyTherapistInput.value = boys;
-    girlTherapistInput.value = girls;
-  });
-
-  // Adjust the number of girls based on boys input
-  boyTherapistInput.addEventListener('input', function() {
-    const total = parseInt(totalPersonInput.value) || 0;
-    const boys = parseInt(this.value) || 0; // Get current boys input
-    const girls = Math.max(0, total - boys); // Calculate girls as total - boys
-
-    // Check if the total exceeds the limit
-    if (boys + girls > total) {
-      boyTherapistInput.value = Math.floor(total / 2);
-      girlTherapistInput.value = Math.ceil(total / 2);
-    } else {
-      girlTherapistInput.value = girls; // Set the new girls value
-    }
-  });
-
-  // Adjust the number of boys based on girls input
-  girlTherapistInput.addEventListener('input', function() {
-    const total = parseInt(totalPersonInput.value) || 0;
-    const girls = parseInt(this.value) || 0; // Get current girls input
-    const boys = Math.max(0, total - girls); // Calculate boys as total - girls
-
-    // Check if the total exceeds the limit
-    if (boys + girls > total) {
-      boyTherapistInput.value = Math.floor(total / 2);
-      girlTherapistInput.value = Math.ceil(total / 2);
-    } else {
-      boyTherapistInput.value = boys; // Set the new boys value
-    }
-  });
-});
-
-  function toggleGroupFields() {
-      const selectType = document.querySelector('select[name="type"]');
-      const groupFields = document.getElementById('group');
-      const therapist_select = document.getElementById('therapist-select');
-      // Show or hide the group fields based on the selected value
-      if (selectType.value === 'group') {
-          groupFields.style.display = 'block'; // Show group fields
-          therapist_select.style.display = 'none'; // Hide group fields
-      } else {
-          groupFields.style.display = 'none'; // Hide group fields
-          therapist_select.style.display = 'block'; // Hide group fields
-      }
-  }
 
   $(document).on('submit', '#user', function(event) {
     event.preventDefault(); // Prevent the default form submission
@@ -286,5 +206,85 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
   });
+
+  $(document).ready(function() {
+  const $phoneInput = $('#phone');
+  const phonePattern = /^0\d{11}$/; // Matches a string that starts with '0' and followed by 11 digits (total 12 digits)
+
+  // Input event listener for real-time validation
+  $phoneInput.on('input', function() {
+    // Remove non-numeric characters
+    $(this).val($(this).val().replace(/[^\d]/g, ''));
+
+    // Check if the current value matches the phone number format
+    const value = $phoneInput.val();
+    if (phonePattern.test(value)) {
+      $phoneInput.addClass('valid').removeClass('invalid');
+    } else {
+      $phoneInput.addClass('invalid').removeClass('valid');
+    }
+  });
+
+  const $totalPersonInput = $('input[name="total_person"]');
+  const $boyTherapistInput = $('input[name="boy_therapist"]');
+  const $girlTherapistInput = $('input[name="girl_therapist"]');
+
+  // Update boy and girl therapists based on total persons
+  $totalPersonInput.on('input', function() {
+    const total = parseInt($(this).val()) || 0; // Get the total person input
+    // Calculate the values for boy and girl therapists
+    const boys = Math.floor(total / 2); // Half for boys
+    const girls = Math.ceil(total / 2);  // Half for girls (rounded up)
+
+    // Set the values in the inputs
+    $boyTherapistInput.val(boys);
+    $girlTherapistInput.val(girls);
+  });
+
+  // Adjust the number of girls based on boys input
+  $boyTherapistInput.on('input', function() {
+    const total = parseInt($totalPersonInput.val()) || 0;
+    const boys = parseInt($(this).val()) || 0; // Get current boys input
+    const girls = Math.max(0, total - boys); // Calculate girls as total - boys
+
+    // Check if the total exceeds the limit
+    if (boys + girls > total) {
+      $boyTherapistInput.val(Math.floor(total / 2));
+      $girlTherapistInput.val(Math.ceil(total / 2));
+    } else {
+      $girlTherapistInput.val(girls); // Set the new girls value
+    }
+  });
+
+  // Adjust the number of boys based on girls input
+  $girlTherapistInput.on('input', function() {
+    const total = parseInt($totalPersonInput.val()) || 0;
+    const girls = parseInt($(this).val()) || 0; // Get current girls input
+    const boys = Math.max(0, total - girls); // Calculate boys as total - girls
+
+    // Check if the total exceeds the limit
+    if (boys + girls > total) {
+      $boyTherapistInput.val(Math.floor(total / 2));
+      $girlTherapistInput.val(Math.ceil(total / 2));
+    } else {
+      $boyTherapistInput.val(boys); // Set the new boys value
+    }
+  });
+});
+
+
+  function toggleGroupFields() {
+      const selectType = document.querySelector('select[name="type"]');
+      const groupFields = document.getElementById('group');
+      const therapist_select = document.getElementById('therapist-select');
+      // Show or hide the group fields based on the selected value
+      if (selectType.value === 'group') {
+          groupFields.style.display = 'block'; // Show group fields
+          therapist_select.style.display = 'none'; // Hide group fields
+      } else {
+          groupFields.style.display = 'none'; // Hide group fields
+          therapist_select.style.display = 'block'; // Hide group fields
+      }
+  }
 
 </script>

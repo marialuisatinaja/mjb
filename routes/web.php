@@ -56,6 +56,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/delete', [ReservationController::class, 'destroy'])->name('delete');
         Route::put('/update_details/{id}', [ReservationController::class, 'updateDetails'])->name('update_details');
         Route::post('/details', [ReservationController::class, 'details'])->name('details');
+        Route::post('/edit_details', [ReservationController::class, 'edit_details'])->name('edit_details');
+        
     });
 
     Route::name('package.')->prefix('/package')->group(function () {

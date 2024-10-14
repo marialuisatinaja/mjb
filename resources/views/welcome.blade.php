@@ -363,28 +363,46 @@
 
 
     function get_details(id) {
-    $('#large_modal').modal('show');
-    $.ajax({
-        type: "POST",
-        url: '{{ route("service.package") }}', // Adjust the route
-        headers: {
-            'X-CSRF-TOKEN': csrfToken
-        },
-        data: {
-            id: id, // Your data
-        },
-        success: function(data) {
-            $(".body-details").show().html(data);
-            
-            // Add the following event to reset the steps when the modal is closed
-            $('#large_modal').on('hidden.bs.modal', function() {
-                resetSteps();
-            });
-        }
-    });
-}
+      $('#large_modal').modal('show');
+      $.ajax({
+          type: "POST",
+          url: '{{ route("service.package") }}', // Adjust the route
+          headers: {
+              'X-CSRF-TOKEN': csrfToken
+          },
+          data: {
+              id: id, // Your data
+          },
+          success: function(data) {
+              $(".body-details").show().html(data);
+              
+              // Add the following event to reset the steps when the modal is closed
+              $('#large_modal').on('hidden.bs.modal', function() {
+                  resetSteps();
+              });
+          }
+      });
+    }
 
 
+    function get_details1(id)
+      {
+
+        $('#large_modal').modal('show');
+        $.ajax({
+              type: "POST",
+              url: '{{ route("service.service") }}', // Adjust the route
+              headers: {
+                  'X-CSRF-TOKEN': csrfToken
+              },
+              data: {
+                  id: id, // Your data
+              },
+              success: function(data) {
+                  $(".body-details").show().html(data);
+              }
+          });
+      }
       
   </script>
 </body>

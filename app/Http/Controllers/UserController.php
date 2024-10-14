@@ -56,6 +56,7 @@ class UserController extends Controller
         $uer->password = $request->input('password');
         $uer->image = $imagePath; // Save the image path to the database
         $uer->address = $request->input('address');
+        $uer->status = 'Active';
         $uer->save();
     
         return response()->json([

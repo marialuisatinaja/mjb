@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('sales_details', function (Blueprint $table) {
             $table->id();
             $table->string('reservation_id')->nullable()->default(null);
+            $table->string('email')->nullable()->default(null);
             $table->string('therapist_id')->nullable()->default(null);
             $table->timestamps();
         });

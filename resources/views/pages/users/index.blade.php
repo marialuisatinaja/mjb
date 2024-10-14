@@ -62,7 +62,21 @@
                                     <td class="table-td">{{$user->email }}</td>
                                     <td class="table-td">{{$user->gender }}</td>
                                     <td class="table-td">{{$user->user_type }}</td>
-                                    <td class="table-td">{{$user->status }}</td>
+
+                                    <td class="table-td">
+
+                                        @if($user->status == 'Active')
+                                            <div class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 text-success-500
+                                                        bg-success-500">
+                                                        Active
+                                            </div>
+                                        @else
+                                            <div class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 text-warning-500 bg-warning-500">
+                                                Serving
+                                            </div>
+                                        @endif
+                                    </td>
+
                                     <td class="table-td">
                                         <div class="flex space-x-3 rtl:space-x-reverse">
                                         <a href="{{ route('user.edit', ['id' => $user->id]) }}" class="action-btn">

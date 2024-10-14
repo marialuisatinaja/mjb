@@ -66,10 +66,10 @@
                                         <div class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 text-warning-500 bg-warning-500">
                                             Pending
                                         </div>
-                                    @elseif($row->status == 'Paid')
+                                    @elseif($row->status == 'Serving')
                                     <div class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 text-success-500
                                                     bg-success-500">
-                                        paid
+                                                    Serving
                                       </div>
                                       @elseif($row->status == 'Resched')
                                     <div class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 text-warning-500
@@ -94,7 +94,7 @@
                                                 <iconify-icon icon="heroicons:calendar"></iconify-icon>
                                             </button>
 
-                                            <button class="action-btn" type="button" onclick="resched_action({{ $row->id }} , 'Serving')" title="Served" disabled>
+                                            <button class="action-btn" type="button"   onclick="edit_details({{ $row->id }}, '{{ $row->email }}', 'Paid')"  title="Served" >
                                                 <iconify-icon icon="heroicons:printer"></iconify-icon>
                                             </button>
 
@@ -259,10 +259,29 @@
         });
     }
 
-    function pay_service()
-    {
+    function edit_details(id, email, status) {
+    // Show the modal
+    $('#large_modal').modal('show');
 
-    }
+    // Make an AJAX request
+    $.ajax({
+        type: "POST",
+        url: '{{ route("reservation.edit_details") }}', // Adjust the route
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token from meta tag
+        },
+        data: {
+            id: id,         // Send the ID
+            status: status, // Send the status
+            email: email    // Send the email
+        },
+        success: function(data) {
+            // Update modal body with the response data
+            $(".body-details").show().html(data);
+        }
+    });
+}
+
 
     function cancel_service()
     {

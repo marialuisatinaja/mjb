@@ -65,7 +65,6 @@
                 <!-- profile info-500 -->
     </div>
 
-    @if($status == 'Serving')
     <div class="container mx-auto mt-2">
         <div class="bg-white shadow-md rounded-lg p-2">
             <div id="form-wizard">
@@ -144,57 +143,33 @@
                                     Preffered Man {{ $reservation->boy_therapist }}     &nbsp;&nbsp;&nbsp;  Preffered Woman {{ $reservation->girl_therapist }}
                                 </div>
                             </div>
-                            <h6 class="font-medium">Therapist Lists:</h6>
+                            <h6 class="font-medium">Serving Therapist :</h6>
                 
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-1">
+                            <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-1">
 
                                 <div class="input-area p-2">
                                     <table class="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700">
                                         <thead class="bg-slate-200 dark:bg-slate-700">
                                             <tr>
                                                 <th scope="col" class="table-th" style="width: 50%;">Name</th>
+                                                <th scope="col" class="table-th" style="width: 25%;">Email</th>
+                                                <th scope="col" class="table-th" style="width: 25%;">Phone</th>
                                                 <th scope="col" class="table-th" style="width: 25%;">Gender</th>
-                                                <th scope="col" class="table-th" style="width: 25%;">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
-                                        @foreach($user as $row)
+                                        @foreach($details as $row)
                                     <tr>
-                                            <td class="table-td">{{ ucwords($row->first_name . ' ' . $row->middle_name . ' ' . $row->last_name) }}</td>
-                                            <td class="table-td">{{ $row->gender }}</td>
-                                            <td class="table-td">
-                                                <div class="flex space-x-3 rtl:space-x-reverse">
-                                                    <button class="action-btn" type="button" 
-                                                        onclick="putServices('{{ $row->id }}', '{{ ucwords($row->first_name . ' ' . $row->middle_name . ' ' . $row->last_name) }}', '{{ $row->gender }}')" 
-                                                        title="Preview" 
-                                                        aria-label="Preview {{ ucwords($row->first_name . ' ' . $row->middle_name . ' ' . $row->last_name) }}">
-                                                        <iconify-icon icon="heroicons:eye"></iconify-icon>
-                                                    </button>
-                                                </div>
-                                            </td>
+                                            <td class="table-td">{{ ucwords($row->user->first_name . ' ' . $row->user->middle_name . ' ' . $row->user->last_name) }}</td>
+                                            <td class="table-td"style="text-transform: lowercase;">{{ $row->user->email }}</td>
+                                            <td class="table-td">{{ $row->user->phone }}</td>
+                                            <td class="table-td">{{ $row->user->gender }}</td>
+                                  
                                         </tr>
                                         @endforeach
                                         </tbody>
                                     </table>
                                 </div>
-
-                                <div class="input-area p-2">
-                                    
-                                <input type="hidden" name="service_ids[]" id="serviceIdsInput" value="">
-
-                                    <table class="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700" id="serviceTable">
-                                        <thead class="bg-slate-200 dark:bg-slate-700">
-                                            <tr>
-                                                <th scope="col" class="table-th" style="width: 50%;">Name</th>
-                                                <th scope="col" class="table-th" style="width: 25%;">Gender</th>
-                                                <th scope="col" class="table-th" style="width: 25%;">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
-                                        </tbody>
-                                    </table>
-                                </div>  
-
                         </div>
 
 
@@ -202,101 +177,15 @@
                         <div class="flex justify-between">
                             <button type="button" class="bg-gray-300 text-gray-700 p-2 rounded" id="prev-2">Previous</button>
                             <button type="button" class="btn inline-flex justify-center text-white bg-blue-500 hover:bg-blue-600" id="submit" style="float: right;">
-                                    Submit
-                                </button>
-
+                                    Paid
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    @else
-    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-1">
 
-         <input type="hidden" name="status"  value="{{ $status }}">
-        <div class="input-area p-2">
-            <label  class="form-label">First Name</label>
-            <input  name="first_name" type="text" value="{{ $reservation->first_name }}" class="form-control" placeholder="Enter First Name" disabled>
-        </div> 
-
-        <div class="input-area p-2"> 
-            <label  class="form-label">Middle Name</label>
-            <input  name="middle_name" type="text" value="{{ $reservation->middle_name }}" class="form-control" placeholder="Enter Middle Name" disabled>
-        </div>
-
-        <div class="input-area p-2"> 
-            <label  class="form-label">Last Name</label>
-            <input  name="type" type="text" value="{{ $reservation->last_name }}" class="form-control" placeholder="Enter Last Name" disabled>
-        </div>
-
-        
-        <div class="input-area p-2">
-            <label  class="form-label">Gender</label>
-            <select name="gender" class="form-control" disabled>
-                <option value="" disabled selected>Select Gender</option>
-                <option value="male" class="dark:bg-slate-700"  {{ $reservation->gender == 'male' ? 'selected' : '' }}>Male</option>
-                <option value="female" class="dark:bg-slate-700"  {{ $reservation->gender == 'female' ? 'selected' : '' }}>Female</option>
-            </select>
-
-        </div> 
-
-        <div class="input-area p-2"> 
-            <label  class="form-label">Email</label>
-            <input  name="email"  value="{{ $reservation->email }}" type="email" class="form-control" placeholder="Enter your Email" disabled>
-        </div>
-
-        <div class="input-area p-2"> 
-            <label  class="form-label">Phone</label>
-            <input type="text" id="phone" value="{{ $reservation->phone }}" class="form-control" name="phone" placeholder="09512348350" required maxlength="12" disabled>
-        </div>
-
-        @if($status == 'Resched')
-        <div class="input-area p-2"> 
-            <label  class="form-label">Date</label>
-            <input type="date" name="date" value="{{ $reservation->date }}"  class="form-control" placeholder="Your Date" required min="{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}">
-        </div>
-
-        <div class="input-area p-2"> 
-        <label  class="form-label">Select a time:</label>
-            <input type="time" id="time" name="time" value="{{ $reservation->time }}" class="form-control" min="09:00" max="18:00" required>
-        </div>
-        @else
-        <div class="input-area p-2"> 
-            <label  class="form-label">Date</label>
-            <input type="date" name="date" value="{{ $reservation->date }}"  class="form-control" placeholder="Your Date" required min="{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}" readonly>
-        </div>
-
-        <div class="input-area p-2"> 
-        <label  class="form-label">Select a time:</label>
-            <input type="time" id="time" name="time" value="{{ $reservation->time }}" class="form-control" min="09:00" max="18:00" required readonly>
-        </div>
-        @endif
-    </div>
-    @endif
-<br>
-
-@if($status == 'Resched')
-    <div class="flex items-center justify-end p-6 space-x-2 border-t border-slate-200 rounded-b dark:border-slate-600">
-        <button  class="btn inline-flex justify-center text-white bg-green-500 hover:bg-green-600">
-            Resched
-        </button>
-    </div>
-@elseif($status == 'Serving')
-    <!-- <div class="flex items-center justify-end p-6 space-x-2 border-t border-slate-200 rounded-b dark:border-slate-600">
-    <button type="button" class="bg-gray-300 text-gray-700 p-2 rounded" id="prev-2">Previous</button>
-        <button   id="next-1" class="btn inline-flex justify-center text-white bg-blue-500 hover:bg-blue-600">
-            Pay
-        </button>
-
-    </div> -->
-@else
-    <div class="flex items-center justify-end p-6 space-x-2 border-t border-slate-200 rounded-b dark:border-slate-600">
-        <button  class="btn inline-flex justify-center text-white bg-red-500 hover:bg-red-600">
-            Cancel
-        </button>
-    </div>
-@endif
 
 
 
