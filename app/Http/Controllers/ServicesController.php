@@ -108,8 +108,8 @@ class ServicesController extends Controller
             $imagePath = 'services/' . $fileName;
 
             // Optionally, delete the old image file if a new one is uploaded
-            if ($service->upload && file_exists(public_path($service->upload))) {
-                unlink(public_path($service->upload));
+            if ($services->upload && file_exists(public_path($services->upload))) {
+                unlink(public_path($services->upload));
             }
         }
 

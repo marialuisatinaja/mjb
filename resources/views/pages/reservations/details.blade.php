@@ -12,8 +12,13 @@
                     <div class="flex-none">
                     <div class="md:h-[186px] md:w-[186px] h-[140px] w-[140px] md:ml-0 md:mr-0 ml-auto mr-auto md:mb-0 mb-4 rounded-full ring-4
                             ring-slate-100 relative">
-                            
-                        <img src="http://mjb.test/assets/img/masonry-portfolio/masonry-portfolio-2.jpg" alt="" class="w-full h-full object-cover rounded-full">
+             
+                    @if($reservation->services->upload)
+
+                    <center><img src="{{ asset($reservation->services->upload) }}" alt="{{ $reservation->services->title }}" class="w-full h-full object-cover rounded-full"></center>
+                    @else
+                    <img src="http://mjb.test/assets/img/masonry-portfolio/masonry-portfolio-2.jpg" alt="" class="w-full h-full object-cover rounded-full">
+                    @endif
 
                     </div>
                     </div>
@@ -60,8 +65,153 @@
                 <!-- profile info-500 -->
     </div>
 
-    @if($status != 'Paid')
+    @if($status == 'Serving')
+    <div class="container mx-auto mt-2">
+        <div class="bg-white shadow-md rounded-lg p-2">
+            <div id="form-wizard">
+                <div class="step" id="step-1">
+                    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-1">
+                        <input type="hidden" name="status"  value="{{ $status }}">
+                        <div class="input-area p-2">
+                        <label  class="form-label">First Name</label>
+                        <input  name="first_name" type="text" value="{{ $reservation->first_name }}" class="form-control" placeholder="Enter First Name" disabled>
+                        </div> 
 
+                        <div class="input-area p-2"> 
+                        <label  class="form-label">Middle Name</label>
+                        <input  name="middle_name" type="text" value="{{ $reservation->middle_name }}" class="form-control" placeholder="Enter Middle Name" disabled>
+                        </div>
+
+                        <div class="input-area p-2"> 
+                        <label  class="form-label">Last Name</label>
+                        <input  name="type" type="text" value="{{ $reservation->last_name }}" class="form-control" placeholder="Enter Last Name" disabled>
+                        </div>
+
+
+                        <div class="input-area p-2">
+                        <label  class="form-label">Gender</label>
+                        <select name="gender" class="form-control" disabled>
+                            <option value="" disabled selected>Select Gender</option>
+                            <option value="male" class="dark:bg-slate-700"  {{ $reservation->gender == 'male' ? 'selected' : '' }}>Male</option>
+                            <option value="female" class="dark:bg-slate-700"  {{ $reservation->gender == 'female' ? 'selected' : '' }}>Female</option>
+                        </select>
+
+                        </div> 
+
+                        <div class="input-area p-2"> 
+                        <label  class="form-label">Email</label>
+                        <input  name="email"  value="{{ $reservation->email }}" type="email" class="form-control" placeholder="Enter your Email" disabled>
+                        </div>
+
+                        <div class="input-area p-2"> 
+                        <label  class="form-label">Phone</label>
+                        <input type="text" id="phone" value="{{ $reservation->phone }}" class="form-control" name="phone" placeholder="09512348350" required maxlength="12" disabled>
+                        </div>
+
+                        @if($status == 'Resched')
+                        <div class="input-area p-2"> 
+                        <label  class="form-label">Date</label>
+                        <input type="date" name="date" value="{{ $reservation->date }}"  class="form-control" placeholder="Your Date" required min="{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}">
+                        </div>
+
+                        <div class="input-area p-2"> 
+                        <label  class="form-label">Select a time:</label>
+                        <input type="time" id="time" name="time" value="{{ $reservation->time }}" class="form-control" min="09:00" max="18:00" required>
+                        </div>
+                        @else
+                        <div class="input-area p-2"> 
+                        <label  class="form-label">Date</label>
+                        <input type="date" name="date" value="{{ $reservation->date }}"  class="form-control" placeholder="Your Date" required min="{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}" readonly>
+                        </div>
+
+                        <div class="input-area p-2"> 
+                        <label  class="form-label">Select a time:</label>
+                        <input type="time" id="time" name="time" value="{{ $reservation->time }}" class="form-control" min="09:00" max="18:00" required readonly>
+                        </div>
+                        @endif
+                        </div>
+                        <div class="flex justify-between p-2">
+                            <button type="button" class="btn inline-flex justify-center text-white bg-blue-500 hover:bg-blue-600" id="next-1" style="float: right;">
+                                Served
+                            </button>
+                        </div>
+                </div>
+
+                    <div class="step hidden" id="step-2">
+                        <div class="mb-4">
+                            <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-1 mb-2">
+                                <div class="text-base text-slate-900 dark:text-slate-300 font-medium mb-1">
+                                    Preffered Man {{ $reservation->boy_therapist }}     &nbsp;&nbsp;&nbsp;  Preffered Woman {{ $reservation->girl_therapist }}
+                                </div>
+                            </div>
+                            <h6 class="font-medium">Therapist Lists:</h6>
+                
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-1">
+
+                                <div class="input-area p-2">
+                                    <table class="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700">
+                                        <thead class="bg-slate-200 dark:bg-slate-700">
+                                            <tr>
+                                                <th scope="col" class="table-th" style="width: 50%;">Name</th>
+                                                <th scope="col" class="table-th" style="width: 25%;">Gender</th>
+                                                <th scope="col" class="table-th" style="width: 25%;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
+                                        @foreach($user as $row)
+                                    <tr>
+                                            <td class="table-td">{{ ucwords($row->first_name . ' ' . $row->middle_name . ' ' . $row->last_name) }}</td>
+                                            <td class="table-td">{{ $row->gender }}</td>
+                                            <td class="table-td">
+                                                <div class="flex space-x-3 rtl:space-x-reverse">
+                                                    <button class="action-btn" type="button" 
+                                                        onclick="putServices('{{ $row->id }}', '{{ ucwords($row->first_name . ' ' . $row->middle_name . ' ' . $row->last_name) }}', '{{ $row->gender }}')" 
+                                                        title="Preview" 
+                                                        aria-label="Preview {{ ucwords($row->first_name . ' ' . $row->middle_name . ' ' . $row->last_name) }}">
+                                                        <iconify-icon icon="heroicons:eye"></iconify-icon>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="input-area p-2">
+                                    
+                                <input type="hidden" name="service_ids[]" id="serviceIdsInput" value="">
+
+                                    <table class="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700" id="serviceTable">
+                                        <thead class="bg-slate-200 dark:bg-slate-700">
+                                            <tr>
+                                                <th scope="col" class="table-th" style="width: 50%;">Name</th>
+                                                <th scope="col" class="table-th" style="width: 25%;">Gender</th>
+                                                <th scope="col" class="table-th" style="width: 25%;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
+                                        </tbody>
+                                    </table>
+                                </div>  
+
+                        </div>
+
+
+
+                        <div class="flex justify-between">
+                            <button type="button" class="bg-gray-300 text-gray-700 p-2 rounded" id="prev-2">Previous</button>
+                            <button type="button" class="btn inline-flex justify-center text-white bg-blue-500 hover:bg-blue-600" id="submit" style="float: right;">
+                                    Submit
+                                </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @else
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-1">
 
          <input type="hidden" name="status"  value="{{ $status }}">
@@ -123,104 +273,7 @@
         </div>
         @endif
     </div>
-    @else
-
-    <div class="container mx-auto mt-2">
-    <div class="bg-white shadow-md rounded-lg p-2">
-        <div id="form-wizard">
-            <div class="step" id="step-1">
-            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-1">
-                <input type="hidden" name="status"  value="{{ $status }}">
-                <div class="input-area p-2">
-                <label  class="form-label">First Name</label>
-                <input  name="first_name" type="text" value="{{ $reservation->first_name }}" class="form-control" placeholder="Enter First Name" disabled>
-                </div> 
-
-                <div class="input-area p-2"> 
-                <label  class="form-label">Middle Name</label>
-                <input  name="middle_name" type="text" value="{{ $reservation->middle_name }}" class="form-control" placeholder="Enter Middle Name" disabled>
-                </div>
-
-                <div class="input-area p-2"> 
-                <label  class="form-label">Last Name</label>
-                <input  name="type" type="text" value="{{ $reservation->last_name }}" class="form-control" placeholder="Enter Last Name" disabled>
-                </div>
-
-
-                <div class="input-area p-2">
-                <label  class="form-label">Gender</label>
-                <select name="gender" class="form-control" disabled>
-                    <option value="" disabled selected>Select Gender</option>
-                    <option value="male" class="dark:bg-slate-700"  {{ $reservation->gender == 'male' ? 'selected' : '' }}>Male</option>
-                    <option value="female" class="dark:bg-slate-700"  {{ $reservation->gender == 'female' ? 'selected' : '' }}>Female</option>
-                </select>
-
-                </div> 
-
-                <div class="input-area p-2"> 
-                <label  class="form-label">Email</label>
-                <input  name="email"  value="{{ $reservation->email }}" type="email" class="form-control" placeholder="Enter your Email" disabled>
-                </div>
-
-                <div class="input-area p-2"> 
-                <label  class="form-label">Phone</label>
-                <input type="text" id="phone" value="{{ $reservation->phone }}" class="form-control" name="phone" placeholder="09512348350" required maxlength="12" disabled>
-                </div>
-
-                @if($status == 'Resched')
-                <div class="input-area p-2"> 
-                <label  class="form-label">Date</label>
-                <input type="date" name="date" value="{{ $reservation->date }}"  class="form-control" placeholder="Your Date" required min="{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}">
-                </div>
-
-                <div class="input-area p-2"> 
-                <label  class="form-label">Select a time:</label>
-                <input type="time" id="time" name="time" value="{{ $reservation->time }}" class="form-control" min="09:00" max="18:00" required>
-                </div>
-                @else
-                <div class="input-area p-2"> 
-                <label  class="form-label">Date</label>
-                <input type="date" name="date" value="{{ $reservation->date }}"  class="form-control" placeholder="Your Date" required min="{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}" readonly>
-                </div>
-
-                <div class="input-area p-2"> 
-                <label  class="form-label">Select a time:</label>
-                <input type="time" id="time" name="time" value="{{ $reservation->time }}" class="form-control" min="09:00" max="18:00" required readonly>
-                </div>
-                @endif
-                </div>
-                <div class="flex justify-between p-2">
-                    <button type="button" class="btn inline-flex justify-center text-white bg-blue-500 hover:bg-blue-600" id="next-1" style="float: right;">
-                        Served
-                    </button>
-                </div>
-            </div>
-
-            <div class="step hidden" id="step-2">
-                <h3 class="text-lg font-semibold mb-4">Step 2: Review Information</h3>
-                <p class="mb-4">Please review your information before submitting.</p>
-                <div class="mb-4">
-                    <h4 class="font-medium">Your Details:</h4>
-                    <p id="review-name"></p>
-                    <p id="review-email"></p>
-                    <p id="review-address"></p>
-                    <p id="review-city"></p>
-                </div>
-                <div class="flex justify-between">
-                    <button type="button" class="bg-gray-300 text-gray-700 p-2 rounded" id="prev-2">Previous</button>
-                    <button type="button" class="btn inline-flex justify-center text-white bg-blue-500 hover:bg-blue-600" id="submit" style="float: right;">
-                            Next
-                        </button>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
     @endif
-</div>
 <br>
 
 @if($status == 'Resched')
@@ -229,7 +282,7 @@
             Resched
         </button>
     </div>
-@elseif($status == 'Paid')
+@elseif($status == 'Serving')
     <!-- <div class="flex items-center justify-end p-6 space-x-2 border-t border-slate-200 rounded-b dark:border-slate-600">
     <button type="button" class="bg-gray-300 text-gray-700 p-2 rounded" id="prev-2">Previous</button>
         <button   id="next-1" class="btn inline-flex justify-center text-white bg-blue-500 hover:bg-blue-600">
@@ -250,87 +303,164 @@
 </form>
 
 <script>
-    $(document).on('submit', '#services', function(event) {
-    event.preventDefault(); // Prevent the default form submission
 
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "Do you want change the status?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, change it!',
-        cancelButtonText: 'No, cancel!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            const formData = new FormData(this);
-            const csrfToken = $('meta[name="csrf-token"]').attr('content');
-            const serviceId = "{{ $reservation->id }}"; // Get the service id
 
-            $.ajax({
-                url: '{{ url("reservation/update_details") }}/' + serviceId, // Append the service id to the URL
-                method: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                success: function(response) {
-                    Swal.fire(
-                        'Submitted!',
-                        'Your form has been submitted.',
-                        'success'
-                    ).then(() => {
-                        window.location.reload();
-                    });
-                },
-                error: function(error) {
-                    Swal.fire(
-                        'Error!',
-                        'An error occurred while saving the status.',
-                        'error'
-                    );
-                    console.error(error);
-                }
-            });
-        }
-    });
+const maxServices = {{ $reservation->total_person }};
+let serviceIds = [];
+$(document).ready(function() {
 
-    
+    initializeSteps(); // Make sure steps are initialized when the page or modal content is loaded
 });
 
 
-const steps = document.querySelectorAll('.step');
-let currentStep = 0;
+function initializeSteps() {
+    const steps = document.querySelectorAll('.step');
+    let currentStep = 0;
 
-document.getElementById('next-1').onclick = function() {
-
-
-    steps[currentStep].classList.add('hidden');
-    currentStep++;
-    steps[currentStep].classList.remove('hidden');
-};
-
-document.getElementById('prev-2').onclick = function() {
-    steps[currentStep].classList.add('hidden');
-    currentStep--;
-    steps[currentStep].classList.remove('hidden');
-};
-
-document.getElementById('submit').onclick = function() {
-    // Gather data for submission
-    const formData = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        address: document.getElementById('address').value,
-        city: document.getElementById('city').value,
+    // Handle the next step button
+    document.getElementById('next-1').onclick = function() {
+        steps[currentStep].classList.add('hidden');
+        currentStep++;
+        steps[currentStep].classList.remove('hidden');
     };
 
-    // Display a success message
-    alert('Form submitted successfully!');
-};
+    // Handle the previous step button
+    document.getElementById('prev-2').onclick = function() {
+        steps[currentStep].classList.add('hidden');
+        currentStep--;
+        steps[currentStep].classList.remove('hidden');
+    };
+
+    // Submit button logic
+    document.getElementById('submit').onclick = function() {
+        if( $('#serviceIdsInput').val() == '')
+        {
+            Swal.fire(
+                'Error!',
+                'Therapist not be empty.',
+                'error'
+            );
+        }else{
+            Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you want change the status?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, change it!',
+            cancelButtonText: 'No, cancel!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const formData = new FormData(document.getElementById('services'));
+                    const csrfToken = $('meta[name="csrf-token"]').attr('content');
+                    const serviceId = "{{ $reservation->id }}"; // Get the service id
+
+                    $.ajax({
+                        url: '{{ url("reservation/update_details") }}/' + serviceId, // Append the service id to the URL
+                        method: 'POST',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        success: function(response) {
+                            Swal.fire(
+                                'Submitted!',
+                                'Your form has been submitted.',
+                                'success'
+                            ).then(() => {
+                                // window.location.reload();
+                            });
+                        },
+                        error: function(error) {
+                            Swal.fire(
+                                'Error!',
+                                'An error occurred while saving the status.',
+                                'error'
+                            );
+                            console.error(error);
+                        }
+                    });
+                }
+            });
+
+        }
+    };
+
+    // Function to reset the steps
+    function resetSteps() {
+        // Hide all steps
+        steps.forEach(step => step.classList.add('hidden'));
+        // Reset to the first step
+        currentStep = 0;
+        // Show the first step
+        steps[currentStep].classList.remove('hidden');
+    }
+
+    // Listen for modal close event to reset steps
+    $('#large_modal').on('hidden.bs.modal', function() {
+        resetSteps();
+        serviceIds = [];
+    });
+}
+
+// Array to store service IDs
+
+
+function putServices(serviceId, fullname, gender) {
+    // Get the second table's body
+    const tableBody = document.querySelector("#serviceTable tbody");
+
+    // Check if the maximum number of services has been reached
+    if (serviceIds.length >= maxServices) {
+        alert("You can only add up to as per total person.");
+        return; // Exit the function if limit is reached
+    }
+
+    // Check if the service ID already exists in the array
+    if (!serviceIds.includes(serviceId)) {
+        // Add the service ID to the array
+        serviceIds.push(serviceId);
+
+        // Create a new row
+        const newRow = document.createElement("tr");
+
+        // Populate the row with the service details and add a delete button
+        newRow.innerHTML = `
+            <td class="table-td">${fullname}</td>
+            <td class="table-td">${gender}</td>
+            <td class="table-td">
+                <button class="action-btn delete-btn" type="button" onclick="deleteRow(this.closest('tr'), '${serviceId}')">
+                    <iconify-icon icon="heroicons:trash"></iconify-icon>
+                </button>
+            </td>
+        `;
+
+        // Append the new row to the table body
+        tableBody.appendChild(newRow);
+
+        // Update the hidden input value with the array of service IDs
+        document.getElementById('serviceIdsInput').value = serviceIds.join(',');
+    } else {
+        // Optionally, you can show an alert or some message indicating the service ID is already added
+        alert(`Therapist is already added.`);
+    }
+}
+
+
+
+function deleteRow(row, serviceId) {
+    // Directly remove the row passed to the function
+    row.remove();
+
+    // Remove the service ID from the array
+    serviceIds = serviceIds.filter(id => id != serviceId);
+
+    // Update the hidden input value with the updated array of service IDs
+    document.getElementById('serviceIdsInput').value = serviceIds.join(',');
+}
 
 </script>
 

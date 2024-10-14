@@ -85,6 +85,25 @@
                                     @endif
 
                                     </td>
+
+                                    @if($row->status == 'Serving')
+                                    <td class="table-td">
+                                        <div class="flex space-x-3 rtl:space-x-reverse">
+
+                                            <button class="action-btn" type="button" onclick="resched_action({{ $row->id }}, 'Resched')" title="Resched" disabled>
+                                                <iconify-icon icon="heroicons:calendar"></iconify-icon>
+                                            </button>
+
+                                            <button class="action-btn" type="button" onclick="resched_action({{ $row->id }} , 'Serving')" title="Served" disabled>
+                                                <iconify-icon icon="heroicons:printer"></iconify-icon>
+                                            </button>
+
+                                            <button class="action-btn" type="button" onclick="resched_action({{ $row->id }}, 'Cancelled')" title="Cancelled" disabled>
+                                                <iconify-icon icon="heroicons:trash"></iconify-icon>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    @else
                                     <td class="table-td">
                                         <div class="flex space-x-3 rtl:space-x-reverse">
 
@@ -92,7 +111,7 @@
                                                 <iconify-icon icon="heroicons:calendar"></iconify-icon>
                                             </button>
 
-                                            <button class="action-btn" type="button" onclick="resched_action({{ $row->id }} , 'Paid')" title="Pay">
+                                            <button class="action-btn" type="button" onclick="resched_action({{ $row->id }} , 'Serving')" title="Pay">
                                                 <iconify-icon icon="heroicons:printer"></iconify-icon>
                                             </button>
 
@@ -101,6 +120,8 @@
                                             </button>
                                         </div>
                                     </td>
+                                    @endif
+
                                 </tr>
                                 @endforeach
                             </tbody>

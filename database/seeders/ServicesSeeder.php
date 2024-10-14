@@ -20,6 +20,7 @@ class ServicesSeeder extends Seeder
             'hours' => '1',
             'minutes' => '',
             'description' => 'Detoxify and unwind in our soothing sauna—embrace the warmth, relax your muscles, and let the stress melt away',
+            'upload' => 'services/sauna.jpg'
         ]);
 
         Services::firstOrCreate([
@@ -29,6 +30,7 @@ class ServicesSeeder extends Seeder
             'hours' => '1',
             'minutes' => '',
             'description' => 'Release tension and detoxify with a revitalizing Ventosa massage—experience the healing power of suction therapy for deep relaxation and balance',
+            'upload' => 'services/likod.jpg'
         ]);
 
         Services::firstOrCreate([

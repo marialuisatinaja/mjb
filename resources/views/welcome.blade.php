@@ -172,9 +172,9 @@
             <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-{{ $service->id }}">
 
                 @if($service->upload)
-                <center><img src="{{ asset($service->upload) }}" alt="{{ $service->title }}" class="img-fluid" style="height:300px;width:300px;"></center>
+                <center><img src="{{ asset($service->upload) }}" alt="{{ $service->title }}" class="img-fluid" style="height:250px;width:300px;"></center>
                 @else
-                <center><img src="assets/img/masonry-portfolio/masonry-portfolio-2.jpg" class="img-fluid" alt=""></center>
+                <center><img src="assets/img/masonry-portfolio/masonry-portfolio-2.jpg" class="img-fluid" alt=""  style="height:250px;width:300px;"></center>
                 @endif
 
     
@@ -258,7 +258,7 @@
                 @if($row->image)
                 <img src="{{ asset($row->image) }}" alt="{{ $row->first_name }}" class="img-fluid">
                 @else
-                <img src="assets/img/team/team-1.jpg" class="img-fluid" alt="">
+                <img src="assets/img/team/user.png" class="img-fluid" alt="" style="width: 100%;">
                 @endif
     
               </div>
@@ -293,6 +293,7 @@
         </div>
     </div>
 </div>
+
   </main>
 
   <footer id="footer" class="footer dark-background">
@@ -338,7 +339,8 @@
   </script>
   <script>
 
-    
+
+
     function get_details(id)
     {
 
@@ -359,25 +361,31 @@
     }
 
 
-       function get_details1(id)
-      {
 
-        $('#large_modal').modal('show');
-        $.ajax({
-              type: "POST",
-              url: '{{ route("service.service") }}', // Adjust the route
-              headers: {
-                  'X-CSRF-TOKEN': csrfToken
-              },
-              data: {
-                  id: id, // Your data
-              },
-              success: function(data) {
-                  $(".body-details").show().html(data);
-              }
-          });
-      }
+    function get_details(id) {
+    $('#large_modal').modal('show');
+    $.ajax({
+        type: "POST",
+        url: '{{ route("service.package") }}', // Adjust the route
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
+        },
+        data: {
+            id: id, // Your data
+        },
+        success: function(data) {
+            $(".body-details").show().html(data);
+            
+            // Add the following event to reset the steps when the modal is closed
+            $('#large_modal').on('hidden.bs.modal', function() {
+                resetSteps();
+            });
+        }
+    });
+}
 
+
+      
   </script>
 </body>
 

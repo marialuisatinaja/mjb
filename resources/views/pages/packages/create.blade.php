@@ -237,42 +237,42 @@ $(document).on('submit', '#services', function(event) { // Replace '#yourFormId'
     let serviceIds = [];
 
     function putServices(serviceId, title, amount, duration) {
-    // Get the second table's body
-    const tableBody = document.querySelector("#serviceTable tbody");
+        // Get the second table's body
+        const tableBody = document.querySelector("#serviceTable tbody");
 
-    // Always add the service ID to the array, allowing duplicates
-    serviceIds.push(serviceId);
+        // Always add the service ID to the array, allowing duplicates
+        serviceIds.push(serviceId);
 
-    // Create a new row
-    const newRow = document.createElement("tr");
+        // Create a new row
+        const newRow = document.createElement("tr");
 
-    // Populate the row with the service details and add a delete button
-    newRow.innerHTML = `
-        <td class="table-td">${title}</td>
-        <td class="table-td">${amount}</td>
-        <td class="table-td">${duration}</td>
-        <td class="table-td">
-            <button class="action-btn delete-btn" type="button" onclick="deleteRow(this.closest('tr'), '${serviceId}')">
-                <iconify-icon icon="heroicons:trash"></iconify-icon>
-            </button>
-        </td>
-    `;
+        // Populate the row with the service details and add a delete button
+        newRow.innerHTML = `
+            <td class="table-td">${title}</td>
+            <td class="table-td">${amount}</td>
+            <td class="table-td">${duration}</td>
+            <td class="table-td">
+                <button class="action-btn delete-btn" type="button" onclick="deleteRow(this.closest('tr'), '${serviceId}')">
+                    <iconify-icon icon="heroicons:trash"></iconify-icon>
+                </button>
+            </td>
+        `;
 
-    // Append the new row to the table body
-    tableBody.appendChild(newRow);
+        // Append the new row to the table body
+        tableBody.appendChild(newRow);
 
-    // Update the hidden input value with the array of service IDs
-    document.getElementById('serviceIdsInput').value = serviceIds.join(',');
-}
+        // Update the hidden input value with the array of service IDs
+        document.getElementById('serviceIdsInput').value = serviceIds.join(',');
+    }
 
     function deleteRow(row, serviceId) {
-    // Directly remove the row passed to the function
-    row.remove();
+        // Directly remove the row passed to the function
+        row.remove();
 
-    // Remove the service ID from the array
-    serviceIds = serviceIds.filter(id => id != serviceId);
+        // Remove the service ID from the array
+        serviceIds = serviceIds.filter(id => id != serviceId);
 
-    // Update the hidden input value with the updated array of service IDs
-    document.getElementById('serviceIdsInput').value = serviceIds.join(',');
-}
+        // Update the hidden input value with the updated array of service IDs
+        document.getElementById('serviceIdsInput').value = serviceIds.join(',');
+    }
 </script>

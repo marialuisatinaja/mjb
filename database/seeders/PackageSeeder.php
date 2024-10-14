@@ -15,7 +15,7 @@ class PackageSeeder extends Seeder
     {
         Package::firstOrCreate([
             'name' => 'Sauna + Ventosa',
-            'amount' => '₱ 1,099',
+            'amount' => '1099',
             'persons'=> '1',
             'hours'=> '1',
             'description' => 'Release tension and detoxify with a revitalizing Ventosa massage—experience the healing power of suction therapy for deep relaxation and balance',
