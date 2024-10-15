@@ -49,6 +49,7 @@
               </a>
           </li>
 
+          @if(Auth::user()->user_type == 'Admin')
           <li>
               <a href="{{ route('service.index') }}" class="navItem {{ request()->routeIs('service.index') ? 'active' : '' }}">
                   <span class="flex items-center">
@@ -66,7 +67,7 @@
                   </span>
               </a>
           </li>
-
+ 
           <li>
               <a href="{{ route('sale.index') }}" class="navItem {{ request()->routeIs('sale.index') ? 'active' : '' }}">
                   <span class="flex items-center">
@@ -90,6 +91,7 @@
               </li>
             </ul>
           </li>
+          @endif
         </ul>
       </div>
     </div>

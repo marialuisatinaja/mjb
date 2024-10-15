@@ -74,6 +74,7 @@ Route::middleware('auth')->group(function () {
 
     Route::name('point.')->prefix('/point')->group(function () {
         Route::get('/', [PontSalesController::class, 'index'])->name('index');
+        Route::get('create', [PontSalesController::class, 'create'])->name('create');
     });
 
     Route::name('sale.')->prefix('/sale')->group(function () {
