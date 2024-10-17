@@ -75,6 +75,8 @@ Route::middleware('auth')->group(function () {
     Route::name('point.')->prefix('/point')->group(function () {
         Route::get('/', [PontSalesController::class, 'index'])->name('index');
         Route::get('create', [PontSalesController::class, 'create'])->name('create');
+        Route::post('details', [PontSalesController::class, 'details'])->name('details');
+        Route::post('store', [PontSalesController::class, 'store'])->name('store');
     });
 
     Route::name('sale.')->prefix('/sale')->group(function () {

@@ -147,7 +147,6 @@
                             <h6 class="font-medium">Therapist Lists:</h6>
                 
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-1">
-
                                 <div class="input-area p-2">
                                     <table class="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700">
                                         <thead class="bg-slate-200 dark:bg-slate-700">
@@ -181,6 +180,7 @@
                                 <div class="input-area p-2">
                                     
                                 <input type="hidden" name="service_ids[]" id="serviceIdsInput" value="">
+                                <input type="hidden" name="offers"  value="reservations">
 
                                     <table class="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700" id="serviceTable">
                                         <thead class="bg-slate-200 dark:bg-slate-700">
@@ -194,8 +194,7 @@
                                         </tbody>
                                     </table>
                                 </div>  
-
-                        </div>
+                            </div>
 
 
 

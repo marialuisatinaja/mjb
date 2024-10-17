@@ -28,6 +28,8 @@ class Reservation extends Model
         'time',
         'message',
         'status',
+        'type',
+        'offers'
     ];
 
 

@@ -89,7 +89,7 @@
               <input type="time" id="time" name="time" class="form-control" min="09:00" max="18:00" required>
               </div>
 
-
+              <input type="hidden" name="offers"  value="reservations">
 
 
               <div class="col-md-12">
