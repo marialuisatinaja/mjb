@@ -59,6 +59,7 @@
                               <label for="select" class="form-label">User Type</label>
                               <select id="select" class="form-control"  name="user_type">
                                 <option value="" class="dark:bg-slate-700">Please Select User Type</option>
+                                <option value="Customer" class="dark:bg-slate-700"  {{ $users->user_type == 'Customer' ? 'selected' : '' }}>Customer</option>
                                 <option value="Therapist" class="dark:bg-slate-700"  {{ $users->user_type == 'Therapist' ? 'selected' : '' }}>Therapist</option>
                                 <option value="Receptionist" class="dark:bg-slate-700" {{ $users->user_type == 'Receptionist' ? 'selected' : '' }}>Receptionist</option>
                                 <option value="Admin" class="dark:bg-slate-700" {{ $users->user_type == 'Admin' ? 'selected' : '' }}>Admin</option>

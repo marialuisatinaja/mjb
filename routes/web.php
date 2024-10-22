@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\PontSalesController;
 use App\Http\Controllers\ProfileController;
@@ -9,6 +10,8 @@ use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\UserController;
 use App\Models\Package;
 use App\Models\PackageServices;
+use App\Models\Reservation;
+use App\Models\SalesDetails;
 use App\Models\Services;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -22,7 +25,59 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+     $walkinsCount = 0;
+     $reservations = '';
+     $reservationsCount = 0;
+     $walkinsCount = 0;
+     $walkinsData = '';
+     $userCount = 0;
+    if(auth()->user()->user_type == 'Customer')
+    {
+        $walkinQuery = Reservation::with('services', 'package')
+        ->where('email', auth()->user()->email)
+        ->where('offers_type', '<>', 'walkin')
+        ->where(function ($query) {
+            $query->where('status', 'Pending')
+                  ->orWhere('status', 'Serving');
+        });
+        $reservationsCount = $walkinQuery->count();
+        $reservations = $walkinQuery->get();
+
+        $reservationQuery = Reservation::with('services', 'package')
+        ->where('email', auth()->user()->email)
+        ->where('offers_type', 'walkin')
+        ->where(function ($query) {
+            $query->where('status', 'Pending')
+                  ->orWhere('status', 'Serving');
+        });
+        $walkinsCount = $reservationQuery->count();
+        $walkinsData = $reservationQuery->get();
+
+    }
+    else
+    {
+        $walkinQuery = Reservation::with('services', 'package')
+        ->where('offers_type', '<>', 'walkin')
+        ->where(function ($query) {
+            $query->where('status', 'Pending')
+                  ->orWhere('status', 'Serving');
+        });
+        $reservationsCount = $walkinQuery->count();
+        $reservations = $walkinQuery->get();
+
+        $reservationQuery = Reservation::with('services', 'package')
+        ->where('offers_type', 'walkin')
+        ->where(function ($query) {
+            $query->where('status', 'Pending')
+                  ->orWhere('status', 'Serving');
+        });
+        $walkinsCount = $reservationQuery->count();
+        $walkinsData = $reservationQuery->get();
+
+        $userQuery = User::where('user_type','Customer'); // Missing semicolon here
+        $userCount = $userQuery->count();
+    }
+    return view('dashboard',compact('reservations','reservationsCount','walkinsCount','walkinsData','userCount'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::name('service.')->prefix('/service')->group(function () {
@@ -31,8 +86,6 @@ Route::name('service.')->prefix('/service')->group(function () {
     Route::post('service', [ServicesController::class, 'service'])->name('service');
     Route::post('package', [PackageController::class, 'package'])->name('package');
 });
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -57,7 +110,8 @@ Route::middleware('auth')->group(function () {
         Route::put('/update_details/{id}', [ReservationController::class, 'updateDetails'])->name('update_details');
         Route::post('/details', [ReservationController::class, 'details'])->name('details');
         Route::post('/edit_details', [ReservationController::class, 'edit_details'])->name('edit_details');
-        
+        Route::post('/delete_reservation', [ReservationController::class, 'deleteReservation'])->name('delete_reservation');
+        Route::post('/notification', [ReservationController::class, 'notification'])->name('notification');
     });
 
     Route::name('package.')->prefix('/package')->group(function () {
@@ -77,6 +131,7 @@ Route::middleware('auth')->group(function () {
         Route::get('create', [PontSalesController::class, 'create'])->name('create');
         Route::post('details', [PontSalesController::class, 'details'])->name('details');
         Route::post('store', [PontSalesController::class, 'store'])->name('store');
+        Route::post('package', [PontSalesController::class, 'package'])->name('package');
     });
 
     Route::name('sale.')->prefix('/sale')->group(function () {
@@ -96,6 +151,18 @@ Route::middleware('auth')->group(function () {
         Route::put('/update/{user}', [UserController::class, 'update'])->name('update');
         Route::post('/delete', [UserController::class, 'destroy'])->name('delete');
     });
+
+    Route::name('certificate.')->prefix('/certificate')->group(function () {
+        Route::get('/', [CertificateController::class, 'index'])->name('index');
+        Route::get('create', [CertificateController::class, 'create'])->name('create');
+        Route::post('store', [CertificateController::class, 'store'])->name('store');
+        Route::post('/delete', [CertificateController::class, 'destroy'])->name('delete');
+    });
+
+    Route::get('/print/pdfrequest', [SalesController::class, 'printPdfRequest'])->name('print.pdf.request');
+    Route::get('/print/pdfcertificate/{id}', [CertificateController::class, 'printPdfCertificate'])->name('print.pdf.certificate');
+    
+
 });
 
 require __DIR__.'/auth.php';

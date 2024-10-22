@@ -13,18 +13,34 @@
                     <div class="md:h-[186px] md:w-[186px] h-[140px] w-[140px] md:ml-0 md:mr-0 ml-auto mr-auto md:mb-0 mb-4 rounded-full ring-4
                             ring-slate-100 relative">
              
-                    @if($reservation->services->upload)
 
-                   <img src="{{ asset($reservation->services->upload) }}" alt="{{ $reservation->services->title }}" class="w-full h-full object-cover rounded-full">
+                    @if($reservation->service_type == 'services')
+                        @if($reservation->services->upload)
+                        <img src="{{ asset($reservation->services->upload) }}" alt="{{ $reservation->services->title }}" class="w-full h-full object-cover rounded-full">
+                        @else
+                        <img src="http://mjb.test/assets/img/masonry-portfolio/masonry-portfolio-2.jpg" alt="" class="w-full h-full object-cover rounded-full">
+                        @endif
                     @else
-                    <img src="http://mjb.test/assets/img/masonry-portfolio/masonry-portfolio-2.jpg" alt="" class="w-full h-full object-cover rounded-full">
+                    @if($reservation->package->upload)
+                        <img src="{{ asset($reservation->package->upload) }}" alt="{{ $reservation->package->title }}" class="w-full h-full object-cover rounded-full">
+                        @else
+                        <img src="http://mjb.test/assets/img/masonry-portfolio/masonry-portfolio-2.jpg" alt="" class="w-full h-full object-cover rounded-full">
+                        @endif
                     @endif
+
+             
+
+
 
                     </div>
                     </div>
                     <div class="flex-1">
                     <div class="text-2xl font-medium text-slate-900 dark:text-slate-200 mb-[3px]">
-                        {{ $reservation->services->title }}
+                        @if($reservation->service_type == 'services')
+                            {{ $reservation->services->title }}
+                        @else
+                            {{ $reservation->package->name }}
+                        @endif
                     </div>
                     <div class="text-sm font-light text-slate-600 dark:text-slate-400">
                         Services Offer
@@ -36,7 +52,13 @@
                 <div class="profile-info-500 md:flex md:text-start text-center flex-1 max-w-[516px] md:space-y-0 space-y-4">
                 <div class="flex-1">
                     <div class="text-base text-slate-900 dark:text-slate-300 font-medium mb-1">
-                    ₱ {{ $reservation->services->amount }}
+
+                        @if($reservation->service_type == 'services')
+                        ₱ {{ $reservation->services->amount }}
+                        @else
+                        ₱ {{ $reservation->package->amount }}
+                        @endif
+
                     </div>
                     <div class="text-sm text-slate-600 font-light dark:text-slate-300">
                     Services Ammount
@@ -45,7 +67,14 @@
                 <!-- end single -->
                 <div class="flex-1">
                     <div class="text-base text-slate-900 dark:text-slate-300 font-medium mb-1">
-                        {{ $reservation->total_person }}
+                        
+                        @if($reservation->service_type == 'services')
+                            {{ $reservation->total_person }}
+                        @else
+                            {{ $reservation->package->persons }}
+                        @endif
+
+               
                     </div>
                     <div class="text-sm text-slate-600 font-light dark:text-slate-300">
                         No. of Persons
@@ -54,7 +83,13 @@
                 <!-- end single -->
                 <div class="flex-1">
                     <div class="text-base text-slate-900 dark:text-slate-300 font-medium mb-1">
-                    ₱ {{ number_format((@$reservation->services->amount * $reservation->total_person), 2, '.', ',') }}
+                        @if($reservation->service_type == 'services')
+                        ₱ {{ number_format((@$reservation->services->amount * $reservation->total_person), 2, '.', ',') }}
+                        @else
+                        ₱ {{ number_format((@$reservation->package->amount ), 2, '.', ',') }}
+                        @endif
+
+                    
                     </div>
                     <div class="text-sm text-slate-600 font-light dark:text-slate-300">
                         Total Payment
@@ -174,12 +209,19 @@
 
 
 
+                        @if($reservation->status == 'Paid')
+
+                        @else
                         <div class="flex justify-between">
                             <button type="button" class="bg-gray-300 text-gray-700 p-2 rounded" id="prev-2">Previous</button>
                             <button type="button" class="btn inline-flex justify-center text-white bg-blue-500 hover:bg-blue-600" id="submit" style="float: right;">
                                     Paid
                             </button>
                         </div>
+                        @endif
+              
+
+                        
                     </div>
                 </div>
             </div>

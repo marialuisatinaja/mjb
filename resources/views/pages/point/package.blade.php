@@ -19,7 +19,7 @@
                     </div>
                     <div class="flex-1">
                         <div class="text-2xl font-medium text-slate-900 dark:text-slate-200 mb-[3px]">
-                        {{ $services->title }}
+                        {{ $services->name }}
                         </div>
                         <div class="text-sm font-light text-slate-600 dark:text-slate-400">
                             Services Offer
@@ -83,23 +83,6 @@
                     </div>
                 </div>
 
-                <div id="self" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-1">
-                        <div class="input-area p-2">
-                            <small>Select Type</small>
-                            <select name="type" class="form-control" required onchange="toggleGroupFields()">
-                                <option value="self" selected>Self</option>
-                                <option value="group">Group</option>
-                            </select>
-                        </div>
-                        <div id="therapist-select" class="input-area p-2">
-                            <small>Preffered Therapist</small>
-                            <select name="therapist_gender" class="form-control">
-                                <option value="" disabled selected>Preffered Therapist</option>
-                                <option value="girl">Girl</option>
-                                <option value="boy">Boy</option>
-                            </select>
-                        </div>
-                </div>
 
                 <div class="flex justify-between p-2">
                     <button type="button" class="btn inline-flex justify-center text-white bg-blue-500 hover:bg-blue-600" id="next-1" style="float: right;">
@@ -109,20 +92,6 @@
 
                 <div class="step hidden" id="step-2">
 
-                    <div id="group" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-1" style="display: none;">
-                        <div class="input-area p-2">
-                            <label class="form-label">Total Person</label>
-                            <input name="total_person" id="total_person" type="number" class="form-control" placeholder="Total Person">
-                        </div> 
-                        <div class="input-area p-2"> 
-                            <label class="form-label">Boy Therapist</label>
-                            <input name="boy_therapist" type="number" class="form-control" placeholder="Enter Boy Therapist">
-                        </div>
-                        <div class="input-area p-2"> 
-                            <label class="form-label">Girl Therapist</label>
-                            <input name="girl_therapist" type="text" class="form-control" placeholder="Enter Girl Therapist">
-                        </div>
-                    </div>
                     <h6 class="font-medium">Therapist Lists:</h6>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-1">
                         <div class="input-area p-2">
@@ -157,7 +126,9 @@
                         <div class="input-area p-2">
                             <input type="hidden" name="service_ids[]" id="serviceIdsInput" value="">
                             <input type="hidden" name="id_service"  value="{{ $services->id }}">
-                            <input type="hidden" name="service_type"  value="package">
+                            <input type="hidden" name="service_type"  value="services">
+                            <input type="hidden" name="total_person"  value="{{ $services->persons }}">
+                            
                             <table class="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700" id="serviceTable">
                                 <thead class="bg-slate-200 dark:bg-slate-700">
                                     <tr>
@@ -194,7 +165,7 @@
     $(document).ready(function() {
 
         let serviceIds = [];
-        let maxServices = 1;
+        let maxServices = {{ $services->persons }}; // Declare maxServices inside the ready function
 
         $('select[name="type"]').on('change', function() {
             var selectedValue = $(this).val(); // Get the value of the selected option
@@ -273,13 +244,11 @@
             // Submit button logic
             document.getElementById('submit').onclick = function() {
                 const firstName = $('#first_name').val();
-                const total_person = $('#total_person').val();
                 const lastName = $('#last_name').val();
-                const selectedType = $('select[name="type"]').val(); 
-                
-                if(selectedType == 'group'){
+                const email = $('#email').val();
+                const phone = $('#phone').val();
 
-                    if (!firstName || !lastName || !selectedType || !total_person ) {
+                    if (!firstName || !lastName || !email || !phone) {
                         Swal.fire(
                             'Error!',
                             'Complete all the details',
@@ -331,64 +300,7 @@
                             }
                         });
                     }
-                    
-                }else{
-
-                    if (!firstName || !lastName || !selectedType ) {
-                        Swal.fire(
-                            'Error!',
-                            'Complete all the details',
-                            'error'
-                        );
-                    } else {
-                    Swal.fire({
-                            title: 'Are you sure?',
-                            text: "Do you want to change the status?",
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Yes, change it!',
-                            cancelButtonText: 'No, cancel!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                const formData = new FormData(document.getElementById('services'));
-                                const csrfToken = $('meta[name="csrf-token"]').attr('content');
-                                const serviceId = "{{ $services->id }}"; // Get the service id
-
-                                $.ajax({
-                                    url: '{{ url("point/store") }}', 
-                                    method: 'POST',
-                                    data: formData,serviceId,
-                                    contentType: false,
-                                    processData: false,
-                                    headers: {
-                                        'X-CSRF-TOKEN': csrfToken
-                                    },
-                                    success: function(response) {
-                                        Swal.fire(
-                                            'Submitted!',
-                                            'Your form has been submitted.',
-                                            'success'
-                                        ).then(() => {
-                                            window.location.reload();
-                                        });
-                                    },
-                                    error: function(error) {
-                                        Swal.fire(
-                                            'Error!',
-                                            'An error occurred while saving the status.',
-                                            'error'
-                                        );
-                                        console.error(error);
-                                    }
-                                });
-                            }
-                        });
-                    }
-
-                }
-
+     
            
 
 

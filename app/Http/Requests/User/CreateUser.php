@@ -26,7 +26,7 @@ class CreateUser extends FormRequest
             'last_name' => 'required|string|max:255',
             'gender' => 'nullable|string|in:Male,Female',
             'birth_date' => 'required|string|max:255',
-            'user_type' => 'required|string|in:Admin,Therapist,Receptionist',
+            'user_type' => 'required|string|in:Admin,Therapist,Receptionist,Customer',
             'phone' => ['required', 'string', 'max:255'],
             'email' => ['sometimes', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required',  Rules\Password::defaults()],

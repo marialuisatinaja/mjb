@@ -56,6 +56,7 @@
                             <div class="input-area">
                               <label for="select" class="form-label">User Type</label>
                               <select id="select" class="form-control"  name="user_type">
+                                <option value="Customer" class="dark:bg-slate-700">Customer</option>
                                 <option value="Therapist" class="dark:bg-slate-700">Therapist</option>
                                 <option value="Receptionist" class="dark:bg-slate-700">Receptionist</option>
                                 <option value="Admin" class="dark:bg-slate-700">Admin</option>
@@ -155,5 +156,4 @@ $(document).on('submit', '#user', function(event) { // Replace '#yourFormId' wit
         }
     });
 });
-
 </script>

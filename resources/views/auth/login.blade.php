@@ -80,7 +80,7 @@
 
           <div class="mx-auto font-normal text-slate-500 dark:text-slate-400 2xl:mt-12 mt-6 uppercase text-sm text-center">
             Already registered?
-            <a href="signup-one.html" class="text-slate-900 dark:text-white font-medium hover:underline">
+            <a href="{{ route('register') }}" class="text-slate-900 dark:text-white font-medium hover:underline">
             Sign up
             </a>
           </div>

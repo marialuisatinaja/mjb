@@ -10,19 +10,56 @@ use Illuminate\Http\Request;
 
 class ReservationController extends Controller
 {
+    public function notification()
+    {
+        $walkinQuery = Reservation::with('services', 'package')
+        ->where('status', 'Pending')
+        ->where('offers_type', 'reservations');
+
+    $reservationsCount = $walkinQuery->count();
+    $reservations = $walkinQuery->get();
+
+    return response()->json([
+        'count' => $reservationsCount,
+        'data' => $reservations
+    ]);
+    }
+
     public function index()
     {
-        $reservations  = Reservation::with('services')->where('status','Pending')->orwhere('status','Serving')->get();
-        return view('pages.reservations.index',compact('reservations'));
+        if(auth()->user()->user_type == 'Customer')
+        {
+            $reservations = Reservation::with('services','package')
+            ->where('email',auth()->user()->email)->get();
+            return view('pages.reservations.index', compact('reservations'));
+        }else{
+            $reservations = Reservation::with('services','package')
+            ->where('offers_type', '<>', 'walkin')
+            ->where(function ($query) {
+                $query->where('status', 'Pending')
+                      ->orWhere('status', 'Serving');
+            })
+            ->get();
+            return view('pages.reservations.index', compact('reservations'));
+        }
+     
     } 
 
     public function details(Request $request)
     {
         $id = $request->input('id');
         $status = $request->input('status');
-        $reservation  = Reservation::with('services')->where('id', $id)->first(); 
+        $reservation  = Reservation::with('services','package')->where('id', $id)->first(); 
         $user = User::where('user_type','Therapist')->where('status','Active')->get();
         return view('pages.reservations.details',compact('reservation','status','user'));
+    }
+
+    public function deleteReservation(Request $request)
+    {
+        $id = $request->input('id');
+        $service = Reservation::find($id);
+        $service->delete();
+        return back()->with('success', 'Service successfully deleted');
     }
 
     public function edit_details(Request $request)
@@ -30,7 +67,7 @@ class ReservationController extends Controller
         $id = $request->input('id');
         $status = $request->input('status');
         $email = $request->input('email');
-        $reservation  = Reservation::with('services')->where('id', $id)->first(); 
+        $reservation  = Reservation::with('services','package')->where('id', $id)->first(); 
         $details = SalesDetails::with('user')
         ->where('reservation_id', $id)
         ->where('email', $email)

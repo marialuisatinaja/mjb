@@ -29,7 +29,8 @@ class Reservation extends Model
         'message',
         'status',
         'type',
-        'offers'
+        'offers',
+        'offers_type',
     ];
 
 
@@ -38,4 +39,8 @@ class Reservation extends Model
         return $this->belongsTo(Services::class, 'service_id', 'id');
     }
 
+    public function package(): BelongsTo
+    {
+        return $this->belongsTo(Package::class, 'service_id', 'id');
+    }
 }

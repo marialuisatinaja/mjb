@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('time')->nullable()->default(null);
             $table->string('message')->nullable()->default(null);
             $table->string('status')->nullable()->default(null);
+            $table->string('offers_type')->nullable()->default(null);
             $table->timestamps();
         });
     }

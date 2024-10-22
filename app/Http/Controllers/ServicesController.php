@@ -168,6 +168,8 @@ class ServicesController extends Controller
             $reservation->date = $request->input('date');
             $reservation->time = $request->input('time');
             $reservation->status = 'Pending';
+            $reservation->offers_type = 'reservations';
+            
             $reservation->save();
         }else{
             // Check if reservation is for 'self'
@@ -190,6 +192,7 @@ class ServicesController extends Controller
                 $reservation->date = $request->input('date');
                 $reservation->time = $request->input('time');
                 $reservation->status = 'Pending';
+                $reservation->offers_type = 'reservations';
                 $reservation->save();
             } else {
                 $reservation = new Reservation();
@@ -210,6 +213,7 @@ class ServicesController extends Controller
                 $reservation->date = $request->input('date');
                 $reservation->time = $request->input('time');
                 $reservation->status = 'Pending';
+                $reservation->offers_type = 'reservations';
                 $reservation->save();
             }
         }

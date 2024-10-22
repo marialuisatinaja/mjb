@@ -129,7 +129,8 @@
 
                         <div class="col-md-6">
                         <label for="time">Select a time (between 09:00 and 18:00):</label>
-                        <input type="time" id="time" name="time" class="form-control" min="09:00" max="18:00" required>
+                        <input type="time" id="time" name="time" class="form-control" required>
+                        <!-- <input type="time" id="time" name="time" class="form-control" min="09:00" max="18:00" required> -->
                         </div>
 
 
@@ -186,7 +187,7 @@
                       success: function(response) {
                           Swal.fire(
                               'Submitted!',
-                              'Your form has been submitted.',
+                              'Your reservation has been submitted please wait check your  email for confirmation.',
                               'success'
                           ).then(() => {
                             window.location.reload();
@@ -195,7 +196,7 @@
                       error: function(error) {
                           Swal.fire(
                               'Error!',
-                              'An error occurred while saving the services.',
+                              'An error occurred while saving the reservation.',
                               'error'
                           );
                           console.error(error);

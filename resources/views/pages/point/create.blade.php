@@ -127,7 +127,7 @@
                                                                     <iconify-icon icon="heroicons:pencil-square"></iconify-icon>
                                                                 </a>
 
-                                                                    <button class="action-btn" type="button" onclick="delete_service({{ $package->id }})">
+                                                                    <button class="action-btn" type="button" onclick="get_details_package({{ $package->id }})">
                                                                         <iconify-icon icon="heroicons:trash"></iconify-icon>
                                                                     </button>
                                                                 </div>
@@ -200,5 +200,24 @@
             }
         });
     }
+
+     function get_details_package(id)
+    {
+        $('#large_modal').modal('show');
+        $.ajax({
+            type: "POST",
+            url: '{{ route("point.package") }}', // Adjust the route
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            },
+            data: {
+                id: id, // Your data
+            },
+            success: function(data) {
+                $(".body-details").show().html(data);
+            }
+        });
+    }
+
 </script>
 </x-app-layout>

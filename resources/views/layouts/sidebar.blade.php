@@ -31,6 +31,120 @@
             </a>
           </li>
 
+          @if(Auth::user()->user_type == 'Admin')
+          <li>
+            <a href="{{ route('reservation.index') }}" class="navItem {{ request()->routeIs('reservation.index') ? 'active' : '' }}">
+                <span class="flex items-center">
+                <iconify-icon class=" nav-icon" icon="heroicons-outline:clipboard-check"></iconify-icon>
+                    <span>Reservation</span>
+                </span>
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ route('point.index') }}" class="navItem {{ request()->routeIs('point.index') ? 'active' : '' }}">
+                <span class="flex items-center">
+                <iconify-icon class=" nav-icon" icon="heroicons-outline:collection"></iconify-icon>
+                    <span>Walk In</span>
+                </span>
+            </a>
+        </li>
+              <li>
+                  <a href="{{ route('service.index') }}" class="navItem {{ request()->routeIs('service.index') ? 'active' : '' }}">
+                      <span class="flex items-center">
+                          <iconify-icon class="nav-icon" icon="heroicons-outline:view-grid-add"></iconify-icon>
+                          <span>Services</span>
+                      </span>
+                  </a>
+              </li>
+
+              <li>
+                  <a href="{{ route('package.index') }}" class="navItem {{ request()->routeIs('package.index') ? 'active' : '' }}">
+                      <span class="flex items-center">
+                          <iconify-icon class="nav-icon" icon="heroicons-outline:view-boards"></iconify-icon>
+                          <span>Packages</span>
+                      </span>
+                  </a>
+              </li>
+
+              <li>
+                  <a href="{{ route('sale.index') }}" class="navItem {{ request()->routeIs('sale.index') ? 'active' : '' }}">
+                      <span class="flex items-center">
+                          <iconify-icon class="nav-icon" icon="heroicons-outline:calendar"></iconify-icon>
+                          <span>Sales</span>
+                      </span>
+                  </a>
+              </li>
+
+              <li class="">
+                  <a href="javascript:void(0)" class="navItem">
+                      <span class="flex items-center">
+                          <iconify-icon class="nav-icon" icon="heroicons-outline:document"></iconify-icon>
+                          <span>User Management</span>
+                      </span>
+                      <iconify-icon class="icon-arrow" icon="heroicons-outline:chevron-right"></iconify-icon>
+                  </a>
+                  <ul class="sidebar-submenu">
+                      <li>
+                          <a href="{{ route('user.index') }}">User</a>
+                      </li>
+                      <li>
+                          <a href="{{ route('certificate.index') }}">Certificate</a>
+                      </li>
+                  </ul>
+              </li>
+          @elseif(Auth::user()->user_type == 'Receptionist')
+          <li>
+            <a href="{{ route('reservation.index') }}" class="navItem {{ request()->routeIs('reservation.index') ? 'active' : '' }}">
+                <span class="flex items-center">
+                <iconify-icon class=" nav-icon" icon="heroicons-outline:clipboard-check"></iconify-icon>
+                    <span>Reservation</span>
+                </span>
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ route('point.index') }}" class="navItem {{ request()->routeIs('point.index') ? 'active' : '' }}">
+                <span class="flex items-center">
+                <iconify-icon class=" nav-icon" icon="heroicons-outline:collection"></iconify-icon>
+                    <span>Walk In</span>
+                </span>
+            </a>
+        </li>
+              <li>
+                  <a href="{{ route('service.index') }}" class="navItem {{ request()->routeIs('service.index') ? 'active' : '' }}">
+                      <span class="flex items-center">
+                          <iconify-icon class="nav-icon" icon="heroicons-outline:view-grid-add"></iconify-icon>
+                          <span>Services</span>
+                      </span>
+                  </a>
+              </li>
+
+              <li>
+                  <a href="{{ route('package.index') }}" class="navItem {{ request()->routeIs('package.index') ? 'active' : '' }}">
+                      <span class="flex items-center">
+                          <iconify-icon class="nav-icon" icon="heroicons-outline:view-boards"></iconify-icon>
+                          <span>Packages</span>
+                      </span>
+                  </a>
+              </li>
+
+              <li class="">
+                  <a href="javascript:void(0)" class="navItem">
+                      <span class="flex items-center">
+                          <iconify-icon class="nav-icon" icon="heroicons-outline:document"></iconify-icon>
+                          <span>User Management</span>
+                      </span>
+                      <iconify-icon class="icon-arrow" icon="heroicons-outline:chevron-right"></iconify-icon>
+                  </a>
+                  <ul class="sidebar-submenu">
+                      <li>
+                          <a href="{{ route('certificate.index') }}">Certificate</a>
+                      </li>
+                  </ul>
+              </li>
+      
+          @else
           <li>
               <a href="{{ route('reservation.index') }}" class="navItem {{ request()->routeIs('reservation.index') ? 'active' : '' }}">
                   <span class="flex items-center">
@@ -39,59 +153,8 @@
                   </span>
               </a>
           </li>
-
-          <li>
-              <a href="{{ route('point.index') }}" class="navItem {{ request()->routeIs('point.index') ? 'active' : '' }}">
-                  <span class="flex items-center">
-                  <iconify-icon class=" nav-icon" icon="heroicons-outline:collection"></iconify-icon>
-                      <span>Walk In</span>
-                  </span>
-              </a>
-          </li>
-
-          @if(Auth::user()->user_type == 'Admin')
-          <li>
-              <a href="{{ route('service.index') }}" class="navItem {{ request()->routeIs('service.index') ? 'active' : '' }}">
-                  <span class="flex items-center">
-                      <iconify-icon class="nav-icon" icon="heroicons-outline:view-grid-add"></iconify-icon>
-                      <span>Services</span>
-                  </span>
-              </a>
-          </li>
-
-          <li>
-              <a href="{{ route('package.index') }}" class="navItem {{ request()->routeIs('package.index') ? 'active' : '' }}">
-                  <span class="flex items-center">
-                  <iconify-icon class=" nav-icon" icon="heroicons-outline:view-boards"></iconify-icon>
-                      <span>Packages</span>
-                  </span>
-              </a>
-          </li>
- 
-          <li>
-              <a href="{{ route('sale.index') }}" class="navItem {{ request()->routeIs('sale.index') ? 'active' : '' }}">
-                  <span class="flex items-center">
-                  <iconify-icon class=" nav-icon" icon="heroicons-outline:calendar"></iconify-icon>
-                      <span>Sales</span>
-                  </span>
-              </a>
-          </li>
-
-          <li class="">
-            <a href="javascript:void(0)" class="navItem">
-              <span class="flex items-center">
-            <iconify-icon class=" nav-icon" icon="heroicons-outline:document"></iconify-icon>
-            <span>User Management</span>
-              </span>
-              <iconify-icon class="icon-arrow" icon="heroicons-outline:chevron-right"></iconify-icon>
-            </a>
-            <ul class="sidebar-submenu">
-              <li>
-                <a href="{{ route('user.index') }}">User</a>
-              </li>
-            </ul>
-          </li>
           @endif
+
         </ul>
       </div>
     </div>

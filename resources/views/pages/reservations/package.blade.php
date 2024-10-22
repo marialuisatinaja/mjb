@@ -86,14 +86,14 @@
 
               <div class="col-md-6">
               <label for="time">Select a time (between 09:00 and 18:00):</label>
-              <input type="time" id="time" name="time" class="form-control" min="09:00" max="18:00" required>
+              <input type="time" id="time" name="time" class="form-control" required>
               </div>
 
               <input type="hidden" name="offers"  value="reservations">
 
 
               <div class="col-md-12">
-                <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
+                <textarea class="form-control" name="message" rows="6" placeholder="Message" ></textarea>
               </div>
 
               <div class="col-md-12 text-center">
@@ -141,16 +141,17 @@
                       success: function(response) {
                           Swal.fire(
                               'Submitted!',
-                              'Your form has been submitted.',
+                              'Your reservation has been submitted please wait check your  email for confirmation.',
                               'success'
                           ).then(() => {
-                              window.location.href = response.redirectUrl; // Make sure your backend sends this URL
+                              // window.location.href = response.redirectUrl; // Make sure your backend sends this URL
+                              window.location.reload();
                           });
                       },
                       error: function(error) {
                           Swal.fire(
                               'Error!',
-                              'An error occurred while saving the services.',
+                              'An error occurred while saving the reservations.',
                               'error'
                           );
                           console.error(error);
