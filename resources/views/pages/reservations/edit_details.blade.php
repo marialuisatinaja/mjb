@@ -294,7 +294,7 @@ $(document).ready(function() {
                                     'Your form has been submitted.',
                                     'success'
                                 ).then(() => {
-                                    // window.location.reload();
+                                    window.location.reload();
                                 });
                             },
                             error: function(error) {

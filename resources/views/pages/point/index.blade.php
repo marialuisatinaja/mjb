@@ -82,7 +82,7 @@
                                         <td class="table-td">
                                             <div class="flex space-x-3 rtl:space-x-reverse">
                                                 @if(Auth::user()->user_type == 'Admin' || Auth::user()->user_type == 'Receptionist')
-                                                <button class="action-btn" type="button"   onclick="edit_details({{ $row->id }}, '{{ $row->email }}', 'Serving')"  title="Served" >
+                                                <button class="action-btn" type="button"   onclick="edit_details({{ $row->id }}, '{{ $row->email }}', 'Paid')"  title="Paid" >
                                                     <iconify-icon icon="heroicons:printer"></iconify-icon>
                                                 </button>
                                                 @endif

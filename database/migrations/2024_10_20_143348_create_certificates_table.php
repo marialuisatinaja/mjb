@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('certificates', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable()->default(null);
-            $table->string('amenities')->nullable()->default(null);
+            $table->string('duration')->nullable()->default(null);
+            $table->string('service_id')->nullable()->default(null);
             $table->timestamps();
         });
     }

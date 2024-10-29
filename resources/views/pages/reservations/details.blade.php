@@ -11,7 +11,6 @@
             <div id="form-wizard">
                 <div class="step" id="step-1">
                     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-1">
-                        <input type="hidden" name="status"  value="{{ $status }}">
                         <div class="input-area p-2">
                         <label  class="form-label">First Name</label>
                         <input  name="first_name" type="text" value="{{ $reservation->first_name }}" class="form-control" placeholder="Enter First Name" disabled>
@@ -122,12 +121,17 @@
                         </div>
 
                     </div>
+
                     @if(Auth::user()->user_type == 'Admin')
+                        @if($status == 'Cancelled')
+                     
+                        @else
                         <div class="flex justify-between p-2">
                             <button type="button" class="btn inline-flex justify-center text-white bg-blue-500 hover:bg-blue-600" id="next-1" style="float: right;">
                                 Served
                             </button>
                         </div>
+                        @endif
                     @endif
 
                 </div>
@@ -176,7 +180,7 @@
                                     
                                 <input type="hidden" name="service_ids[]" id="serviceIdsInput" value="">
                                 <input type="hidden" name="offers"  value="reservations">
-                                <input type="hidden" name="status"  value="{{ $reservation->status }}">
+                                <input type="hidden" name="status"  value="{{ $status }}">
                                     <table class="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700" id="serviceTable1">
                                         <thead class="bg-slate-200 dark:bg-slate-700">
                                             <tr>
@@ -222,14 +226,11 @@
     </div>
     @elseif($status == 'Cancelled')
     <div class="flex items-center justify-end p-6 space-x-2 border-t border-slate-200 rounded-b dark:border-slate-600">
-        <button  class="btn inline-flex justify-center text-white bg-red-500 hover:bg-red-600">
+        <button   type="button"  class="btn inline-flex justify-center text-white bg-red-500 hover:bg-red-600" onclick="cancel()">
             Cancel
         </button>
     </div>
 @endif
-
-
-
 </form>
 
 <script>
@@ -296,7 +297,7 @@ $(document).ready(function() {
                                     'Your form has been submitted.',
                                     'success'
                                 ).then(() => {
-                                    // window.location.reload();
+                                    window.location.reload();
                                 });
                             },
                             error: function(error) {
@@ -313,6 +314,7 @@ $(document).ready(function() {
             }
         };
 
+    
         // Function to reset the steps
         function resetSteps() {
             // Hide all steps
@@ -381,7 +383,57 @@ $(document).ready(function() {
         // Update the hidden input value with the updated array of service IDs
         document.getElementById('serviceIdsInput').value = serviceIds.join(',');
     }
+
+
 });
+
+function cancel()
+{
+    Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Do you want to change the status?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, change it!',
+                    cancelButtonText: 'No, cancel!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const formData = new FormData(document.getElementById('services'));
+                        const csrfToken = $('meta[name="csrf-token"]').attr('content');
+                        const serviceId = "{{ $reservation->id }}"; // Get the service id
+
+                        $.ajax({
+                            url: '{{ url("reservation/update_details") }}/' + serviceId, // Append the service id to the URL
+                            method: 'POST',
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken
+                            },
+                            success: function(response) {
+                                Swal.fire(
+                                    'Submitted!',
+                                    'Your form has been submitted.',
+                                    'success'
+                                ).then(() => {
+                                    window.location.reload();
+                                });
+                            },
+                            error: function(error) {
+                                Swal.fire(
+                                    'Error!',
+                                    'An error occurred while saving the status.',
+                                    'error'
+                                );
+                                console.error(error);
+                            }
+                        });
+                    }
+                });
+}
 </script>
 
 

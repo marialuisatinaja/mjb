@@ -183,7 +183,7 @@
                 <p>{{ $service->description }} </p>
 
                 <div class="btn-wrap center">
-                    <a href="javascript:(0);" onclick="get_details1(1)" class="btn-buy ml-3">Reserve Now</a>
+                    <a href="javascript:(0);" onclick="get_register()" class="btn-buy ml-3">Reserve Now</a>
                 </div>
                 <!-- <a href="{{ asset($service->upload) }}" title="{{ $service->title }} ( ₱{{  $service->amount }} )" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
                 <a href="javascript:(0);" onclick="get_details1({{ $service->id }})" title="reserved" class="details-link"><i class="bi bi-book"></i></a> -->

@@ -29,7 +29,8 @@
                                 <tr>
                                     <th scope="col" class="table-th">#</th>
                                     <th scope="col" class="table-th">Name</th>
-                                    <th scope="col" class="table-th">Amenities</th>
+                                    <th scope="col" class="table-th">Services</th>
+                                    <th scope="col" class="table-th">Duration</th>
                                     <th scope="col" class="table-th">Action</th>
                                 </tr>
                             </thead>
@@ -38,18 +39,18 @@
                             <tr>
                                 <td class="table-td">{{ $loop->iteration}}</td>
                                 <td class="table-td">{{ $certificate->name }}</td>
-                                <td class="table-td">{{ $certificate->amenities }}</td>
-
+                                <td class="table-td">{{ $certificate->services->title }}</td>
+                                <td class="table-td">{{ $certificate->duration }}</td>
                                 <td class="table-td">
 
                                 <div class="flex space-x-3 rtl:space-x-reverse">
 
-                                    <button class="action-btn" type="button" onclick="delete_certificate({{ $certificate->id }})">
-                                        <iconify-icon icon="heroicons:trash"></iconify-icon>
-                                    </button>
-
                                     <button class="action-btn"  onclick="print_certificate({{ $certificate->id }})">
                                         <iconify-icon icon="heroicons:printer"></iconify-icon>
+                                    </button>
+
+                                    <button class="action-btn" type="button" onclick="delete_certificate({{ $certificate->id }})">
+                                        <iconify-icon icon="heroicons:trash"></iconify-icon>
                                     </button>
 
                                 </div>
@@ -77,7 +78,7 @@
             <!-- Modal header -->
                 <div class="flex items-center justify-between p-5 border-b rounded-t dark:border-slate-600 bg-black-500">
                     <h3 class="text-xl font-medium text-white dark:text-white capitalize">
-                    Reservation Details
+                    Certificate Details
                     </h3>
                     <button type="button" class="text-slate-400 bg-transparent hover:text-slate-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center
                         dark:hover:bg-slate-600 dark:hover:text-white" data-bs-dismiss="modal">
@@ -107,9 +108,21 @@
                                 </div>
 
                                 <div class="input-area">
-                                    <label class="form-label">Amenities</label>
+                                    <label class="form-label">Duration</label>
                                     <div class="relative">
-                                        <input id="amenities" type="text" name="amenities" class="form-control" placeholder="Please Enter Amenities" required>
+                                        <input class="form-control py-2 flatpickr time flatpickr-input active" id="time-picker" name="duration" value="" type="text" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="input-area">
+                                    <label class="form-label">Services</label>
+                                    <div class="relative">
+                                        <select name="service_id" class="form-control">
+                                            <option value="">Select a Service</option>
+                                            @foreach($services as $service)
+                                                <option value="{{ $service->id }}">{{ $service->title }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
 
@@ -127,6 +140,16 @@
 </div>
 
 <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        flatpickr("#time-picker", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            defaultDate: "00:00",  // Set default time to 00:00
+            time_24hr: true
+        });
+    });
+
 const appUrl = document.querySelector('meta[name="app-url"]').getAttribute('content');
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent default form submission

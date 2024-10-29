@@ -69,17 +69,17 @@
             <tr>
                 <td>{{ $row->id }}</td>
                 <td>{{ ucwords($row->first_name.' '.$row->middle_name.' '.$row->last_name) }}</td>
-                <td>{{ $row->phone}}</td>
+                <td>{{ $row->phone }}</td>
                 <td>{{ @$row->offers_type }}</td>
                 <td>{{ @$row->status }}</td>
                 <td>
                     {{ $amount = number_format((@$row->payment_total), 2, '.', ',') }}
                     @php
-                        $totalAmount += $row->payment_total; // Accumulate total amount
+                        // Only accumulate total if the status is "paid"
+                        if (@$row->status === 'Paid') {
+                            $totalAmount += $row->payment_total; // Accumulate total amount
+                        }
                     @endphp
-
-
-                    
                 </td>
             </tr>
         @endforeach
@@ -91,6 +91,7 @@
         </tr>
     </tfoot>
 </table>
+
 
 
 </body>

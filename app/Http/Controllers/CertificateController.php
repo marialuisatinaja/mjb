@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Certificate;
+use App\Models\Services;
 use Illuminate\Http\Request;
 
 class CertificateController extends Controller
@@ -15,7 +16,7 @@ class CertificateController extends Controller
         $pdf = new \Dompdf\Dompdf($options); // Create a new instance of Dompdf
             
 
-        $certificate = Certificate::findOrFail($id); // Fetch the agency by ID
+        $certificate = Certificate::with('services')->findOrFail($id); // Fetch the agency by ID
 
 
         $pdf->loadHtml(view('pages.templates.certificate', compact('certificate'))->render());
@@ -35,7 +36,8 @@ class CertificateController extends Controller
     public function index()
     {
         $certificates = Certificate::all();
-        return view('pages.certificates.index',compact('certificates'));
+        $services = Services::all();
+        return view('pages.certificates.index',compact('certificates','services'));
     }  
 
     public function store(Request $request)
@@ -43,13 +45,15 @@ class CertificateController extends Controller
         // Validate the request
         $request->validate([
             'name' => 'required|string|max:255',
-            'amenities' => 'required|string|max:255',
+            'duration' => 'required|string|max:255',
+            'service_id' => 'required|string|max:255',
         ]);
 
         // Create the user
         $certificate = new Certificate();
         $certificate->name = $request->input('name');
-        $certificate->amenities = $request->input('amenities');
+        $certificate->duration = $request->input('duration');
+        $certificate->service_id = $request->input('service_id');
         $certificate->save();
 
         return response()->json([
@@ -62,7 +66,7 @@ class CertificateController extends Controller
     public function destroy(Request $request)
     {
         $id = $request->input('id');
-        $certificate = Certificate::findOrFail($id); // Fetch the agency by ID
+        $certificate = Certificate::with('services')->findOrFail($id); // Fetch the agency by ID
         $certificate->delete();
         return redirect()->route('certificate.index')->with('success', 'Certficate deleted successfully.');
     }

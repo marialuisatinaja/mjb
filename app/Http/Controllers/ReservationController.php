@@ -83,15 +83,15 @@ class ReservationController extends Controller
 
         $reservation = BusinessDetails::findOrFail($id);
 
-        $validatedData = $request->validate([
-            'date' => 'required|date',
-            'time' => 'required|string', // Adjust validation as needed
-            'status' => 'required|string',
-            'service_ids' => 'nullable|array', 
-            'service_ids.*' => 'exists:services,id' 
-        ]);
+        if($request->input('status') == 'Serving'){
 
-        if($validatedData['status'] == 'Pending'){
+            $validatedData = $request->validate([
+                'date' => 'required|date',
+                'time' => 'required|string', // Adjust validation as needed
+                'status' => 'required|string',
+                'service_ids' => 'nullable|array', 
+                'service_ids.*' => 'exists:services,id' 
+            ]);
 
             $serviceIdsString = $validatedData['service_ids'][0]; // This will be "1,2"
             $serviceIdsArray = explode(',', $serviceIdsString); // This will create an array
@@ -116,7 +116,8 @@ class ReservationController extends Controller
             $reservation->save();
 
 
-        }elseif($validatedData['status'] == 'Serving'){
+        }elseif($request->input('status') == 'Paid'){
+
 
             $therapist = SalesDetails::with('user')
             ->where('reservation_id',$id)->get();
@@ -131,64 +132,13 @@ class ReservationController extends Controller
             $reservation->status = 'Paid';
             $reservation->save();
         }else{
-
+            $reservation->status = 'Cancelled';
+            $reservation->save();
         }
 
-        // if($validatedData['status'] == 'Serving'){
-        //     $serviceIdsString = $validatedData['service_ids'][0]; // This will be "1,2"
-        //     $serviceIdsArray = explode(',', $serviceIdsString); // This will create an array
-        //     $serviceIdsArray = array_map('intval', $serviceIdsArray);
-
-        //     foreach($serviceIdsArray as $row)
-        //     {
-        //         $packs = New  SalesDetails();
-        //         $packs->reservation_id = $reservation->id;
-        //         $packs->email = $reservation->email;
-        //         $packs->therapist_id =  $row;
-        //         $packs->save();
-
-        //         $user = User::findOrFail($row);
-        //         $user->status = 'Serving';
-        //         $user->save();
-        //     }
-
-        //     $reservation->update([
-        //         'date' => $validatedData['date'],
-        //         'time' => $validatedData['time'],
-        //         'status' => $validatedData['status'],
-        //     ]);
-            
-        // }else if($validatedData['status'] == 'Paid'){
-        
-       
-        //     $details = SalesDetails::with('user')
-        //     ->where('reservation_id', $id)
-        //     ->where('email', $reservation->email)
-        //     ->get();
-        
-        //     foreach($details as $row){
-        //         $user = User::findOrFail($row->therapist_id); // Access the user_id from the row
-        //         $user->status = 'Active';
-        //         $user->save();
-        //     }
-        
-        //     $reservation->update([
-        //         'date' => $validatedData['date'],
-        //         'time' => $validatedData['time'],
-        //         'status' => $validatedData['status'],
-        //     ]);
-
-        // }else{
-        //     $reservation->update([
-        //         'date' => $validatedData['date'],
-        //         'time' => $validatedData['time'],
-        //         'status' => $validatedData['status'],
-        //     ]);
-        // }
-        
-        // return back()->with([
-        //     'success' => 'Rescheduled successfully saved',
-        //     'redirectUrl' => route('reservation.index') // Replace with your actual route
-        // ]);
+        return back()->with([
+            'success' => 'Rescheduled successfully saved',
+            'redirectUrl' => route('reservation.index') // Replace with your actual route
+        ]);
     }
 }

@@ -77,7 +77,7 @@
                                         <td class="table-td">
                                             <div class="flex space-x-3 rtl:space-x-reverse">
                                                 @if(Auth::user()->user_type == 'Admin' || Auth::user()->user_type == 'Receptionist')
-                                                <button class="action-btn" type="button"   onclick="edit_details({{ $row->id }}, '{{ $row->email }}', 'Serving')"  title="Served" >
+                                                <button class="action-btn" type="button"   onclick="edit_details({{ $row->id }}, '{{ $row->email }}', 'Paid')"  title="Paid" >
                                                     <iconify-icon icon="heroicons:printer"></iconify-icon>
                                                 </button>
                                                 @endif
@@ -95,11 +95,19 @@
                                                     <iconify-icon icon="heroicons:printer"></iconify-icon>
                                                 </button>
                                                 @endif
+                                                @if($row->status == 'Pending')
 
                                                 <button class="action-btn" type="button" onclick="served_action({{ $row->id }}, 'Cancelled')" title="Cancelled">
                                                     <iconify-icon icon="heroicons:trash"></iconify-icon>
                                                 </button>
-                                                
+
+                                                @else
+
+                                                <button class="action-btn" type="button" onclick="served_action({{ $row->id }}, 'Cancelled')" title="Cancelled" disabled>
+                                                    <iconify-icon icon="heroicons:trash"></iconify-icon>
+                                                </button>
+
+                                                @endif
                                             </div>
                                         </td>
                                         @endif

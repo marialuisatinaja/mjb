@@ -293,8 +293,8 @@
                             </div>
 
                             <div class="lg:col-span-4 col-span-12">
-                            <label for="humanFriendly_picker">Business Hours 11:00 and 11:00 pm</label>
-                            <input type="time" id="time" name="time" class="form-control" min="11:00" max="23:00" required>
+                                <small for="time" class="form-label">Business Hours 11:00 am to 11:00 pm</small>
+                                <input type="time" id="time" name="time" class="form-control" min="11:00" max="23:00" value="11:00" required>
                             </div>
 
                             <div class="lg:col-span-4 col-span-12">
@@ -431,7 +431,7 @@ document.addEventListener('DOMContentLoaded', function() {
                               'Your form has been submitted.',
                               'success'
                           ).then(() => {
-                            // window.location.reload();
+                            window.location.reload();
                           });
                       },
                       error: function(error) {
@@ -454,11 +454,12 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   document.addEventListener('DOMContentLoaded', function() {
-
+    
     flatpickr("#humanFriendly_picker", {
-        minDate: new Date().fp_incr(1), // Tomorrow's date
-        dateFormat: "Y-m-d",            // Adjust date format as needed
-    });
+            dateFormat: "Y-m-d",
+            defaultDate: "{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}", // Set default to tomorrow
+            minDate: "{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}"       // Minimum selectable date is tomorrow
+        });
 
     const totalPersonInput = document.querySelector('input[name="total_person"]');
     const boyTherapistInput = document.querySelector('input[name="boy_therapist"]');

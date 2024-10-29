@@ -55,7 +55,7 @@
     </div>
     <center>
     <div style="background-color:#691421;padding-left:1%;">
-        <h1 style="color:white;"> Hecel Angelo  <small style="font-size:medium;"><br>BOOKING IS REQUIRED. PLEASE CALL FOR YOUR  APPOINTMENT</small></h1>
+        <h1 style="color:white;">{{ $certificate->duration}} HR {{ $certificate->services->title }}  <small style="font-size:medium;"><br>BOOKING IS REQUIRED. PLEASE CALL FOR YOUR  APPOINTMENT</small></h1>
     </div>
     </center>
     <div style="margin-left:15%;margin-right:20%;">

@@ -38,6 +38,7 @@ class PackageController extends Controller
 
     public function store(Request $request)
     {
+
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'amount' => 'required|numeric',
@@ -49,11 +50,31 @@ class PackageController extends Controller
             'service_ids.*' => 'exists:services,id' 
         ]);
     
+        $imagePath = null;
+
         if ($request->hasFile('upload')) {
-            $file = $request->file('upload');
-            $filePath = $file->store('uploads/packages', 'public'); 
-            $validatedData['upload'] = $filePath; 
+            $image = $request->file('upload');
+            // Define the path to save the image in the public/images directory
+            $destinationPath = public_path('package');
+            
+            // Ensure the directory exists
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0777, true);
+            }
+            
+            // Generate a unique file name and move the file
+            $fileName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $fileName);
+            
+            // Set the image path to be used in the database
+            $imagePath = 'package/' . $fileName;
         }
+
+        // if ($request->hasFile('upload')) {
+        //     $file = $request->file('upload');
+        //     $filePath = $file->store('uploads/packages', 'public'); 
+        //     $validatedData['upload'] = $filePath; 
+        // }
     
         // Accessing the first element of the array and splitting it into an array
         $serviceIdsString = $validatedData['service_ids'][0]; // This will be "1,2"
@@ -69,7 +90,7 @@ class PackageController extends Controller
             'name' => $validatedData['name'],
             'amount' => $validatedData['amount'],
             'hours' => $validatedData['hours'] ?? null, // Include upload if it exists
-            'upload' => $validatedData['upload'] ?? null, // Include upload if it exists
+            'upload' => $imagePath ?? null, // Include upload if it exists
             'description' => $validatedData['description'] ?? null, // Include upload if it exists
             'persons' => $validatedData['persons'],
         ]);
@@ -101,7 +122,41 @@ class PackageController extends Controller
         ]);
 
         $package = Package::findOrFail($id);
-        $package->update($validatedData);
+        // $package->update($validatedData);
+
+        $imagePath = $package->upload; // Keep the existing image path
+
+        if ($request->hasFile('upload')) {
+            $image = $request->file('upload');
+            
+            // Define the path to save the image in the public/images directory
+            $destinationPath = public_path('package');
+            
+            // Ensure the directory exists
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0777, true);
+            }
+
+            // Generate a unique file name and move the file
+            $fileName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $fileName);
+            
+            // Set the image path to be used in the database
+            $imagePath = 'package/' . $fileName;
+
+            // Optionally, delete the old image file if a new one is uploaded
+            if ($package->upload && file_exists(public_path($package->upload))) {
+                unlink(public_path($package->upload));
+            }
+        }
+
+        $package->name = $request->input('name');
+        $package->amount = $request->input('amount');
+        $package->hours = $request->input('hours');
+        $package->description = $request->input('description');
+        $package->persons = $request->input('persons');
+        $package->upload = $imagePath; // Save the image path to the database
+        $package->save();
 
         return response()->json([
             'message' => 'package updated successfully.',
