@@ -58,7 +58,6 @@
                                 <th scope="col" class="table-th"  style="width:15%;">Customer Name</th>
                                     <th scope="col" class="table-th"  style="width:12%;">Email</th>
                                     <th scope="col" class="table-th"  style="width:10%;">Type</th>
-                                    <th scope="col" class="table-th"  style="width:15%;">Service Name</th>
                                     <th scope="col" class="table-th"  style="width:10%;">Date</th>
                                     <th scope="col" class="table-th"  style="width:10%;">Time</th>
                                     <th scope="col" class="table-th"  style="width:8%;">Payment</th>
@@ -73,7 +72,7 @@
                                     <td class="table-td" style="text-transform: lowercase;">{{ $row->email }}</td>
 
                                     <td>
-                                        @if($row->service_type == 'walkin')
+                                        @if($row->offers_type == 'walkin')
 
                                         <div class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 text-black-500
                                                     bg-info-500">
@@ -90,46 +89,10 @@
                                         @endif
                                         <!-- {{ $row->service_type }} -->
                                     </td>
-                                    <td class="table-td">
-                                        <span class="flex">
-                                            @if(@$row->service_type == 'services')
-                                            <span class="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none">
-                                                @if(@$row->services->upload)
-                                                <img src="{{ asset($row->services->upload) }}" alt="{{ $row->services->title }}" class="img-radius wid-40 align-top m-r-15">
-                                                @else
-                                                <img src="{{ asset('admin/assets/images/all-img/customer_1.png') }}" alt="50" class="object-cover w-full h-full rounded-full">
-                                                @endif
-                                            </span>
-                                            @else
-                                            <span class="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none">
-                                                @if(@$row->package->upload)
-                                                <img src="{{ asset($row->package->upload) }}" alt="{{ $row->package->title }}" class="img-radius wid-40 align-top m-r-15">
-                                                @else
-                                                <img src="{{ asset('admin/assets/images/all-img/customer_1.png') }}" alt="50" class="object-cover w-full h-full rounded-full">
-                                                @endif
-                                            </span>
-                                            @endif
-
-                                            @if(@$row->service_type == 'services')
-                                            <span class="text-sm text-slate-600 dark:text-slate-300 capitalize pt-2">{{ @$row->services->title }}</span>
-                                            @else
-                                            <span class="text-sm text-slate-600 dark:text-slate-300 capitalize pt-2">{{ @$row->package->name }}</span>
-                                            @endif
-                                        </span>
-                                    </td>
-                                    
                                     <td  class="table-td">{{ date('F j, Y', strtotime($row->date)) }}</td>
                                     <td class="table-td">{{ \Carbon\Carbon::parse($row->time)->format('g:i A') }}</td>
                                     <td  class="table-td">
-                                        @if(@$row->service_type == 'services')
-                                            <div class=" text-danger-500">
-                                            ₱ {{ number_format((@$row->services->amount * $row->total_person), 2, '.', ',') }}
-                                            </div>
-                                        @else
-                                        <div class=" text-danger-500">
-                                            ₱ {{ number_format((@$row->package->amount ), 2, '.', ',') }}
-                                            </div>
-                                        @endif
+                                        ₱ {{ number_format((@$row->payment_total), 2, '.', ',') }}
                                     </td>
                                     <td  class="table-td">
                                     @if($row->status == 'Pending')

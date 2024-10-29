@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\BusinessDetails;
 use App\Models\Certificate;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class SalesController extends Controller
         $startDate = $request->query('start_date');
         $endDate = $request->query('end_date');
 
-      $reservations = Reservation::with('services')
+      $reservations = BusinessDetails::with('services')
             ->where('status', '!=', 'Pending'); // Modify this as per your status logic
 
         // Filter by type if provided
@@ -64,16 +65,16 @@ public function index(Request $request)
     $type = $request->input('type'); // Get the type filter from request
 
     // Start building the query
-    $reservations = Reservation::with('services')
+    $reservations = BusinessDetails::with('services')
         ->where('status', '!=', 'Pending'); // Modify this as per your status logic
 
     // Apply the type filtering logic
     if ($type == 'walkin') {
         // If the type is 'walkin', apply the specific query
-        $reservations->where('service_type', 'walkin');
+        $reservations->where('offers_type', 'walkin');
     } elseif ($type == 'reserved') {
         // If the type is 'reserved', apply the other query logic
-        $reservations->where('service_type', '<>', 'walkin'); // Assuming reserved means anything other than 'walkin'
+        $reservations->where('offers_type', '<>', 'walkin'); // Assuming reserved means anything other than 'walkin'
     }
 
     // Apply date filtering if dates are provided

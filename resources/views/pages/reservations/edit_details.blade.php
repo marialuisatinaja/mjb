@@ -1,104 +1,8 @@
 <form id="services" action="{{ route('reservation.update_details', $reservation->id) }}" method="POST" id="typeValidation">
 @csrf
 @method('PUT')
-@csrf <!-- Add CSRF token field -->
-
 <div class="card-text h-full">
-    <div class="profiel-wrap px-[35px] pb-10 md:pt-[84px] pt-10 rounded-lg bg-white dark:bg-slate-800 lg:flex lg:space-y-0
-            space-y-6 justify-between items-end relative z-[1]">
-                <div class="bg-slate-900 dark:bg-slate-700 absolute left-0 top-0 md:h-1/2 h-[150px] w-full z-[-1] rounded-t-lg" style="background-image: url({{ asset('assets/img/bg1.jpg') }});"></div>
-                <div class="profile-box flex-none md:text-start text-center">
-                <div class="md:flex items-end md:space-x-6 rtl:space-x-reverse">
-                    <div class="flex-none">
-                    <div class="md:h-[186px] md:w-[186px] h-[140px] w-[140px] md:ml-0 md:mr-0 ml-auto mr-auto md:mb-0 mb-4 rounded-full ring-4
-                            ring-slate-100 relative">
-             
 
-                    @if($reservation->service_type == 'services')
-                        @if($reservation->services->upload)
-                        <img src="{{ asset($reservation->services->upload) }}" alt="{{ $reservation->services->title }}" class="w-full h-full object-cover rounded-full">
-                        @else
-                        <img src="http://mjb.test/assets/img/masonry-portfolio/masonry-portfolio-2.jpg" alt="" class="w-full h-full object-cover rounded-full">
-                        @endif
-                    @else
-                    @if($reservation->package->upload)
-                        <img src="{{ asset($reservation->package->upload) }}" alt="{{ $reservation->package->title }}" class="w-full h-full object-cover rounded-full">
-                        @else
-                        <img src="http://mjb.test/assets/img/masonry-portfolio/masonry-portfolio-2.jpg" alt="" class="w-full h-full object-cover rounded-full">
-                        @endif
-                    @endif
-
-             
-
-
-
-                    </div>
-                    </div>
-                    <div class="flex-1">
-                    <div class="text-2xl font-medium text-slate-900 dark:text-slate-200 mb-[3px]">
-                        @if($reservation->service_type == 'services')
-                            {{ $reservation->services->title }}
-                        @else
-                            {{ $reservation->package->name }}
-                        @endif
-                    </div>
-                    <div class="text-sm font-light text-slate-600 dark:text-slate-400">
-                        Services Offer
-                    </div>
-                    </div>
-                </div>
-                </div>
-                <!-- end profile box -->
-                <div class="profile-info-500 md:flex md:text-start text-center flex-1 max-w-[516px] md:space-y-0 space-y-4">
-                <div class="flex-1">
-                    <div class="text-base text-slate-900 dark:text-slate-300 font-medium mb-1">
-
-                        @if($reservation->service_type == 'services')
-                        ₱ {{ $reservation->services->amount }}
-                        @else
-                        ₱ {{ $reservation->package->amount }}
-                        @endif
-
-                    </div>
-                    <div class="text-sm text-slate-600 font-light dark:text-slate-300">
-                    Services Ammount
-                    </div>
-                </div>
-                <!-- end single -->
-                <div class="flex-1">
-                    <div class="text-base text-slate-900 dark:text-slate-300 font-medium mb-1">
-                        
-                        @if($reservation->service_type == 'services')
-                            {{ $reservation->total_person }}
-                        @else
-                            {{ $reservation->package->persons }}
-                        @endif
-
-               
-                    </div>
-                    <div class="text-sm text-slate-600 font-light dark:text-slate-300">
-                        No. of Persons
-                    </div>
-                </div>
-                <!-- end single -->
-                <div class="flex-1">
-                    <div class="text-base text-slate-900 dark:text-slate-300 font-medium mb-1">
-                        @if($reservation->service_type == 'services')
-                        ₱ {{ number_format((@$reservation->services->amount * $reservation->total_person), 2, '.', ',') }}
-                        @else
-                        ₱ {{ number_format((@$reservation->package->amount ), 2, '.', ',') }}
-                        @endif
-
-                    
-                    </div>
-                    <div class="text-sm text-slate-600 font-light dark:text-slate-300">
-                        Total Payment
-                    </div>
-                </div>
-                <!-- end single -->
-                </div>
-                <!-- profile info-500 -->
-    </div>
 
     <div class="container mx-auto mt-2">
         <div class="bg-white shadow-md rounded-lg p-2">
@@ -126,8 +30,8 @@
                         <label  class="form-label">Gender</label>
                         <select name="gender" class="form-control" disabled>
                             <option value="" disabled selected>Select Gender</option>
-                            <option value="male" class="dark:bg-slate-700"  {{ $reservation->gender == 'male' ? 'selected' : '' }}>Male</option>
-                            <option value="female" class="dark:bg-slate-700"  {{ $reservation->gender == 'female' ? 'selected' : '' }}>Female</option>
+                            <option value="Male" class="dark:bg-slate-700"  {{ $reservation->gender == 'Male' ? 'selected' : '' }}>Male</option>
+                            <option value="Female" class="dark:bg-slate-700"  {{ $reservation->gender == 'Female' ? 'selected' : '' }}>Female</option>
                         </select>
 
                         </div> 
@@ -142,17 +46,7 @@
                         <input type="text" id="phone" value="{{ $reservation->phone }}" class="form-control" name="phone" placeholder="09512348350" required maxlength="12" disabled>
                         </div>
 
-                        @if($status == 'Resched')
-                        <div class="input-area p-2"> 
-                        <label  class="form-label">Date</label>
-                        <input type="date" name="date" value="{{ $reservation->date }}"  class="form-control" placeholder="Your Date" required min="{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}">
-                        </div>
-
-                        <div class="input-area p-2"> 
-                        <label  class="form-label">Select a time:</label>
-                        <input type="time" id="time" name="time" value="{{ $reservation->time }}" class="form-control" min="09:00" max="18:00" required>
-                        </div>
-                        @else
+        
                         <div class="input-area p-2"> 
                         <label  class="form-label">Date</label>
                         <input type="date" name="date" value="{{ $reservation->date }}"  class="form-control" placeholder="Your Date" required min="{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}" readonly>
@@ -162,71 +56,174 @@
                         <label  class="form-label">Select a time:</label>
                         <input type="time" id="time" name="time" value="{{ $reservation->time }}" class="form-control" min="09:00" max="18:00" required readonly>
                         </div>
-                        @endif
+
+                        <div class="input-area p-2"> 
+                        <label  class="form-label">Total Payment:</label>
+                        <input type="text" name="payment_total" value="{{ $reservation->payment_total }}" class="form-control" required readonly>
                         </div>
+
+                        <div class="lg:col-span-5 col-span-12 pt-2">
+                            <table id="serviceTable" class="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700">
+                                <thead class="bg-slate-200 dark:bg-slate-700">
+                                    <tr>
+                                        <th scope="col" class="table-th">Title</th>
+                                        <th scope="col" class="table-th">Amount</th>
+                                        <th scope="col" class="table-th">Type</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
+                                    @foreach($details as $row)
+                                    <tr>
+                                        <td class="table-td">
+                                            <span class="flex">
+                                                @if(@$row->service_type == 'services')
+                                                <span class="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none">
+                                                    @if(@$row->services->upload)
+                                                    <img src="{{ asset(@$row->services->upload) }}" alt="{{ @$row->services->title }}" class="img-radius wid-40 align-top m-r-15">
+                                                    @else
+                                                    <img src="{{ asset('admin/assets/images/all-img/customer_1.png') }}" alt="50" class="object-cover w-full h-full rounded-full">
+                                                    @endif
+                                                </span>
+                                                @else
+                                                <span class="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none">
+                                                    @if(@$row->package->upload)
+                                                    <img src="{{ asset(@$row->package->upload) }}" alt="{{ @$row->package->title }}" class="img-radius wid-40 align-top m-r-15">
+                                                    @else
+                                                    <img src="{{ asset('admin/assets/images/all-img/customer_1.png') }}" alt="50" class="object-cover w-full h-full rounded-full">
+                                                    @endif
+                                                </span>
+                                                @endif
+
+                                                @if(@$row->service_type == 'services')
+                                                <span class="text-sm text-slate-600 dark:text-slate-300 capitalize pt-2">{{ @$row->services->title }}</span>
+                                                @else
+                                                <span class="text-sm text-slate-600 dark:text-slate-300 capitalize pt-2">{{ @$row->package->name }}</span>
+                                                @endif
+                                            </span>
+                                        </td>
+                                        <td  class="table-td">
+                                            @if(@$row->service_type == 'services')
+                                                <div class=" text-danger-500">
+                                                ₱ {{ number_format((@$row->services->amount ), 2, '.', ',') }}
+                                                </div>
+                                            @else
+                                            <div class=" text-danger-500">
+                                                ₱ {{ number_format((@$row->package->amount ), 2, '.', ',') }}
+                                                </div>
+                                            @endif
+                                        </td>
+                                        <td  class="table-td">{{ $row->service_type }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    @if(Auth::user()->user_type == 'Admin')
                         <div class="flex justify-between p-2">
                             <button type="button" class="btn inline-flex justify-center text-white bg-blue-500 hover:bg-blue-600" id="next-1" style="float: right;">
                                 Served
                             </button>
                         </div>
+                    @endif
+
                 </div>
 
                     <div class="step hidden" id="step-2">
-                        <div class="mb-4">
-                            <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-1 mb-2">
-                                <div class="text-base text-slate-900 dark:text-slate-300 font-medium mb-1">
-                                    Preffered Man {{ $reservation->boy_therapist }}     &nbsp;&nbsp;&nbsp;  Preffered Woman {{ $reservation->girl_therapist }}
-                                </div>
-                            </div>
-                            <h6 class="font-medium">Serving Therapist :</h6>
-                
-                            <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-1">
+                        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-1">
+                            <input type="hidden" name="status"  value="{{ $status }}">
+                            <div class="input-area p-2">
+                            <label  class="form-label">First Name</label>
+                            <input  name="first_name" type="text" value="{{ $reservation->first_name }}" class="form-control" placeholder="Enter First Name" disabled>
+                            </div> 
 
-                                <div class="input-area p-2">
-                                    <table class="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700">
-                                        <thead class="bg-slate-200 dark:bg-slate-700">
-                                            <tr>
-                                                <th scope="col" class="table-th" style="width: 50%;">Name</th>
-                                                <th scope="col" class="table-th" style="width: 25%;">Email</th>
-                                                <th scope="col" class="table-th" style="width: 25%;">Phone</th>
-                                                <th scope="col" class="table-th" style="width: 25%;">Gender</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
-                                        @foreach($details as $row)
-                                    <tr>
+                            <div class="input-area p-2"> 
+                            <label  class="form-label">Middle Name</label>
+                            <input  name="middle_name" type="text" value="{{ $reservation->middle_name }}" class="form-control" placeholder="Enter Middle Name" disabled>
+                            </div>
+
+                            <div class="input-area p-2"> 
+                            <label  class="form-label">Last Name</label>
+                            <input  name="type" type="text" value="{{ $reservation->last_name }}" class="form-control" placeholder="Enter Last Name" disabled>
+                            </div>
+
+
+                            <div class="input-area p-2">
+                            <label  class="form-label">Gender</label>
+                            <select name="gender" class="form-control" disabled>
+                                <option value="" disabled selected>Select Gender</option>
+                                <option value="Male" class="dark:bg-slate-700"  {{ $reservation->gender == 'Male' ? 'selected' : '' }}>Male</option>
+                                <option value="Female" class="dark:bg-slate-700"  {{ $reservation->gender == 'Female' ? 'selected' : '' }}>Female</option>
+                            </select>
+
+                            </div> 
+
+                            <div class="input-area p-2"> 
+                            <label  class="form-label">Email</label>
+                            <input  name="email"  value="{{ $reservation->email }}" type="email" class="form-control" placeholder="Enter your Email" disabled>
+                            </div>
+
+                            <div class="input-area p-2"> 
+                            <label  class="form-label">Phone</label>
+                            <input type="text" id="phone" value="{{ $reservation->phone }}" class="form-control" name="phone" placeholder="09512348350" required maxlength="12" disabled>
+                            </div>
+
+            
+                            <div class="input-area p-2"> 
+                            <label  class="form-label">Date</label>
+                            <input type="date" name="date" value="{{ $reservation->date }}"  class="form-control" placeholder="Your Date" required min="{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}" readonly>
+                            </div>
+
+                            <div class="input-area p-2"> 
+                            <label  class="form-label">Select a time:</label>
+                            <input type="time" id="time" name="time" value="{{ $reservation->time }}" class="form-control" min="09:00" max="18:00" required readonly>
+                            </div>
+
+                            <div class="input-area p-2"> 
+                            <label  class="form-label">Total Payment:</label>
+                            <input type="text" name="payment_total" value="{{ $reservation->payment_total }}" class="form-control" required readonly>
+                            </div>
+
+                            <div class="lg:col-span-5 col-span-12 pt-2">
+                                <table id="serviceTable" class="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700">
+                                    <thead class="bg-slate-200 dark:bg-slate-700">
+                                        <tr>
+                                            <th scope="col" class="table-th">Name</th>
+                                            <th scope="col" class="table-th">Gender</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
+                                        @foreach($users as $row)
+                                        <tr>
                                             <td class="table-td">{{ ucwords($row->user->first_name . ' ' . $row->user->middle_name . ' ' . $row->user->last_name) }}</td>
-                                            <td class="table-td"style="text-transform: lowercase;">{{ $row->user->email }}</td>
-                                            <td class="table-td">{{ $row->user->phone }}</td>
                                             <td class="table-td">{{ $row->user->gender }}</td>
-                                  
                                         </tr>
                                         @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        
+
                         </div>
 
-
-
-                        @if($reservation->status == 'Paid')
-
-                        @else
+                        @if($reservation->status != 'Paid')
                         <div class="flex justify-between">
                             <button type="button" class="bg-gray-300 text-gray-700 p-2 rounded" id="prev-2">Previous</button>
                             <button type="button" class="btn inline-flex justify-center text-white bg-blue-500 hover:bg-blue-600" id="submit" style="float: right;">
-                                    Paid
+                                Pay
                             </button>
-                        </div>
+                        </div> 
                         @endif
-              
-
-                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+<br>
 
 
 
@@ -235,7 +232,7 @@
 
 <script>
 $(document).ready(function() {
-    let maxServices = {{ $reservation->total_person }}; // Declare maxServices inside the ready function
+    let maxServices = {{ $reservation->total_person }};;
     let serviceIds = []; // Ensure this is accessible to all functions
 
     initializeSteps(); // Make sure steps are initialized when the page or modal content is loaded
@@ -297,7 +294,7 @@ $(document).ready(function() {
                                     'Your form has been submitted.',
                                     'success'
                                 ).then(() => {
-                                    window.location.reload();
+                                    // window.location.reload();
                                 });
                             },
                             error: function(error) {
@@ -328,14 +325,14 @@ $(document).ready(function() {
         $('#large_modal').on('hidden.bs.modal', function() {
             resetSteps();
             serviceIds = []; // Reset the service IDs when the modal closes
-            maxServices = {{ $reservation->total_person }}; // Reset maxServices if needed
+            let maxServices = {{ $reservation->total_person }};
         });
     }
 
     // Function to add services
     window.putServices = function(serviceId, fullname, gender) {
-        const tableBody = document.querySelector("#serviceTable tbody");
-
+        const tableBody = document.querySelector("#serviceTable1 tbody");
+        
         // Check if the maximum number of services has been reached
         if (serviceIds.length >= maxServices) {
             alert("You can only add up to as per total person.");

@@ -271,15 +271,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Form submission handling
-  // const phoneForm = document.getElementById('phone-form');
-  // phoneForm.addEventListener('submit', function(event) {
-  //   if (!phonePattern.test(phoneInput.value)) {
-  //     event.preventDefault(); // Prevent form submission if invalid
-  //     alert('Please enter a valid phone number in the format 09512348350.');
-  //   }
-  // });
-
   // Auto-fill boy and girl therapist fields based on total persons
   const totalPersonInput = document.querySelector('input[name="total_person"]');
   const boyTherapistInput = document.querySelector('input[name="boy_therapist"]');
@@ -326,6 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
       boyTherapistInput.value = boys; // Set the new boys value
     }
   });
+
 });
 
   function toggleGroupFields() {

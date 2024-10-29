@@ -32,8 +32,6 @@
                                 <tr>
                                     <th scope="col" class="table-th"  style="width:15%;">Customer Name</th>
                                     <th scope="col" class="table-th"  style="width:12%;">Email</th>
-                                    <th scope="col" class="table-th"  style="width:10%;">Type</th>
-                                    <th scope="col" class="table-th"  style="width:15%;">Service Name</th>
                                     <th scope="col" class="table-th"  style="width:10%;">Date</th>
                                     <th scope="col" class="table-th"  style="width:10%;">Time</th>
                                     <th scope="col" class="table-th"  style="width:8%;">Payment</th>
@@ -46,53 +44,15 @@
                                 <tr>
                                     <td class="table-td">{{ ucwords(@$row->first_name.' '.@$row->middle_name.' '.@$row->last_name) }} <br> {{ @$row->phone}} </td>
                                     <td class="table-td" style="text-transform: lowercase;">{{ @$row->email }}</td>
-
-                                    
-                                    <td>{{ $row->service_type }}</td>
-
-                                    <td class="table-td">
-                                        <span class="flex">
-                                            @if(@$row->service_type == 'services')
-                                            <span class="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none">
-                                                @if(@$row->services->upload)
-                                                <img src="{{ asset(@$row->services->upload) }}" alt="{{ @$row->services->title }}" class="img-radius wid-40 align-top m-r-15">
-                                                @else
-                                                <img src="{{ asset('admin/assets/images/all-img/customer_1.png') }}" alt="50" class="object-cover w-full h-full rounded-full">
-                                                @endif
-                                            </span>
-                                            @else
-                                            <span class="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none">
-                                                @if(@$row->package->upload)
-                                                <img src="{{ asset(@$row->package->upload) }}" alt="{{ @$row->package->title }}" class="img-radius wid-40 align-top m-r-15">
-                                                @else
-                                                <img src="{{ asset('admin/assets/images/all-img/customer_1.png') }}" alt="50" class="object-cover w-full h-full rounded-full">
-                                                @endif
-                                            </span>
-                                            @endif
-
-                                            @if(@$row->service_type == 'services')
-                                            <span class="text-sm text-slate-600 dark:text-slate-300 capitalize pt-2">{{ @$row->services->title }}</span>
-                                            @else
-                                            <span class="text-sm text-slate-600 dark:text-slate-300 capitalize pt-2">{{ @$row->package->name }}</span>
-                                            @endif
-                                         
-
-                                        </span>
-                                    </td>
                                     
                                     <td  class="table-td">{{ date('F j, Y', strtotime($row->date)) }}</td>
                                     <td class="table-td">{{ \Carbon\Carbon::parse($row->time)->format('g:i A') }}</td>
-                                    <td  class="table-td">
-                                    @if(@$row->service_type == 'services')
-                                        <div class=" text-danger-500">
-                                        ₱ {{ number_format((@$row->services->amount * $row->total_person), 2, '.', ',') }}
-                                        </div>
-                                    @else
-                                    <div class=" text-danger-500">
-                                        ₱ {{ number_format((@$row->package->amount ), 2, '.', ',') }}
-                                        </div>
-                                    @endif
-                                    </td>
+                                        <td  class="table-td">
+                                        
+                                            <div class=" text-danger-500">
+                                            ₱ {{ number_format((@$row->payment_total ), 2, '.', ',') }}
+                                            </div>
+                                        </td>
                                     <td  class="table-td">
                                     @if($row->status == 'Pending')
                                         <div class="inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 text-warning-500 bg-warning-500">
@@ -118,18 +78,35 @@
 
                                     </td>
 
-                                    <td class="table-td">
-                                        <div class="flex space-x-3 rtl:space-x-reverse">
+                                    @if($row->status == 'Serving')
+                                        <td class="table-td">
+                                            <div class="flex space-x-3 rtl:space-x-reverse">
+                                                @if(Auth::user()->user_type == 'Admin' || Auth::user()->user_type == 'Receptionist')
+                                                <button class="action-btn" type="button"   onclick="edit_details({{ $row->id }}, '{{ $row->email }}', 'Serving')"  title="Served" >
+                                                    <iconify-icon icon="heroicons:printer"></iconify-icon>
+                                                </button>
+                                                @endif
+                                                <button class="action-btn" type="button" onclick="served_action({{ $row->id }}, 'Cancelled')" title="Cancelled" disabled>
+                                                    <iconify-icon icon="heroicons:trash"></iconify-icon>
+                                                </button>
+                                            </div>
+                                        </td>
+                                        @else
+                                        <td class="table-td">
+                                            <div class="flex space-x-3 rtl:space-x-reverse">
 
-                                            <button class="action-btn" type="button"   onclick="edit_details({{ $row->id }}, '{{ $row->email }}', 'Paid')"  title="Served" >
-                                                <iconify-icon icon="heroicons:printer"></iconify-icon>
-                                            </button>
+                                                @if(Auth::user()->user_type == 'Admin' || Auth::user()->user_type == 'Receptionist')
+                                                <button class="action-btn" type="button" onclick="served_action({{ $row->id }} , 'Serving')" title="Pay">
+                                                    <iconify-icon icon="heroicons:printer"></iconify-icon>
+                                                </button>
+                                                @endif
 
-                                            <button class="action-btn" type="button" onclick="delete_action({{ $row->id }}, 'Cancelled')" title="Cancelled" >
-                                                <iconify-icon icon="heroicons:trash"></iconify-icon>
-                                            </button>
-                                        </div>
-                                    </td>
+                                                <button class="action-btn" type="button" onclick="served_action({{ $row->id }}, 'Cancelled')" title="Cancelled">
+                                                    <iconify-icon icon="heroicons:trash"></iconify-icon>
+                                                </button>
+                                            </div>
+                                        </td>
+                                        @endif
                        
 
                                 </tr>
@@ -250,7 +227,7 @@
             });
     }
 
-    function resched_action(id, status)
+    function served_action(id, status)
     {
         $('#large_modal').modal('show');
         $.ajax({
@@ -270,27 +247,27 @@
     }
 
     function edit_details(id, email, status) {
-    // Show the modal
-    $('#large_modal').modal('show');
 
-    // Make an AJAX request
-    $.ajax({
-        type: "POST",
-        url: '{{ route("reservation.edit_details") }}', // Adjust the route
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token from meta tag
-        },
-        data: {
-            id: id,         // Send the ID
-            status: status, // Send the status
-            email: email    // Send the email
-        },
-        success: function(data) {
-            // Update modal body with the response data
-            $(".body-details").show().html(data);
-        }
-    });
-}
+        $('#large_modal').modal('show');
+
+        $.ajax({
+            type: "POST",
+            url: '{{ route("reservation.edit_details") }}', // Adjust the route
+            
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // CSRF token from meta tag
+            },
+            data: {
+                id: id,         // Send the ID
+                status: status, // Send the status
+                email: email    // Send the email
+            },
+            success: function(data) {
+                // Update modal body with the response data
+                $(".body-details").show().html(data);
+            }
+        });
+    }
 
 
     function cancel_service()

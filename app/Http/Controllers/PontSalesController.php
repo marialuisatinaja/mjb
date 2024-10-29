@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\BusinessDetails;
 use App\Models\Package;
 use App\Models\Reservation;
 use App\Models\SalesDetails;
@@ -24,7 +25,7 @@ class PontSalesController extends Controller
     {
         $services = Services::all();
         $packages = Package::all();
-        $reservations = Reservation::with('services','package')
+        $reservations = BusinessDetails::with('services','package')
         ->where('offers_type', 'walkin')
         ->where(function ($query) {
             $query->where('status', 'Pending')

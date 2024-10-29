@@ -65,7 +65,7 @@
 }
 
 </style>
-  <header id="header" class="header d-flex align-items-center fixed-top">
+  <header id="header" class="header d-flex align-items-center fixed-top" style="background-color: #2a2c39;">
     <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
       <a href="index.html" class="logo d-flex align-items-center">
@@ -172,21 +172,27 @@
             <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-{{ $service->id }}">
 
                 @if($service->upload)
-                <center><img src="{{ asset($service->upload) }}" alt="{{ $service->title }}" class="img-fluid" style="height:250px;width:300px;"></center>
+                <img src="{{ asset($service->upload) }}" alt="{{ $service->title }}" class="img-fluid" style="height:250px;width:300px;">
                 @else
-                <center><img src="assets/img/masonry-portfolio/masonry-portfolio-2.jpg" class="img-fluid" alt=""  style="height:250px;width:300px;"></center>
+                <img src="assets/img/masonry-portfolio/masonry-portfolio-2.jpg" class="img-fluid" alt=""  style="height:250px;width:300px;">
                 @endif
 
     
               <div class="portfolio-info">
                 <h4>{{ $service->title }}  ( ₱{{  $service->amount }} )</h4>
-                <p>{{ $service->description }}</p>
-                <a href="{{ asset($service->upload) }}" title="{{ $service->title }} ( ₱{{  $service->amount }} )" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="javascript:(0);" onclick="get_details1({{ $service->id }})" title="reserved" class="details-link"><i class="bi bi-book"></i></a>
+                <p>{{ $service->description }} </p>
+
+                <div class="btn-wrap center">
+                    <a href="javascript:(0);" onclick="get_details1(1)" class="btn-buy ml-3">Reserve Now</a>
+                </div>
+                <!-- <a href="{{ asset($service->upload) }}" title="{{ $service->title }} ( ₱{{  $service->amount }} )" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                <a href="javascript:(0);" onclick="get_details1({{ $service->id }})" title="reserved" class="details-link"><i class="bi bi-book"></i></a> -->
               </div>
             </div><!-- End Portfolio Item -->
+      
+
             @endforeach
-           
+      
 
           </div><!-- End Portfolio Container -->
 
@@ -227,7 +233,8 @@
 
                         </ul>
                         <div class="btn-wrap">
-                            <a href="javascript:(0);" onclick="get_details({{ $row->id }})" class="btn-buy">Reserve Now</a>
+                            <!-- <a href="javascript:(0);" onclick="get_details({{ $row->id }})" class="btn-buy">Reserve Now</a> -->
+                            <a href="javascript:(0);" onclick="get_register()" class="btn-buy">Reserve Now</a>
                         </div>
                     </div>
                 </div><!-- End Pricing Item -->
@@ -294,6 +301,21 @@
     </div>
 </div>
 
+<div class="modal fade" id="register_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body body-details">
+                  
+            </div>
+    
+        </div>
+    </div>
+</div>
+
   </main>
 
   <footer id="footer" class="footer dark-background">
@@ -341,23 +363,29 @@
 
 
 
-    function get_details(id)
+    function get_register(id)
     {
 
-      $('#large_modal').modal('show');
-      $.ajax({
-            type: "POST",
-            url: '{{ route("service.package") }}', // Adjust the route
-            headers: {
-                'X-CSRF-TOKEN': csrfToken
-            },
-            data: {
-                id: id, // Your data
-            },
-            success: function(data) {
-                $(".body-details").show().html(data);
-            }
-        });
+      Swal.fire({
+    title: 'You must create an account first',
+    text: "Do you want to create an account?",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, I will create an account',
+    cancelButtonText: 'No, I have an account already!'
+}).then((result) => {
+    if (result.isConfirmed) {
+        // Redirect to the registration page if user confirms
+        window.location.href = 'http://mjb.test/register';
+    } else {
+        // Redirect to the login page if user cancels
+        window.location.href = 'http://mjb.test/login';
+    }
+});
+
+
     }
 
 

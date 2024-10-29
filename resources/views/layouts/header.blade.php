@@ -1265,6 +1265,12 @@
 
                         </div>
                        @endif
+                       <span class="absolute -right-1 lg:top-0 -top-[6px] h-4 w-4 bg-red-500 text-[8px] font-semibold flex flex-col items-center justify-center rounded-full text-white z-[99] notification-count" style="display: none;">
+                            0
+                        </span>
+                        <div class="notification-list" style="display: none;"> <!-- This is where notifications will be injected -->
+                                    <!-- Notifications will be dynamically added here -->
+                                </div>
                         <!-- END: Notification Dropdown -->
 
                   <div>

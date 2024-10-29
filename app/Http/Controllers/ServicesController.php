@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Services\CreateServices;
 use App\Http\Requests\Services\UpdateServices;
+use App\Models\BusinessDetails;
 use App\Models\Reservation;
 use App\Models\Services;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ServicesController extends Controller
@@ -227,6 +229,99 @@ class ServicesController extends Controller
 
     }
     
+    public function userReseravtion(Request $request)
+    {
+        $validatedData = $request->validate([
+            'date' => 'required|date',
+            'time' => 'required|string', 
+            'service_type' => 'required',
+            'service_ids' => 'exists:services,id' 
+        ]);
+
+            $user  = User::where('id', auth()->user()->id)->first(); 
+            $serviceIdsArray = explode(',', $validatedData['service_ids'][0]); 
+            $serviceTypeArray = explode(',', $validatedData['service_type'][0]); 
+
+            $details = new BusinessDetails();
+            $details->first_name = $user->first_name;
+            $details->middle_name = $user->middle_name;
+            $details->last_name = $user->last_name;
+            $details->gender =$user->gender;
+            $details->email = $user->email;
+            $details->phone = $user->phone;
+            $details->type = $request->input('type');
+            $details->preffered = $request->input('therapist_gender');
+            $details->total_person = ( $request->input('type') === 'self') ? 1 : $request->input('total_person');
+            $details->boy_therapist = $request->input('boy_therapist');
+            $details->girl_therapist = $request->input('girl_therapist');
+            $details->date = $request->input('date');
+            $details->time = $request->input('time');
+            $details->payment_total = $request->input('payment_total');
+            $details->status = 'Pending';
+            $details->offers_type = 'reserved';
+            $details->save();
+
+            foreach ($serviceIdsArray as $index => $serviceId) {
+                $serviceType = $serviceTypeArray[$index] ?? null;
+                $reservation = new Reservation();
+                $reservation->reservation_id = $details->id;
+                $reservation->service_id = $serviceId;
+                $reservation->service_type = $serviceType;
+                $reservation->save();
+            }
+
+            return back()->with([
+                'success' => 'Details successfully reserved',
+                'redirectUrl' => url()->previous()  // This gets the previous URL
+            ]);
+        
+    }
+
+    public function userWalkin(Request $request)
+    {
+        $validatedData = $request->validate([
+            'date' => 'required|date',
+            'time' => 'required|string', 
+            'service_type' => 'required',
+            'service_ids' => 'exists:services,id' 
+        ]);
+
+            $user  = User::where('id', auth()->user()->id)->first(); 
+            $serviceIdsArray = explode(',', $validatedData['service_ids'][0]); 
+            $serviceTypeArray = explode(',', $validatedData['service_type'][0]); 
+
+            $details = new BusinessDetails();
+            $details->first_name = $request->input('first_name');
+            $details->middle_name = $request->input('middle_name');
+            $details->last_name = $request->input('last_name');
+            $details->email = $request->input('email');
+            $details->phone = $request->input('phone');
+            $details->type = $request->input('type');
+            $details->preffered = $request->input('therapist_gender');
+            $details->total_person = ( $request->input('type') === 'self') ? 1 : $request->input('total_person');
+            $details->boy_therapist = $request->input('boy_therapist');
+            $details->girl_therapist = $request->input('girl_therapist');
+            $details->date = $request->input('date');
+            $details->time = $request->input('time');
+            $details->payment_total = $request->input('payment_total');
+            $details->status = 'Pending';
+            $details->offers_type = 'walkin';
+            $details->save();
+
+            foreach ($serviceIdsArray as $index => $serviceId) {
+                $serviceType = $serviceTypeArray[$index] ?? null;
+                $reservation = new Reservation();
+                $reservation->reservation_id = $details->id;
+                $reservation->service_id = $serviceId;
+                $reservation->service_type = $serviceType;
+                $reservation->save();
+            }
+
+            return back()->with([
+                'success' => 'Details successfully reserved',
+                'redirectUrl' => url()->previous()  // This gets the previous URL
+            ]);
+    }
 
 
 }

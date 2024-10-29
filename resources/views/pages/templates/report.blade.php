@@ -53,7 +53,8 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>Service Name</th>
+            <th>Customer Name</th>
+            <th>Phone</th>
             <th>Type</th>
             <th>Status</th>
             <th>Payment</th>
@@ -67,21 +68,25 @@
         @foreach($reservations as $row)
             <tr>
                 <td>{{ $row->id }}</td>
-                <td>{{ @$row->services->title }}</td>
-                <td>{{ @$row->service_type }}</td>
+                <td>{{ ucwords($row->first_name.' '.$row->middle_name.' '.$row->last_name) }}</td>
+                <td>{{ $row->phone}}</td>
+                <td>{{ @$row->offers_type }}</td>
                 <td>{{ @$row->status }}</td>
                 <td>
-                    {{ $amount = number_format((@$row->services->amount * $row->total_person), 2, '.', ',') }}
+                    {{ $amount = number_format((@$row->payment_total), 2, '.', ',') }}
                     @php
-                        $totalAmount += $row->services->amount * $row->total_person; // Accumulate total amount
+                        $totalAmount += $row->payment_total; // Accumulate total amount
                     @endphp
+
+
+                    
                 </td>
             </tr>
         @endforeach
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="4" style="text-align: right;"><strong>Total:</strong></td>
+            <td colspan="5" style="text-align: right;"><strong>Total:</strong></td>
             <td><strong>{{ number_format($totalAmount, 2, '.', ',') }}</strong></td>
         </tr>
     </tfoot>

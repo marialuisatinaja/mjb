@@ -8,6 +8,7 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\UserController;
+use App\Models\BusinessDetails;
 use App\Models\Package;
 use App\Models\PackageServices;
 use App\Models\Reservation;
@@ -31,9 +32,11 @@ Route::get('/dashboard', function () {
      $walkinsCount = 0;
      $walkinsData = '';
      $userCount = 0;
+     $services = Services::all();
+     $packages = Package::all();
     if(auth()->user()->user_type == 'Customer')
     {
-        $walkinQuery = Reservation::with('services', 'package')
+        $walkinQuery = BusinessDetails::with('services', 'package')
         ->where('email', auth()->user()->email)
         ->where('offers_type', '<>', 'walkin')
         ->where(function ($query) {
@@ -43,7 +46,7 @@ Route::get('/dashboard', function () {
         $reservationsCount = $walkinQuery->count();
         $reservations = $walkinQuery->get();
 
-        $reservationQuery = Reservation::with('services', 'package')
+        $reservationQuery = BusinessDetails::with('services', 'package')
         ->where('email', auth()->user()->email)
         ->where('offers_type', 'walkin')
         ->where(function ($query) {
@@ -56,7 +59,7 @@ Route::get('/dashboard', function () {
     }
     else
     {
-        $walkinQuery = Reservation::with('services', 'package')
+        $walkinQuery = BusinessDetails::with('services', 'package')
         ->where('offers_type', '<>', 'walkin')
         ->where(function ($query) {
             $query->where('status', 'Pending')
@@ -65,7 +68,7 @@ Route::get('/dashboard', function () {
         $reservationsCount = $walkinQuery->count();
         $reservations = $walkinQuery->get();
 
-        $reservationQuery = Reservation::with('services', 'package')
+        $reservationQuery = BusinessDetails::with('services', 'package')
         ->where('offers_type', 'walkin')
         ->where(function ($query) {
             $query->where('status', 'Pending')
@@ -77,7 +80,7 @@ Route::get('/dashboard', function () {
         $userQuery = User::where('user_type','Customer'); // Missing semicolon here
         $userCount = $userQuery->count();
     }
-    return view('dashboard',compact('reservations','reservationsCount','walkinsCount','walkinsData','userCount'));
+    return view('dashboard',compact('reservations','reservationsCount','walkinsCount','walkinsData','userCount','services','packages'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::name('service.')->prefix('/service')->group(function () {
@@ -85,6 +88,10 @@ Route::name('service.')->prefix('/service')->group(function () {
     Route::post('reservation', [ServicesController::class, 'reservation'])->name('reservation');
     Route::post('service', [ServicesController::class, 'service'])->name('service');
     Route::post('package', [PackageController::class, 'package'])->name('package');
+    Route::post('userReseravtion', [ServicesController::class, 'userReseravtion'])->name('userReseravtion');
+    Route::post('userWalkin', [ServicesController::class, 'userWalkin'])->name('userWalkin');
+    
+    
 });
 
 Route::middleware('auth')->group(function () {

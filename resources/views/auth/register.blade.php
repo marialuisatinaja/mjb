@@ -45,91 +45,67 @@
             </a>
           </div>
           <div class="text-center 2xl:mb-10 mb-5">
-            <h4 class="font-medium">Sign In</h4>
+            <h4 class="font-medium">Sign Up</h4>
             <div class="text-slate-500 dark:text-slate-400 text-base">
-              Sign in to your account
+             Create your Account
             </div>
           </div>
 
           <!-- BEGIN: Registration Form -->
           <form method="POST" id="user" action="{{ route('register') }}">
-          @csrf
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-                <div class="input-area relative">
-                    <label for="largeInput" class="form-label">First Name</label>
-                    <input type="text" name="first_name" class="form-control" placeholder="First Name" required>
-                </div>
+            @csrf
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+                  <div class="input-area relative">
+                      <label for="largeInput" class="form-label">First Name</label>
+                      <input type="text" name="first_name" class="form-control" placeholder="First Name" required>
+                  </div>
 
-                <div class="input-area relative">
-                    <label for="largeInput" class="form-label">Middle Name</label>
-                    <input type="text" name="middle_name" class="form-control" placeholder="Middle Name">
-                </div>
+                  <div class="input-area relative">
+                      <label for="largeInput" class="form-label">Middle Name</label>
+                      <input type="text" name="middle_name" class="form-control" placeholder="Middle Name">
+                  </div>
 
-                <div class="input-area relative">
-                    <label for="largeInput" class="form-label">Last Name</label>
-                    <input type="text" name="last_name" class="form-control" placeholder="Last Name" required>
-                </div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-3">
-                <div class="input-area">
-                    <label for="select" class="form-label">Gender</label>
-                    <select  class="form-control" name="gender" required>
-                    <option value="" class="dark:bg-slate-700">Select Gender</option>
-                    <option value="Male" class="dark:bg-slate-700">Male</option>
-                    <option value="Female" class="dark:bg-slate-700">Female</option>
-                    </select>
-                </div>
-
-                <div class="input-area">
-                    <label  class="form-label">Birth Date</label>
-                    <input name="birth_date" type="date" class="form-control" >
-                </div>
-                
-                <div class="input-area">
-                    <label for="largeInput" class="form-label">Phone No.</label>
-                    <input type="text" name="phone" class="form-control" placeholder="Enter Phone no." required>
-                </div>
-
-                <div class="input-area">
-                    <label for="largeInput" class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control" placeholder="Enter Email" required>
-                </div>
-
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-3">
-            <div class="input-area relative">
-                <label for="largeInput" class="form-label">Password</label>
-                <input type="password" name="password" class="form-control" placeholder="Enter Password" required>
+                  <div class="input-area relative">
+                      <label for="largeInput" class="form-label">Last Name</label>
+                      <input type="text" name="last_name" class="form-control" placeholder="Last Name" required>
+                  </div>
             </div>
-          </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-3">
+                  <div class="input-area">
+                      <label for="select" class="form-label">Gender</label>
+                      <select  class="form-control" name="gender" required>
+                      <option value="" class="dark:bg-slate-700">Select Gender</option>
+                      <option value="Male" class="dark:bg-slate-700">Male</option>
+                      <option value="Female" class="dark:bg-slate-700">Female</option>
+                      </select>
+                  </div>
 
-          <div class="fromGroup">
-                <button class="btn btn-dark block w-full text-center">Sign Up</button>
-            </div> 
+                  <div class="input-area">
+                      <label  class="form-label">Birth Date</label>
+                      <input name="birth_date" type="date" class="form-control" >
+                  </div>
+                  
+                  <div class="input-area">
+                      <label for="largeInput" class="form-label">Phone No.</label>
+                      <input type="number" name="phone" class="form-control" placeholder="Enter Phone no." required>
+                  </div>
 
-            <!-- <div class="fromGroup">
-            <x-input-label class="block capitalize form-label" for="email" :value="__('Email')" />
-                <div class="relative">
-                    <x-text-input id="email" class="form-control py-2" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Enter your email" />
-                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                </div>
+                  <div class="input-area">
+                      <label for="largeInput" class="form-label">Email</label>
+                      <input type="email" name="email" class="form-control" placeholder="Enter Email" required>
+                  </div>
+
             </div>
-
-   
-
-            <div class="fromGroup">
-              <x-input-label class="block capitalize form-label"  for="password" :value="__('Password')" />
-                <x-text-input  class="form-control py-2"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" placeholder="Enter your email"/>
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-3">
+              <div class="input-area relative">
+                  <label for="largeInput" class="form-label">Password</label>
+                  <input type="password" name="password" class="form-control" placeholder="Enter Password" required>
               </div>
-
+            </div>
+            <br>
             <div class="fromGroup">
-                <button class="btn btn-dark block w-full text-center">Sign in</button>
-            </div> -->
-
+                  <button class="btn btn-dark block w-full text-center">Sign Up</button>
+              </div> 
           </form>
 
 
