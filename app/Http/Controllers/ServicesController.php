@@ -152,9 +152,7 @@ class ServicesController extends Controller
         ]);
     
         if ($request->input('service_type') == 'package') {
-            $reservation = new Reservation();
-            $reservation->service_id = $request->input('service_id');
-            $reservation->service_type = 'package';
+            $reservation = new BusinessDetails();
             $reservation->first_name = $request->input('first_name');
             $reservation->middle_name = $request->input('middle_name');
             $reservation->last_name = $request->input('last_name');
@@ -166,19 +164,23 @@ class ServicesController extends Controller
             $reservation->boy_therapist = $request->input('boy_therapist');
             $reservation->girl_therapist = $request->input('girl_therapist');
             $reservation->total_person = $request->input('total_person');
-            $reservation->message = $request->input('message');
             $reservation->date = $request->input('date');
             $reservation->time = $request->input('time');
             $reservation->status = 'Pending';
-            $reservation->offers_type = 'reservations';
-            
+            $reservation->offers_type = 'reservations';     
+            $reservation->payment_total = $request->input('service_ammount');       
             $reservation->save();
+
+            $details = new Reservation();
+            $details->reservation_id = $reservation->id;
+            $details->service_id = $request->input('service_id');
+            $details->service_type = 'package';
+            $details->save();
+
         }else{
             // Check if reservation is for 'self'
             if ($request->input('type') == 'self') {
-                $reservation = new Reservation();
-                $reservation->service_id = $request->input('service_id');
-                $reservation->service_type = 'services';
+                $reservation = new BusinessDetails();
                 $reservation->first_name = $request->input('first_name');
                 $reservation->middle_name = $request->input('middle_name');
                 $reservation->last_name = $request->input('last_name');
@@ -190,16 +192,21 @@ class ServicesController extends Controller
                 $reservation->boy_therapist = $request->input('therapist_gender') == 'girl' ? 0 : 1;
                 $reservation->girl_therapist = $request->input('therapist_gender') == 'girl' ? 1 : 0;
                 $reservation->total_person = 1;
-                $reservation->message = $request->input('message');
                 $reservation->date = $request->input('date');
                 $reservation->time = $request->input('time');
                 $reservation->status = 'Pending';
                 $reservation->offers_type = 'reservations';
+                $reservation->payment_total = $request->input('service_ammount');
                 $reservation->save();
+
+                $details = new Reservation();
+                $details->reservation_id = $reservation->id;
+                $details->service_id = $request->input('service_id');
+                $details->service_type = 'services';
+                $details->save();
+
             } else {
-                $reservation = new Reservation();
-                $reservation->service_id = $request->input('service_id');
-                $reservation->service_type = 'services';
+                $reservation = new BusinessDetails();
                 $reservation->first_name = $request->input('first_name');
                 $reservation->middle_name = $request->input('middle_name');
                 $reservation->last_name = $request->input('last_name');
@@ -211,12 +218,19 @@ class ServicesController extends Controller
                 $reservation->boy_therapist = $request->input('boy_therapist');
                 $reservation->girl_therapist = $request->input('girl_therapist');
                 $reservation->total_person = $request->input('total_person');
-                $reservation->message = $request->input('message');
                 $reservation->date = $request->input('date');
                 $reservation->time = $request->input('time');
                 $reservation->status = 'Pending';
                 $reservation->offers_type = 'reservations';
+                $reservation->payment_total = $request->input('service_ammount') * $request->input('total_person');
                 $reservation->save();
+
+
+                $details = new Reservation();
+                $details->reservation_id = $reservation->id;
+                $details->service_id = $request->input('service_id');
+                $details->service_type = 'services';
+                $details->save();
             }
         }
         

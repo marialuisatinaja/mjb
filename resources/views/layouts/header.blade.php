@@ -1,5 +1,5 @@
 <div class="z-[9]" id="app_header">
-          <div class="app-header z-[999] ltr:ml-[248px] rtl:mr-[248px] bg-white dark:bg-slate-800 shadow-sm dark:shadow-slate-700">
+          <div class="app-header z-[999] ltr:ml-[248px] rtl:mr-[248px] bg-white dark:bg-slate-800 shadow-sm dark:shadow-slate-700"  style="background-color: #5cab2f;">
             <div class="flex justify-between items-center h-full">
               <div class="flex items-center md:space-x-4 space-x-2 xl:space-x-0 rtl:space-x-reverse vertical-box">
                 <a href="index.html" class="mobile-logo xl:hidden inline-block">
@@ -1241,7 +1241,7 @@
               </div>
 
               <!-- end top menu -->
-              <div class="nav-tools flex items-center lg:space-x-5 space-x-3 rtl:space-x-reverse leading-0">
+              <div class="nav-tools flex items-center lg:space-x-5 space-x-3 rtl:space-x-reverse leading-0" >
                        <!-- Notifications Dropdown area -->
                        @if(Auth::user()->user_type == 'Admin' || Auth::user()->user_type == 'Receptionist')
                         <div class="relative md:block hidden">
@@ -1286,11 +1286,11 @@
                     <button class="text-slate-800 dark:text-white focus:ring-0 focus:outline-none font-medium rounded-lg text-sm text-center
                                   inline-flex items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <div class="lg:h-8 lg:w-8 h-7 w-7 rounded-full flex-1 ltr:mr-[10px] rtl:ml-[10px]">
-                            <img src="{{asset('admin/assets/images/all-img/user.png') }}" alt="user" class="block w-full h-full object-cover rounded-full">
+                            <img src="{{asset('admin/assets/images/avatar/av-4.svg') }}" alt="user" class="block w-full h-full object-cover rounded-full">
                         </div>
-                        <div class="flex flex-col text-slate-600 dark:text-white text-sm font-normal lg:flex hidden overflow-hidden text-ellipsis whitespace-nowrap">
+                        <div style="color:yellow;" class="flex flex-col text-slate-600 dark:text-white text-sm font-normal lg:flex hidden overflow-hidden text-ellipsis whitespace-nowrap">
                             <span>{{ Auth::user()->first_name }}</span>
-                            <span class="text-xs text-slate-500">{{ Auth::user()->user_type }}</span> <!-- User type displayed under the name -->
+                            <span class="text-xs text-slate-500" style="color:yellow;">{{ Auth::user()->user_type }}</span> <!-- User type displayed under the name -->
                         </div>
                         <svg class="w-[16px] h-[16px] dark:text-white hidden lg:inline-block text-base inline-block ml-[10px] rtl:mr-[10px]" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>

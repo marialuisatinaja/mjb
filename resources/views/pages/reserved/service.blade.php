@@ -41,6 +41,7 @@
         <form action="{{ route('service.reservation') }}" method="post"  id="user" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
                     @csrf <!-- Add CSRF token field -->
                       <input type="hidden" name="service_id" value="{{ $id }}">
+                      <input type="hidden" name="service_ammount" value="{{  $services->amount }}">
                       <div class="row gy-4">
 
                         <div class="col-md-4">
@@ -128,17 +129,16 @@
                         </div>
 
                         <div class="col-md-6">
-                        <label for="time">Select a time (between 09:00 and 18:00):</label>
-                        <input type="time" id="time" name="time" class="form-control" required>
-                        <!-- <input type="time" id="time" name="time" class="form-control" min="09:00" max="18:00" required> -->
+                        <small for="time" class="form-label">Business Hours 11:00 am to 11:00 pm</small>
+                        <input type="time" id="time" name="time" class="form-control" min="11:00" max="23:00" value="11:00" required>
                         </div>
 
 
 
 
-                        <div class="col-md-12">
+                        <!-- <div class="col-md-12">
                           <textarea class="form-control" name="message" rows="6" placeholder="Message" ></textarea>
-                        </div>
+                        </div> -->
 
                         <div class="col-md-12 text-center">
                           <div class="loading">Loading</div>

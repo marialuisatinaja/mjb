@@ -65,7 +65,7 @@
 }
 
 </style>
-  <header id="header" class="header d-flex align-items-center fixed-top" style="background-color: #2a2c39;">
+  <header id="header" class="header d-flex align-items-center fixed-top" style="background-color: #5cab2f;">
     <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
       <a href="index.html" class="logo d-flex align-items-center">
@@ -152,7 +152,7 @@
 
 
     <!-- Portfolio Section -->
-    <section id="services" class="portfolio section">
+    <section id="services" class="portfolio section" style="background-color: #c4d538;">
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
@@ -183,7 +183,7 @@
                 <p>{{ $service->description }} </p>
 
                 <div class="btn-wrap center">
-                    <a href="javascript:(0);" onclick="get_register()" class="btn-buy ml-3">Reserve Now</a>
+                    <a href="javascript:(0);" onclick="get_details1({{ $service->id }})" class="btn-buy ml-3">Reserve Now</a>
                 </div>
                 <!-- <a href="{{ asset($service->upload) }}" title="{{ $service->title }} ( ₱{{  $service->amount }} )" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
                 <a href="javascript:(0);" onclick="get_details1({{ $service->id }})" title="reserved" class="details-link"><i class="bi bi-book"></i></a> -->
@@ -204,7 +204,7 @@
 
 
     <!-- Pricing Section -->
-    <section id="portfolio" class="pricing section">
+    <section id="portfolio" class="pricing section" style="background-color: #c4d538;">
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
@@ -234,7 +234,7 @@
                         </ul>
                         <div class="btn-wrap">
                             <!-- <a href="javascript:(0);" onclick="get_details({{ $row->id }})" class="btn-buy">Reserve Now</a> -->
-                            <a href="javascript:(0);" onclick="get_register()" class="btn-buy">Reserve Now</a>
+                            <a href="javascript:(0);" onclick="get_details({{ $row->id }})" class="btn-buy">Reserve Now</a>
                         </div>
                     </div>
                 </div><!-- End Pricing Item -->
@@ -246,7 +246,7 @@
     </section><!-- /Pricing Section -->
 
     <!-- Team Section -->
-    <section id="team" class="team section">
+    <section id="team" class="team section" style="background-color: #c4d538;">
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
@@ -318,7 +318,7 @@
 
   </main>
 
-  <footer id="footer" class="footer dark-background">
+  <footer id="footer" class="footer dark-background" style="background-color: #5cab2f;">
     <div class="container">
       <h3 class="sitename">MJB</h3>
       <div class="social-links d-flex justify-content-center">

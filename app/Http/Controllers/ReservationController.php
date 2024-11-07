@@ -89,8 +89,8 @@ class ReservationController extends Controller
                 'date' => 'required|date',
                 'time' => 'required|string', // Adjust validation as needed
                 'status' => 'required|string',
-                'service_ids' => 'nullable|array', 
-                'service_ids.*' => 'exists:services,id' 
+                'service_ids' => 'required', 
+                // 'service_ids.*' => 'exists:services,id' 
             ]);
 
             $serviceIdsString = $validatedData['service_ids'][0]; // This will be "1,2"

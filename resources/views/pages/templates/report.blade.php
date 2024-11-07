@@ -92,6 +92,11 @@
     </tfoot>
 </table>
 
+<div style="margin-top: 100px;">
+    <hr style="width: 200px; border: 1px solid black; margin: 0 auto;">
+    <p style="text-align: center; font-weight: bold; margin-top: 5px;">{{ Auth::user()->first_name.' '.Auth::user()->middle_name.' '.Auth::user()->last_name }}</p>
+</div>
+
 
 
 </body>

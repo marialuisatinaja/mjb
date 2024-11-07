@@ -39,4 +39,9 @@ class BusinessDetails extends Model
         return $this->belongsTo(Package::class, 'service_id', 'id');
     }
 
+    public function sales_details(): BelongsTo
+    {
+        return $this->belongsTo(SalesDetails::class, 'id', 'reservation_id');
+    }
+
 }

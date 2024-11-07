@@ -44,6 +44,7 @@
                 <input type="hidden" name="service_id" value="{{ $packages->id }}">
               <input type="hidden" name="service_type" value="package">
               <input type="hidden" name="type" value="group">
+              <input type="hidden" name="service_ammount" value="{{ $packages->amount }}">
               <div class="col-md-4">
                 <label for="time">Input First Name.</label>
                 <input type="text" name="first_name" class="form-control" placeholder="Your First Name" required="">
@@ -85,16 +86,11 @@
               </div>
 
               <div class="col-md-6">
-              <label for="time">Select a time (between 09:00 and 18:00):</label>
-              <input type="time" id="time" name="time" class="form-control" required>
+              <small for="time" class="form-label">Business Hours 11:00 am to 11:00 pm</small>
+              <input type="time" id="time" name="time" class="form-control" min="11:00" max="23:00" value="11:00" required>
               </div>
 
               <input type="hidden" name="offers"  value="reservations">
-
-
-              <div class="col-md-12">
-                <textarea class="form-control" name="message" rows="6" placeholder="Message" ></textarea>
-              </div>
 
               <div class="col-md-12 text-center">
                 <div class="loading">Loading</div>

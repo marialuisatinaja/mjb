@@ -68,17 +68,23 @@ Route::get('/dashboard', function () {
         $reservationsCount = $walkinQuery->count();
         $reservations = $walkinQuery->get();
 
-        $reservationQuery = BusinessDetails::with('services', 'package')
-        ->where('offers_type', 'walkin')
-        ->where(function ($query) {
-            $query->where('status', 'Pending')
-                  ->orWhere('status', 'Serving');
-        });
+        $reservationQuery = BusinessDetails::with(['services', 'package', 'sales_details.user'])
+        ->where('status', 'Serving');
+
+        // $reservationQuery = BusinessDetails::with('services', 'package')
+        // ->where('offers_type', 'walkin')
+        // ->where(function ($query) {
+        //     $query->where('status', 'Serving')
+        //           ->orWhere('status', 'Serving');
+        // });
+
         $walkinsCount = $reservationQuery->count();
         $walkinsData = $reservationQuery->get();
 
         $userQuery = User::where('user_type','Customer'); // Missing semicolon here
         $userCount = $userQuery->count();
+
+
     }
     return view('dashboard',compact('reservations','reservationsCount','walkinsCount','walkinsData','userCount','services','packages'));
 })->middleware(['auth', 'verified'])->name('dashboard');
