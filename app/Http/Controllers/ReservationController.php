@@ -15,7 +15,8 @@ class ReservationController extends Controller
     {
         $walkinQuery = BusinessDetails::with('services', 'package')
         ->where('status', 'Pending')
-        ->where('offers_type', 'reserved');
+        ->where('offers_type', 'reserved')
+        ->orWhere('offers_type','reservations');
 
     $reservationsCount = $walkinQuery->count();
     $reservations = $walkinQuery->get();

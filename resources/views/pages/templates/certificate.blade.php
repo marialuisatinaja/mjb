@@ -50,7 +50,7 @@
 </table>
 
     <div style="margin-left:15%;margin-right:20%;">
-        <h1 style="border-bottom:solid 1px;"><small style="font-weight: 100;">To :</small> Hecel Angelo</h1>
+        <h1 style="border-bottom:solid 1px;"><small style="font-weight: 100;">To :</small> {{ $certificate->name }}</h1>
         <label>This certificate entitles you to</label>
     </div>
     <center>
