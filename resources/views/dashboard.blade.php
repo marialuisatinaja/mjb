@@ -7,24 +7,13 @@
 
     @if(Auth::user()->user_type == 'Admin')
         <div>
+
           <div class="grid grid-cols-12 gap-5 mb-5">
-            <div class="2xl:col-span-3 lg:col-span-4 col-span-12">
-              <div class="bg-no-repeat bg-cover bg-center p-4 rounded-[6px] relative" style="background-image: url(assets/images/all-img/widget-bg-1.png)">
-                <div class="max-w-[180px]">
-                  <div class="text-xl font-medium text-slate-900 mb-2">
-                  Hi, {{ Auth::user()->first_name }}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="2xl:col-span-9 lg:col-span-8 col-span-12">
+            <div class="col-span-12">
               <div class="p-4 card">
                 <div class="grid md:grid-cols-3 col-span-1 gap-4">
-
                   <!-- BEGIN: Group Chart2 -->
-
-
-                  <div class="py-[18px] px-4 rounded-[6px] bg-[#E5F9FF] dark:bg-slate-900	 ">
+                  <div class="py-[18px] px-4 rounded-[6px] bg-[#E5F9FF] dark:bg-slate-900">
                     <div class="flex items-center space-x-6 rtl:space-x-reverse">
                       <div class="flex-none">
                         <div id="wline1"></div>
@@ -33,7 +22,6 @@
                         <div class="text-slate-800 dark:text-slate-300 text-sm mb-1 font-medium">
                           Walk Ins
                         </div>
-                        
                         <div class="text-slate-900 dark:text-white text-lg font-medium">
                           {{ @$walkinsCount }}
                         </div>
@@ -41,7 +29,7 @@
                     </div>
                   </div>
 
-                  <div class="py-[18px] px-4 rounded-[6px] bg-[#FFEDE5] dark:bg-slate-900	 ">
+                  <div class="py-[18px] px-4 rounded-[6px] bg-[#FFEDE5] dark:bg-slate-900">
                     <div class="flex items-center space-x-6 rtl:space-x-reverse">
                       <div class="flex-none">
                         <div id="wline2"></div>
@@ -51,13 +39,13 @@
                           Reservation
                         </div>
                         <div class="text-slate-900 dark:text-white text-lg font-medium">
-                        {{ @$reservationsCount }}
+                          {{ @$reservationsCount }}
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div class="py-[18px] px-4 rounded-[6px] bg-[#EAE5FF] dark:bg-slate-900	 ">
+                  <div class="py-[18px] px-4 rounded-[6px] bg-[#EAE5FF] dark:bg-slate-900">
                     <div class="flex items-center space-x-6 rtl:space-x-reverse">
                       <div class="flex-none">
                         <div id="wline3"></div>
@@ -72,12 +60,12 @@
                       </div>
                     </div>
                   </div>
-
                   <!-- END: Group Chart2 -->
                 </div>
               </div>
             </div>
           </div>
+
           <div class="grid grid-cols-12 gap-5">
     
             <div class="lg:col-span-8 col-span-12">

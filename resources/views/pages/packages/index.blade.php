@@ -53,7 +53,7 @@
                                         <span class="text-sm text-slate-600 dark:text-slate-300 capitalize pt-2">{{ $package->name }}</span>
                                     </span>
                                 </td>
-                                <td class="table-td">{{ $package->amount }}</td>
+                                <td class="table-td">₱ {{ $package->amount }}</td>
                                 <td class="table-td text-wrap" style="width: 35%;">{{ $package->description }}</td>
                                 <td class="table-td">
                                     <div class="flex space-x-3 rtl:space-x-reverse">

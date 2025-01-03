@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('title')->nullable()->default(null);
             $table->string('type')->nullable()->default(null);
             $table->string('amount')->nullable()->default(null);
-            $table->string('hours')->nullable()->default(null);
-            $table->string('minutes')->nullable()->default(null);
+            $table->string('hours')->nullable()->default('00');
+            $table->string('minutes')->nullable()->default('00');
             $table->text('description')->nullable()->default(null);
             $table->string('upload')->nullable()->default(null);
             $table->timestamps();

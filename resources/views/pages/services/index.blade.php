@@ -58,9 +58,20 @@
                                     </td>
 
                                     <td class="table-td">{{ $service->type }}</td>
-                                    <td class="table-td">{{ $service->amount }}</td>
+                                    <td class="table-td">₱ {{ $service->amount }}</td>
                                     <td class="table-td text-wrap" style="width: 35%;">{{ $service->description }}</td>
-                                    <td class="table-td">{{ $service->hours }}:{{ $service->minutes }}</td>
+                                    
+                                    <td class="table-td">@if (!empty($service->hours) && !empty($service->minutes))
+                                        {{ $service->hours }} hrs {{ $service->minutes }} mins
+                                        @elseif (!empty($service->hours))
+                                            {{ $service->hours }} hrs
+                                        @elseif (!empty($service->minutes))
+                                            {{ $service->minutes }} mins
+                                        @else
+                                            00:00 hrs
+                                        @endif
+                                    </td>
+
                                     <td class="table-td">
                                         <div class="flex space-x-3 rtl:space-x-reverse">
                                         <a href="{{ route('service.edit', ['id' => $service->id]) }}" class="action-btn">

@@ -165,28 +165,27 @@
         <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
 
 
-
+      <center>
           <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
 
           @foreach($services as $service)
-            <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-{{ $service->id }}">
-
+            <div class="col-lg-3  portfolio-item isotope-item filter-{{ $service->id }}" style="margin: 5px;padding:10px;border:solid 3px;border-color:orange;border-radius:15px;">
+                <center>
                 @if($service->upload)
-                <img src="{{ asset($service->upload) }}" alt="{{ $service->title }}" class="img-fluid" style="height:250px;width:300px;">
+                <img src="{{ asset($service->upload) }}" alt="{{ $service->title }}" class="img-fluid" style="height:250px;width:250px;">
                 @else
-                <img src="assets/img/masonry-portfolio/masonry-portfolio-2.jpg" class="img-fluid" alt=""  style="height:250px;width:300px;">
+                <img src="assets/img/masonry-portfolio/masonry-portfolio-2.jpg" class="img-fluid" alt=""  style="height:250px;width:250px;">
                 @endif
-
+                </center>
     
               <div class="portfolio-info">
                 <h4>{{ $service->title }}  ( ₱{{  $service->amount }} )</h4>
                 <p>{{ $service->description }} </p>
 
-                <div class="btn-wrap center">
-                    <a href="javascript:(0);" onclick="get_details1({{ $service->id }})" class="btn-buy ml-3">Reserve Now</a>
+                <div class="btn-wrap center p-2">
+                    <a href="javascript:(0);" onclick="get_details1({{ $service->id }})" class="btn-buy mt-4 ml-3 p-2" style="border:solid 1px">Reserve Now</a>
                 </div>
-                <!-- <a href="{{ asset($service->upload) }}" title="{{ $service->title }} ( ₱{{  $service->amount }} )" data-gallery="portfolio-gallery-product" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                <a href="javascript:(0);" onclick="get_details1({{ $service->id }})" title="reserved" class="details-link"><i class="bi bi-book"></i></a> -->
+
               </div>
             </div><!-- End Portfolio Item -->
       
@@ -195,7 +194,7 @@
       
 
           </div><!-- End Portfolio Container -->
-
+          </center>
         </div>
 
       </div>
@@ -290,7 +289,7 @@
     <div class="modal-dialog modal-xl" >
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Information</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body body-details">
@@ -305,7 +304,7 @@
     <div class="modal-dialog modal-xl" >
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Information</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body body-details">
